@@ -55,6 +55,35 @@ htmlFiles.forEach(file => {
 `;
 });
 
+// Add dynamic tools routes
+const tools = [
+  'yt-transcript',
+  'yt-hooks',
+  'yt-titles',
+  'yt-descriptions',
+  'yt-hashtags',
+  'yt-shorts',
+  'ig-hooks',
+  'ig-captions',
+  'ig-hashtags',
+  'ig-script',
+  'ai-summarizer',
+  'ai-repurpose',
+  'ai-thumbnail',
+  'media-analyzer',
+  'media-metadata',
+  'media-utility'
+];
+
+tools.forEach(tool => {
+  sitemapContent += `  <url>
+    <loc>${DOMAIN}/?tool=${tool}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+`;
+});
+
 sitemapContent += `</urlset>\n`;
 
 fs.writeFileSync(path.join(rootDir, 'sitemap.xml'), sitemapContent);

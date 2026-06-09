@@ -7,6 +7,421 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebarButtons = document.querySelectorAll('aside [data-tool], aside #overview-btn');
   const overviewCards = document.querySelectorAll('#panel-overview [data-target]');
   const workspaceBackBtn = document.getElementById('workspace-back-btn');
+  const seoContainer = document.getElementById('tool-seo-content');
+
+  const toolMetadata = {
+    'overview': {
+      title: 'Creator Tools Dashboard – TubeTranscript',
+      desc: 'Unlock powerful free tools for creators: YouTube transcript generators, CTR title generators, viral hook builders, Instagram Reel writers, and AI video repurposers.',
+      canonical: 'https://creatorhelpertool.vercel.app/'
+    },
+    'yt-transcript': {
+      title: 'Free YouTube Transcript Generator & Extractor – TubeTranscript',
+      desc: 'Extract clean, accurate transcripts and captions from any YouTube video instantly for free. No login required, supports 60+ languages.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-transcript'
+    },
+    'yt-hooks': {
+      title: 'YouTube Viral Hook Generator & Retention Builder – TubeTranscript',
+      desc: 'Create attention-grabbing opening hooks for your YouTube videos. Stop the scroll, build audience retention, and boost your CTR instantly.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-hooks'
+    },
+    'yt-titles': {
+      title: 'YouTube Title Generator: Optimize High-CTR Titles – TubeTranscript',
+      desc: 'Generate viral, high-CTR, and SEO-optimized titles for your YouTube videos. Leverage curiosity gaps, FOBA, and search keywords.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-titles'
+    },
+    'yt-descriptions': {
+      title: 'YouTube Description Generator & SEO Optimizer – TubeTranscript',
+      desc: 'Generate structured, keyword-rich video descriptions with auto-timestamps, social links, disclaimers, and call-to-actions instantly.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-descriptions'
+    },
+    'yt-hashtags': {
+      title: 'YouTube Tags & Hashtag Generator for SEO – TubeTranscript',
+      desc: 'Find highly searched tags and hashtags to grow your YouTube search rankings and suggest-feed video performance.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-hashtags'
+    },
+    'yt-shorts': {
+      title: 'YouTube Shorts Script Writer: Viral 60s Scripts – TubeTranscript',
+      desc: 'Create highly engaging 60-second scripts for YouTube Shorts, complete with camera directions, audio cues, and viral pacing.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-shorts'
+    },
+    'ig-hooks': {
+      title: 'Instagram Reels Hook Generator: Stop the Scroll – TubeTranscript',
+      desc: 'Stop viewers from scrolling past your Reels. Generate highly engaging hook ideas designed to maximize Reel algorithm reach.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ig-hooks'
+    },
+    'ig-captions': {
+      title: 'Instagram Caption Generator: Engaging Reel Copy – TubeTranscript',
+      desc: 'Write high-converting Instagram Reel captions with emojis, call-to-actions, and spacing optimized for readability and saves.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ig-captions'
+    },
+    'ig-hashtags': {
+      title: 'Instagram Hashtags Generator: Reach Explore Page – TubeTranscript',
+      desc: 'Get highly relevant, categorized hashtag groups for your Instagram posts to boost impressions and organic follower growth.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ig-hashtags'
+    },
+    'ig-script': {
+      title: 'Instagram Reel Script Writer: Viral Video Copy – TubeTranscript',
+      desc: 'Write high-pacing scripts for Instagram Reels with hook-body-CTA structures that boost views, shares, and saves.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ig-script'
+    },
+    'ai-summarizer': {
+      title: 'AI Video Summarizer: YouTube Video TL;DR – TubeTranscript',
+      desc: 'Summarize long YouTube videos instantly. Extract key points, action items, and clear TL;DR outlines from any video transcript.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-summarizer'
+    },
+    'ai-repurpose': {
+      title: 'AI Video Content Repurposer: Video to Text – TubeTranscript',
+      desc: 'Convert YouTube transcripts into Tweet threads, SEO blog outlines, LinkedIn posts, or newsletters with a single click.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-repurpose'
+    },
+    'ai-thumbnail': {
+      title: 'YouTube Thumbnail Idea Generator & briefs – TubeTranscript',
+      desc: 'Generate viral thumbnail concepts, overlays, text visual briefs, and color palettes optimized for maximum visual CTR.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-thumbnail'
+    },
+    'media-analyzer': {
+      title: 'YouTube Video URL Analyzer & Parameter ID – TubeTranscript',
+      desc: 'Extract video ID, channel ID, query structures, and direct metadata fields from any YouTube links instantly.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=media-analyzer'
+    },
+    'media-metadata': {
+      title: 'YouTube Video Metadata Inspector & Viewer – TubeTranscript',
+      desc: 'Inspect thumbnail URLs, tags, video description metadata, and direct channel references from any video.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=media-metadata'
+    },
+    'media-utility': {
+      title: 'Creator Utilities: Speech Timers & Word Counters – TubeTranscript',
+      desc: 'Free tools for content creators: speech reading time estimation, Title CTR calculator, and description word-counter.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=media-utility'
+    }
+  };
+
+  const toolSeoContent = {
+    'yt-transcript': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the Free YouTube Transcript Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The Free YouTube Transcript Generator is an online tool that extracts captions, subtitles, and spoken audio text from any public YouTube video. By parsing official transcripts or automatic subtitles, it compiles a clean, readable text block without time stamps, making it easy to read, translate, or repurpose.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Simply paste any YouTube video link, watch URL, or short link into the input field and click <strong>Generate Content</strong>. Our system contacts public caption feeds, strips formatting, and loads the complete transcript onto your screen in seconds.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits of Fetching Transcripts</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Save time by reading a video's content instead of watching it.</li>
+        <li>Instantly search for specific keywords or parts of a lecture/tutorial.</li>
+        <li>Prepare written content for blogs, research papers, or summaries.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        After generating your transcript, use our internal tools to level up your content workflow:
+        repurpose it into a blog outline using the <a href="?tool=ai-repurpose" class="text-pink-600 hover:underline">AI Content Repurposer</a>, summarize it with the <a href="?tool=ai-summarizer" class="text-pink-600 hover:underline">AI Video Summarizer</a>, or write video descriptions using the <a href="?tool=yt-descriptions" class="text-pink-600 hover:underline">YouTube Description Generator</a>.
+      </p>
+    `,
+    'yt-hooks': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the YouTube Viral Hook Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The YouTube Viral Hook Generator is a tool designed to write attention-grabbing video intros. The first 3 seconds of a video determine whether a viewer continues watching or clicks away. This tool creates custom opening hooks that spike audience retention.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Enter your video topic or paste your transcript, select a psychological hook angle (such as Curiosity Gap or Pattern Interrupt), and click generate. Our engine produces structured hook variants complete with engagement rationale.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits of Viral Video Hooks</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Increase YouTube retention rate, a critical ranking signal for search and suggestions.</li>
+        <li>Eliminate writer's block by using proven, high-performing introductory formulas.</li>
+        <li>Perfect for horizontal videos, Shorts, and TikTok scripts.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Always deliver immediately on the promise made in your hook. Once your hook is ready, write a full script with the <a href="?tool=yt-shorts" class="text-pink-600 hover:underline">Shorts Script Writer</a> or plan optimized titles using the <a href="?tool=yt-titles" class="text-pink-600 hover:underline">YouTube Title Generator</a>.
+      </p>
+    `,
+    'yt-titles': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the YouTube Title Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The YouTube Title Generator is a high-CTR title suggestion builder. Your title is the primary gateway to clicks. This generator creates optimized, high-CTR titles designed to appeal to both the YouTube search algorithm and human psychology.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Input your video topic or concept, select your target CTR angle (such as Fear of Missing Out, extreme benefits, or comparisons), and click generate to get options ranked by estimated CTR score.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Boost your organic CTR, triggering more algorithm recommendations.</li>
+        <li>Incorporate relevant target keywords naturally for improved search indexing.</li>
+        <li>Test various psychological frameworks before final selection.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Keep titles under 60 characters to prevent truncation on mobile screens. Support your title with structured tags from the <a href="?tool=yt-hashtags" class="text-pink-600 hover:underline">YouTube Hashtag Generator</a> and craft detailed descriptions via the <a href="?tool=yt-descriptions" class="text-pink-600 hover:underline">YouTube Description Generator</a>.
+      </p>
+    `,
+    'yt-descriptions': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the YouTube Description Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The YouTube Description Generator crafts SEO-rich video descriptions. A structured description helps Google and YouTube search bots index your video for correct topics, search phrases, and semantic terms.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Enter your title, list the key takeaways of the video, add your social links/websites, and generate. The tool builds a description including formatted chapters, resource blocks, calls-to-actions, and hashtag lines.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Improved video search rankings by providing context and keywords.</li>
+        <li>Auto-formatted timestamps help viewers navigate, improving duration stats.</li>
+        <li>Cleaner call-to-actions to convert viewers into subscribers or website traffic.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Always place your primary keyword in the first two lines of the description (above the "Show More" fold). Combine this with the <a href="?tool=yt-hashtags" class="text-pink-600 hover:underline">YouTube Hashtag Generator</a> to build keyword coherence.
+      </p>
+    `,
+    'yt-hashtags': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the YouTube Hashtag & Tag Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Our YouTube Hashtag and Tag Generator finds highly searched keywords, metadata tags, and trending tags for your specific video topic to expand your reach.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Enter your core topic keywords. The tool categorizes and generates tags split by popularity: high-volume tags, medium-niche tags, and long-tail metadata tags.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Improved categorisation for YouTube's indexing bots.</li>
+        <li>Identify secondary tags and search query variants you might have missed.</li>
+        <li>Natively formats tags with comma separations ready to copy/paste into YouTube Studio.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Do not overstuff tags. Keep tags highly relevant to your actual video content. Use these tags to support your search ranking alongside the <a href="?tool=yt-titles" class="text-pink-600 hover:underline">YouTube Title Generator</a>.
+      </p>
+    `,
+    'yt-shorts': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the YouTube Shorts Script Writer?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The YouTube Shorts Script Writer creates engaging 60-second scripts for vertical videos. It uses a high-tempo hook-body-CTA structure designed to minimize drop-off rates and maximize retention loops.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Input your video topic, select your script style, and generate. The tool produces a dual-column outline featuring spoken dialogue alongside visual directions (such as text overlays, transitions, and B-roll notes).
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Faster scripting workflow with visual cues.</li>
+        <li>Optimized flow, preventing long silences or slow starts.</li>
+        <li>Includes built-in loop hooks to drive immediate rewatches.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Keep your Shorts scripts under 150 words to ensure a fast, natural delivery within the 60-second limit. If you need inspiration, combine this script with ideas from the <a href="?tool=yt-hooks" class="text-pink-600 hover:underline">Viral Hook Generator</a>.
+      </p>
+    `,
+    'ig-hooks': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the Instagram Reels Hook Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The Instagram Reels Hook Generator builds scroll-stopping visual and text hooks specifically optimized for the Instagram algorithm, where speed-to-engage dictates explore page reach.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Provide a topic, select your angle, and click generate to get options categorized by psychological trigger (e.g. FOMO, value-promise, story-start).
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Lower scroll-past rates on the Instagram Feed.</li>
+        <li>Spike watch time metrics, prompting the Reel algorithm to expand reach.</li>
+        <li>Save time brainstorming text overlays.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Display your hook as clear, high-contrast on-screen text for the first 3 seconds of your Reel. Use our <a href="?tool=ig-captions" class="text-pink-600 hover:underline">Instagram Caption Generator</a> to write captions that expand on your hook.
+      </p>
+    `,
+    'ig-captions': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the Instagram Caption Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The Instagram Caption Generator writes engaging Reel copy. Instagram captions are critical for providing context, adding search keywords, and encouraging saves or comments.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Provide details of your post/Reel, choose your tone, and generate. The tool structures the caption with line breaks, context-fitting emojis, and clear calls-to-action.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Increase user engagement metrics like comments, shares, and saves.</li>
+        <li>Better accessibility and readability.</li>
+        <li>Optimized formatting ready to copy and paste.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Keep caption text structured and readable. Add hashtags using our <a href="?tool=ig-hashtags" class="text-pink-600 hover:underline">Instagram Hashtag Generator</a> to boost reach in Reels exploration feeds.
+      </p>
+    `,
+    'ig-hashtags': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the Instagram Hashtag Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Our Instagram Hashtag Generator groups trending and niche-specific tags for your post to increase discoverability on search pages and recommendation feeds.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Enter your post keywords, and get structured lists of high-volume, niche-specific, and low-competition hashtags ready to paste.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Expand post reach to targeted, high-interest niches.</li>
+        <li>Avoid "shadowbans" by mixing tag volumes instead of repeating identical large tags.</li>
+        <li>Includes copy buttons to paste directly into post drafts.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Use between 5 and 15 highly relevant hashtags per post instead of spamming 30 generic tags. Write high-converting post copy using the <a href="?tool=ig-captions" class="text-pink-600 hover:underline">Instagram Caption Generator</a>.
+      </p>
+    `,
+    'ig-script': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the Instagram Reel Script Writer?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The Instagram Reel Script Writer creates high-pacing video scripts for Reels and TikToks. Pacing is key to preventing scroll-past and retaining viewers.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Enter your video concept, and generate a dual-column script combining speech content with visual b-roll instructions.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Faster scripting and filming process.</li>
+        <li>Optimized flow to maximize retention metrics.</li>
+        <li>Includes calls-to-action designed to trigger comments/saves.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Deliver value immediately. Keep scripting tight and punchy. Plan your script outline using the <a href="?tool=ig-hooks" class="text-pink-600 hover:underline">Reel Hook Generator</a>.
+      </p>
+    `,
+    'ai-summarizer': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the AI Video Summarizer?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Our AI Video Summarizer analyzes long video transcripts and generates clean bullet-point summaries, key takeaways, and structured outlines.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Paste any transcript or use the auto-cached transcript from the <a href="?tool=yt-transcript" class="text-pink-600 hover:underline">Transcript Generator</a>, click generate, and view a structured summary in seconds.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Extract the core value of 1-hour lectures or interviews in 30 seconds.</li>
+        <li>Create reference sheets, study guides, or newsletters instantly.</li>
+        <li>Repurpose long-form content easily.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Use summaries to draft social newsletters or outlines. Repurpose summaries into social posts using our <a href="?tool=ai-repurpose" class="text-pink-600 hover:underline">Content Repurposer</a>.
+      </p>
+    `,
+    'ai-repurpose': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the AI Content Repurposer?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The AI Content Repurposer transforms video transcripts into multiple content formats, such as Tweet threads, blog post outlines, and newsletter structures.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Paste your transcript or use the auto-cached video transcript, select your output format, and generate.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Save time repurposing one video into multiple content platforms.</li>
+        <li>Cross-pollinate your audience across YouTube, Twitter, and email lists.</li>
+        <li>Maintain a consistent publishing schedule with minimal effort.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Always review and edit generated posts to match your brand's voice. Fetch transcripts using the <a href="?tool=yt-transcript" class="text-pink-600 hover:underline">Transcript Generator</a> before running this repurposer.
+      </p>
+    `,
+    'ai-thumbnail': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the Thumbnail Idea Generator?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The Thumbnail Idea Generator designs high-converting visual concepts, overlay texts, and palettes for your YouTube thumbnails.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Input your video topic or title, and generate visual briefs outlining foreground/background setups and overlay texts designed for CTR.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Model concepts on proven viral formats (e.g. clean, before/after, split).</li>
+        <li>Get actionable prompts to hand over to designer or input into AI generators.</li>
+        <li>Optimize the combination of title and thumbnail to maximize clicks.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Never repeat your title text word-for-word in your thumbnail. Keep thumbnail text under 4 words. Optimize title CTR using our <a href="?tool=yt-titles" class="text-pink-600 hover:underline">YouTube Title Generator</a>.
+      </p>
+    `,
+    'media-analyzer': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the YouTube Video URL Analyzer?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The YouTube Video URL Analyzer extracts parameters (like Video ID, playlist reference, or timestamps) from any YouTube URL.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Paste any link and click generate to view the parsed parameters and query variables.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Quickly identify standard or Short video formats.</li>
+        <li>Troubleshoot video parameter strings.</li>
+        <li>Helper tool for developer testing.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Clean URLs before sharing. View advanced tags and metadata using our <a href="?tool=media-metadata" class="text-pink-600 hover:underline">Metadata Viewer</a>.
+      </p>
+    `,
+    'media-metadata': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What is the YouTube Video Metadata Viewer?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The YouTube Video Metadata Viewer extracts key metadata (including raw titles, tags, descriptions, and thumbnail image links) from any public video.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Paste the video link, and get parsed metadata fields ready to copy or download.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Analyze competitor video titles and tags.</li>
+        <li>Inspect high-resolution thumbnail images.</li>
+        <li>Save reference copies of descriptions.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Analyze top videos in your niche to identify tag usage patterns. Extract complete captions via the <a href="?tool=yt-transcript" class="text-pink-600 hover:underline">Transcript Generator</a>.
+      </p>
+    `,
+    'media-utility': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">What are the Creator Utilities?</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Our Creator Utilities include tools for writing copy: speech timers, CTR calculators, and word counters.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Select a sub-utility (e.g. Speech Timer), enter your parameters, and view calculations instantly.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Benefits</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li>Estimate reading duration for scripts.</li>
+        <li>Verify character counts to avoid truncation.</li>
+        <li>Keep descriptions optimized within YouTube limits.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Best Practices</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        Keep video script pacing around 130-150 words per minute. Plan your script outline using the <a href="?tool=yt-shorts" class="text-pink-600 hover:underline">Shorts Script Writer</a>.
+      </p>
+    `
+  };
+
+  // DOM Elements (already declared at top of DOMContentLoaded)
   
   // Mobile menu hamburger
   const hamburger = document.getElementById('hamburger');
@@ -71,6 +486,52 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Update dynamic metadata for SEO
+    const meta = toolMetadata[toolId] || toolMetadata['overview'];
+    document.title = meta.title;
+    
+    // Meta Description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = "description";
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', meta.desc);
+    
+    // Canonical
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = "canonical";
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.setAttribute('href', meta.canonical);
+    
+    // Open Graph Title
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', meta.title);
+    
+    // Open Graph Description
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', meta.desc);
+    
+    // Open Graph URL
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', meta.canonical);
+    
+    // Twitter Title
+    let twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute('content', meta.title);
+    
+    // Twitter Description
+    let twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc) twDesc.setAttribute('content', meta.desc);
+    
+    // Twitter URL
+    let twUrl = document.querySelector('meta[name="twitter:url"]');
+    if (twUrl) twUrl.setAttribute('content', meta.canonical);
+
     // Toggle panels
     if (toolId === 'overview') {
       overviewPanel.classList.remove('hidden');
@@ -90,6 +551,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Load specific tool configurations
       loadToolWorkspace(toolId);
+    }
+
+    // Load tool SEO content
+    if (seoContainer) {
+      const seoHtml = toolSeoContent[toolId];
+      if (seoHtml && toolId !== 'overview') {
+        seoContainer.innerHTML = seoHtml;
+        seoContainer.classList.remove('hidden');
+      } else {
+        seoContainer.innerHTML = '';
+        seoContainer.classList.add('hidden');
+      }
     }
     
     // Scroll to top of workspace
