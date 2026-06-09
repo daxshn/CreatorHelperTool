@@ -5,25 +5,21 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
   <url>
     <loc>https://creatorhelpertool.vercel.app/pages/about.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
-
   <url>
     <loc>https://creatorhelpertool.vercel.app/pages/contact.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
-
   <url>
     <loc>https://creatorhelpertool.vercel.app/pages/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://creatorhelpertool.vercel.app/pages/terms.html</loc>
     <changefreq>yearly</changefreq>

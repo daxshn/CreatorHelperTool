@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
                `09:20 - Common Mistakes to Avoid\n` +
                `11:40 - Summary & Next Steps\n\n` +
                `🔗 RESOURCES & LINKS:\n` +
-               `${links || 'Website: https://tubetranscript.com\nSubscribe: https://youtube.com/@creator'}\n\n` +
+               `${links || 'Website: https://creatorhelpertool.vercel.app\nSubscribe: https://youtube.com/@creator'}\n\n` +
                `--------------------------------------------------\n` +
                `💬 Don't forget to SUBSCRIBE, LIKE this video, and drop a comment below letting us know what you want to see next!\n\n` +
                `#creator #tutorial #youtube #tips`;
@@ -585,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  `2/5 Shift #1: Stop overcomplicating. Most people fail because they try to build everything at once. Focus on the core MVP and validate it immediately. Simplicity wins.\n\n` +
                  `3/5 Shift #2: Consistency over quality at the start. Don't wait for perfection. Action produces clarity. The more reps you do, the faster you'll learn.\n\n` +
                  `4/5 Shift #3: Measure the right metrics. View counts are vanity metrics. Focus on watch time, listener retention, and click-through rates. That's where growth lies.\n\n` +
-                 `5/5 Want to read the full transcript and get all the tools? Check out my site: https://tubetranscript.com. Let me know which shift was most helpful! 👇`;
+                 `5/5 Want to read the full transcript and get all the tools? Check out my site: https://creatorhelpertool.vercel.app. Let me know which shift was most helpful! 👇`;
         } else if (format === 'blog') {
           return `🔄 REPURPOSED BLOG POST OUTLINE:\n\n` +
                  `Title: The Ultimate Guide to "${previewText}..." (Step-by-Step)\n` +
@@ -886,14 +886,14 @@ document.addEventListener('DOMContentLoaded', () => {
           `2/${len} The #1 mistake beginners make?\n\nThey try to do everything at once.\n\nFocus beats volume every single time. Pick ONE outcome. Commit to it for 30 days. Watch what happens.`,
           `3/${len} Here's the framework that changed everything for me:\n\n→ Define your core outcome\n→ Strip out all non-essentials\n→ Repeat the core action daily\n→ Measure, don't guess\n\nSimple. Powerful. Most people skip step 3.`,
           `4/${len} The uncomfortable truth:\n\nYour "lack of results" isn't a strategy problem.\n\nIt's a consistency problem.\n\n10 minutes of focused work beats 2 hours of scattered effort EVERY time.`,
-          `5/${len} Tools that actually work (free):\n\n🔧 TubeTranscript.com – extract transcripts fast\n🔧 Notion – organize your content calendar\n🔧 Canva – design thumbnails in minutes\n🔧 VidIQ – keyword research for YouTube\n\nNo excuses.`,
+          `5/${len} Tools that actually work (free):\n\n🔧 CreatorHelperTool.vercel.app – extract transcripts fast\n🔧 Notion – organize your content calendar\n🔧 Canva – design thumbnails in minutes\n🔧 VidIQ – keyword research for YouTube\n\nNo excuses.`,
           `6/${len} The metric most creators ignore:\n\nWatch time retention.\n\nNot views. Not likes. Not subs.\n\nIf people leave in the first 30 seconds, nothing else matters. Fix the hook first.`,
           `7/${len} A counterintuitive truth:\n\nYour WORST video from 2 years ago would destroy your competition today.\n\nBecause you've been compounding skills the whole time.\n\nDon't quit before the compound effect hits.`,
           `8/${len} Final thought:\n\nThe gap between where you are and where you want to be isn't skill.\n\nIt's reps.\n\nPost more. Learn more. Repeat.\n\nFollow me @creator for daily breakdowns like this 🙌\n\n♻️ RT the first tweet to share this thread!`
         ];
         const extra = [
           `9/${len} Bonus hack: Repurpose EVERYTHING.\n\n1 YouTube video = 1 blog post = 5 tweets = 3 Reels = 1 newsletter.\n\nYou're not creating content. You're building an asset library.`,
-          `10/${len} Resources to go deeper:\n\n→ Full guide: tubetranscript.com\n→ Free tools: linked in bio\n→ DM me "CREATOR" for my personal checklist\n\nLet's grow together 🚀`
+          `10/${len} Resources to go deeper:\n\n→ Full guide: creatorhelpertool.vercel.app\n→ Free tools: linked in bio\n→ DM me "CREATOR" for my personal checklist\n\nLet's grow together 🚀`
         ];
         const threadTweets = [...tweets.slice(0, len), ...(len > 8 ? extra.slice(0, len - 8) : [])].slice(0, len);
         return `🐦 TWEET THREAD (${len} tweets)\nTopic: "${preview}..."\n\n${'─'.repeat(50)}\n\n${threadTweets.join('\n\n' + '─'.repeat(50) + '\n\n')}`;
@@ -1122,8 +1122,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show result
         outputArea.textContent = result;
         resultContainer.classList.remove('hidden');
+
+        const statusBadge = document.getElementById('result-status-badge');
+        if (statusBadge) {
+          statusBadge.className = "text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full";
+          statusBadge.textContent = "Ready";
+        }
       } catch (err) {
-        alert('⚠️ Error: ' + err.message);
+        console.error('Tool execution error:', err);
+        outputArea.textContent = `Error: ${err.message}\n\nPlease check your input/URL and try again.`;
+        resultContainer.classList.remove('hidden');
+
+        const statusBadge = document.getElementById('result-status-badge');
+        if (statusBadge) {
+          statusBadge.className = "text-xs bg-red-100 text-red-700 font-semibold px-2 py-0.5 rounded-full";
+          statusBadge.textContent = "Error";
+        }
       } finally {
         generateBtn.disabled = false;
         generateBtn.style.opacity = '1';

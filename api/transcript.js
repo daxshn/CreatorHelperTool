@@ -19,6 +19,9 @@ except Exception as e:
     const py = spawn('python', ['-c', pythonScript]);
     let stdout = '';
     let stderr = '';
+    py.on('error', (err) => {
+      reject(err);
+    });
     py.stdout.on('data', (data) => { stdout += data.toString(); });
     py.stderr.on('data', (data) => { stderr += data.toString(); });
     py.on('close', (code) => {

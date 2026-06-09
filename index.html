@@ -8,9 +8,26 @@
   <meta name="description"
     content="Unlock powerful tools for creators: YouTube title, description, hook generators, Instagram Reel writers, AI summarizers, and metadata viewers." />
   <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://creatorhelpertool.vercel.app/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://creatorhelpertool.vercel.app/" />
+  <meta property="og:title" content="Creator Tools Dashboard – TubeTranscript" />
+  <meta property="og:description" content="Unlock powerful tools for creators: YouTube title, description, hook generators, Instagram Reel writers, AI summarizers, and metadata viewers." />
+  <meta property="og:image" content="https://creatorhelpertool.vercel.app/images/og-share.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://creatorhelpertool.vercel.app/" />
+  <meta name="twitter:title" content="Creator Tools Dashboard – TubeTranscript" />
+  <meta name="twitter:description" content="Unlock powerful tools for creators: YouTube title, description, hook generators, Instagram Reel writers, AI summarizers, and metadata viewers." />
+  <meta name="twitter:image" content="https://creatorhelpertool.vercel.app/images/og-share.png" />
+
   <script src="js/theme.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css" />
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JK1LE3F7N8"></script>
   <script>
@@ -18,6 +35,38 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-JK1LE3F7N8');
+  </script>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TubeTranscript",
+    "url": "https://creatorhelpertool.vercel.app/",
+    "description": "Unlock powerful tools for creators: YouTube title, description, hook generators, Instagram Reel writers, AI summarizers, and metadata viewers.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TubeTranscript",
+    "url": "https://creatorhelpertool.vercel.app/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://creatorhelpertool.vercel.app/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
   </script>
 </head>
 
@@ -464,7 +513,7 @@
             <div class="flex items-center justify-between">
               <h3 class="font-bold text-gray-800 flex items-center gap-1.5">
                 <span>📋 Generated Result</span>
-                <span class="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">Ready</span>
+                <span id="result-status-badge" class="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">Ready</span>
               </h3>
               <div class="flex items-center gap-2">
                 <button id="result-copy-btn"
