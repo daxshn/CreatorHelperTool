@@ -60,7 +60,7 @@ from youtube_transcript_api import (
     TranscriptsDisabled,
     VideoUnavailable,
     RequestBlocked,
-    TooManyRequests,
+    IpBlocked,
     YouTubeTranscriptApiException
 )
 
@@ -82,8 +82,8 @@ except VideoUnavailable as e:
     print(json.dumps({"error_type": "VideoUnavailable", "error": str(e)}))
 except RequestBlocked as e:
     print(json.dumps({"error_type": "RequestBlocked", "error": str(e)}))
-except TooManyRequests as e:
-    print(json.dumps({"error_type": "TooManyRequests", "error": str(e)}))
+except IpBlocked as e:
+    print(json.dumps({"error_type": "IpBlocked", "error": str(e)}))
 except YouTubeTranscriptApiException as e:
     print(json.dumps({"error_type": e.__class__.__name__, "error": str(e)}))
 except Exception as e:

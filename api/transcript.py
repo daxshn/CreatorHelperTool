@@ -9,7 +9,7 @@ from youtube_transcript_api import (
     TranscriptsDisabled,
     VideoUnavailable,
     RequestBlocked,
-    TooManyRequests,
+    IpBlocked,
     YouTubeTranscriptApiException
 )
 
@@ -77,9 +77,9 @@ class handler(BaseHTTPRequestHandler):
         except RequestBlocked as e:
             traceback.print_exc()
             self.send_error_response(429, "RequestBlocked", str(e))
-        except TooManyRequests as e:
+        except IpBlocked as e:
             traceback.print_exc()
-            self.send_error_response(429, "TooManyRequests", str(e))
+            self.send_error_response(429, "IpBlocked", str(e))
         except YouTubeTranscriptApiException as e:
             traceback.print_exc()
             self.send_error_response(500, e.__class__.__name__, str(e))
