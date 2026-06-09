@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /transcript.html
 
-Sitemap: https://tubetranscript.com/sitemap.xml
+Sitemap: https://creatorhelpertool.vercel.app/sitemap.xml
