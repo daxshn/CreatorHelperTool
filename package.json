@@ -4,7 +4,8 @@
   "description": "YouTube Transcript Generator",
   "main": "api/transcript.js",
   "scripts": {
-    "start": "node api/transcript.js"
+    "start": "node api/transcript.js",
+    "dev": "node dev_server.js"
   },
   "dependencies": {
     "youtube-transcript": "^1.2.1"
