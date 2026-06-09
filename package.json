@@ -1,0 +1,12 @@
+{
+  "name": "tubetranscript",
+  "version": "1.0.0",
+  "description": "YouTube Transcript Generator",
+  "main": "api/transcript.js",
+  "scripts": {
+    "start": "node api/transcript.js"
+  },
+  "dependencies": {
+    "youtube-transcript": "^1.2.1"
+  }
+}

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transcript Result – TubeTranscript</title>
+  <meta name="description" content="View, copy, and download the transcript of your YouTube video. Generated instantly by TubeTranscript." />
+  <meta name="robots" content="noindex, follow" />
+  <script src="js/theme.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">📄 Tube<span>Transcript</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="pages/about.html">About</a></li>
+      <li><a href="pages/contact.html">Contact</a></li>
+      <li><a href="pages/privacy.html">Privacy Policy</a></li>
+      <li><a href="pages/terms.html">Terms of Service</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode"></button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="pages/about.html">ℹ️ About</a>
+    <a href="pages/contact.html">✉️ Contact</a>
+    <a href="pages/privacy.html">🔒 Privacy Policy</a>
+    <a href="pages/terms.html">📜 Terms of Service</a>
+  </div>
+</nav>
+
+<!-- ── PAGE HEADER ── -->
+<div style="background:linear-gradient(135deg,#DD5E89 0%,#F7BB97 100%);padding:1.75rem 1.5rem;border-bottom:1px solid rgba(221,94,137,0.2);">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <a href="../index.html" style="text-decoration:none;color:#666;font-size:.9rem;display:flex;align-items:center;gap:.35rem;">
+        ← Back
+      </a>
+      <div>
+        <h1 style="font-size:1.3rem;font-weight:800;margin-bottom:.15rem;">📄 Transcript Result</h1>
+        <p id="video-title-display" style="font-size:.85rem;color:#777;"></p>
+      </div>
+    </div>
+    <!-- Thumbnail -->
+    <img id="video-thumb" src="" alt="Video thumbnail" style="display:none;margin-top:1rem;border-radius:10px;max-width:240px;border:2px solid #FFE082;" />
+  </div>
+</div>
+
+<!-- ── AD BANNER ABOVE TRANSCRIPT ── -->
+<div style="background:#fff;padding:1rem 1.25rem;text-align:center;border-bottom:1px solid #f0f0f0;">
+  <div class="ad-banner" style="max-width:728px;height:90px;margin:0 auto;" aria-label="Advertisement">
+    <span>Advertisement</span>
+    <span class="ad-label">728×90 – Leaderboard</span>
+    <!-- <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXX" data-ad-slot="XXXXXXX"></ins> -->
+  </div>
+</div>
+
+<!-- ── LAYOUT ── -->
+<main class="transcript-layout" role="main">
+
+  <!-- ── MAIN COLUMN ── -->
+  <div class="transcript-main">
+
+    <!-- Error Box -->
+    <div class="error-box" id="error-box" role="alert">
+      <strong>⚠️ Error:</strong> <span id="error-msg"></span>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-box" id="loading-box" aria-live="polite">
+      <div class="spinner" role="status" aria-label="Loading transcript"></div>
+      <p style="font-weight:600;color:#555;margin-bottom:.25rem;">Fetching transcript…</p>
+      <p style="font-size:.85rem;color:#999;">This usually takes 2–5 seconds</p>
+    </div>
+
+    <!-- Transcript Box -->
+    <div class="transcript-box" id="transcript-box" style="display:none;">
+      <div class="transcript-header">
+        <span class="transcript-title">📄 Full Transcript</span>
+        <div class="transcript-actions">
+          <button class="btn-outline" id="copy-btn" aria-label="Copy transcript to clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy Transcript
+          </button>
+          <button class="btn-solid" id="download-btn" aria-label="Download transcript as TXT">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download TXT
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="transcript-stats" aria-label="Transcript statistics">
+        <div class="stat-chip" id="word-count">Words: <span>—</span></div>
+        <div class="stat-chip" id="char-count">Characters: <span>—</span></div>
+        <div class="stat-chip">✅ Transcript Ready</div>
+      </div>
+
+      <!-- Text Output -->
+      <div class="transcript-text" id="transcript-output" role="region" aria-label="Transcript text" tabindex="0"></div>
+    </div>
+
+    <!-- AD after transcript -->
+    <div class="ad-banner" style="height:250px;margin-top:1.5rem;" aria-label="Advertisement">
+      <span>Advertisement</span>
+      <span class="ad-label">300×250 – Medium Rectangle</span>
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXX" data-ad-slot="XXXXXXX"></ins> -->
+    </div>
+
+    <!-- Repurpose with Creator Tools -->
+    <div id="repurpose-cta" style="display:none;margin-top:1.5rem;background:linear-gradient(135deg, rgba(247, 187, 151, 0.15) 0%, rgba(221, 94, 137, 0.15) 100%);border:1.5px solid #F29E9E;border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <p style="font-weight:800;color:#DD5E89;margin-bottom:.2rem;">✨ Repurpose this Video with AI Creator Tools</p>
+        <p style="font-size:.87rem;color:#666;">Generate viral hooks, YouTube titles, descriptions, blog posts, and scripts from this transcript instantly!</p>
+      </div>
+      <a href="index.html" style="text-decoration:none;">
+        <button class="btn-primary" style="border-radius:10px;background:linear-gradient(90deg, #ff4081, #c2185b);color:#fff;">Open Creator Tools &rarr;</button>
+      </a>
+    </div>
+
+    <!-- Try another -->
+    <div style="margin-top:1.5rem;background:#FFFDE7;border:1.5px solid #FFE082;border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <p style="font-weight:700;margin-bottom:.2rem;">Need another transcript?</p>
+        <p style="font-size:.87rem;color:#666;">Go back and paste a different YouTube URL</p>
+      </div>
+      <a href="index.html" style="text-decoration:none;">
+        <button class="btn-primary" style="border-radius:10px;">← Try Another Video</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="transcript-sidebar" aria-label="Sidebar">
+
+    <!-- Sidebar ad 300×250 -->
+    <div class="sidebar-ad" aria-label="Advertisement">
+      <span>Advertisement</span>
+      <span class="ad-label">300×250</span>
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXX" data-ad-slot="XXXXXXX"></ins> -->
+    </div>
+
+    <!-- Tips widget -->
+    <div class="sidebar-widget">
+      <h4>💡 Pro Tips</h4>
+      <ul>
+        <li>📋 Copy to paste into ChatGPT for a summary</li>
+        <li>📝 Download TXT to use in Google Docs</li>
+        <li>🔍 Use Ctrl+F to search the transcript</li>
+        <li>🌐 Works in 60+ languages automatically</li>
+        <li>♿ Great for accessibility needs</li>
+      </ul>
+    </div>
+
+    <!-- Popular uses -->
+    <div class="sidebar-widget">
+      <h4>🔥 Popular Uses</h4>
+      <ul>
+        <li>Lecture notes from educational videos</li>
+        <li>Blog posts from YouTube content</li>
+        <li>Research from interview videos</li>
+        <li>Subtitles for personal use</li>
+        <li>SEO content from video scripts</li>
+      </ul>
+    </div>
+
+    <!-- Sidebar ad 300×600 -->
+    <div class="sidebar-ad" style="min-height:600px;" aria-label="Advertisement">
+      <span>Advertisement</span>
+      <span class="ad-label">300×600 – Half Page</span>
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-XXXXXXX" data-ad-slot="XXXXXXX"></ins> -->
+    </div>
+  </aside>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">📄 Tube<span style="color:#FFB800;">Transcript</span></a>
+      <p>The fastest free YouTube transcript generator. No login required.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="pages/about.html">About</a></li>
+        <li><a href="pages/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="pages/privacy.html">Privacy Policy</a></li>
+        <li><a href="pages/terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Tools</h5>
+      <ul>
+        <li><a href="index.html?tool=yt-transcript">Transcript Generator</a></li>
+        <li><a href="index.html">Creator Tools</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 TubeTranscript. All rights reserved.</span>
+    <span>Not affiliated with YouTube or Google.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="js/transcript.js"></script>
+</body>
+</html>
