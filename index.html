@@ -1,469 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Creator Tools Dashboard – TubeTranscript</title>
-  <meta name="description" content="Unlock powerful tools for creators: YouTube title, description, hook generators, Instagram Reel writers, AI summarizers, and metadata viewers." />
+  <meta name="description"
+    content="Unlock powerful tools for creators: YouTube title, description, hook generators, Instagram Reel writers, AI summarizers, and metadata viewers." />
   <meta name="robots" content="index, follow" />
   <script src="js/theme.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JK1LE3F7N8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-JK1LE3F7N8');
+  </script>
 </head>
+
 <body class="flex flex-col min-h-screen">
 
-<!-- ── NAVIGATION ── -->
-<nav class="nav" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
-    <a href="index.html" class="logo" aria-label="TubeTranscript Home">
-      📄 Tube<span>Transcript</span>
-    </a>
-    <ul class="nav-links" role="list">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="pages/about.html">About</a></li>
-      <li><a href="pages/contact.html">Contact</a></li>
-      <li><a href="pages/privacy.html">Privacy Policy</a></li>
-      <li><a href="pages/terms.html">Terms of Service</a></li>
-    </ul>
-    <div style="display:flex;align-items:center;gap:0.75rem;">
-      <button id="donate-btn" onclick="document.getElementById('donation-modal').classList.remove('hidden')" style="background:linear-gradient(135deg,#DD5E89,#FF4FA3);color:#fff;border:none;border-radius:99px;padding:0.45rem 1.1rem;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 4px 14px rgba(221,94,137,0.35);transition:all 0.3s ease;" aria-label="Support this project">❤️ Support</button>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode"></button>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-  <div class="mobile-menu" id="mobile-menu" role="menu">
-    <a href="index.html" role="menuitem" class="active">🏠 Home</a>
-    <a href="pages/about.html" role="menuitem">ℹ️ About</a>
-    <a href="pages/contact.html" role="menuitem">✉️ Contact</a>
-    <a href="pages/privacy.html" role="menuitem">🔒 Privacy Policy</a>
-    <a href="pages/terms.html" role="menuitem">📜 Terms of Service</a>
-  </div>
-</nav>
-
-<!-- ── HERO / HEADER STRIP ── -->
-<div class="tools-hero text-white py-8 px-4 text-center border-b-2 border-orange-200">
-  <h1 class="text-3xl md:text-4xl font-extrabold mb-2 text-white">✨ Creator Tools Dashboard</h1>
-  <p class="max-w-xl mx-auto text-white/90 text-sm md:text-base">
-    Supercharge your content workflow with specialized generators for YouTube, Instagram, and AI Repurposing.
-  </p>
-</div>
-
-<!-- ── STATS STRIP ── -->
-<div style="background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);border-bottom:1px solid rgba(221,94,137,0.12);padding:1.25rem 1.5rem;">
-  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;text-align:center;">
-    <div class="stat-card" style="background:rgba(255,255,255,0.72);border:1px solid rgba(221,94,137,0.14);border-radius:16px;padding:1rem 0.75rem;box-shadow:0 4px 20px rgba(221,94,137,0.06);">
-      <div style="font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#DD5E89,#FF4FA3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">50K+</div>
-      <div style="font-size:0.78rem;font-weight:600;color:#666;margin-top:0.2rem;">Transcripts Generated</div>
-    </div>
-    <div class="stat-card" style="background:rgba(255,255,255,0.72);border:1px solid rgba(221,94,137,0.14);border-radius:16px;padding:1rem 0.75rem;box-shadow:0 4px 20px rgba(221,94,137,0.06);">
-      <div style="font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#DD5E89,#FF4FA3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">60+</div>
-      <div style="font-size:0.78rem;font-weight:600;color:#666;margin-top:0.2rem;">Languages Supported</div>
-    </div>
-    <div class="stat-card" style="background:rgba(255,255,255,0.72);border:1px solid rgba(221,94,137,0.14);border-radius:16px;padding:1rem 0.75rem;box-shadow:0 4px 20px rgba(221,94,137,0.06);">
-      <div style="font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#DD5E89,#FF4FA3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">25+</div>
-      <div style="font-size:0.78rem;font-weight:600;color:#666;margin-top:0.2rem;">Creator Tools</div>
-    </div>
-    <div class="stat-card" style="background:rgba(255,255,255,0.72);border:1px solid rgba(221,94,137,0.14);border-radius:16px;padding:1rem 0.75rem;box-shadow:0 4px 20px rgba(221,94,137,0.06);">
-      <div style="font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#DD5E89,#FF4FA3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">100%</div>
-      <div style="font-size:0.78rem;font-weight:600;color:#666;margin-top:0.2rem;">Free · No Login</div>
-    </div>
-  </div>
-</div>
-
-<!-- ── TRANSCRIPT DETECTED BANNER ── -->
-<div id="transcript-banner" class="max-w-6xl mx-auto w-full px-4 mt-6 hidden">
-  <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-    <div class="flex items-start gap-3">
-      <span class="text-2xl">💡</span>
-      <div>
-        <p class="font-bold text-yellow-800">Video Transcript Detected</p>
-        <p class="text-sm text-yellow-700">
-          We found a transcript in your session cache (Title: <span id="banner-video-title" class="font-semibold"></span>). 
-          Our generators will automatically use this content!
-        </p>
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <button id="use-transcript-btn" class="px-3 py-1 bg-yellow-600 text-white rounded text-xs font-semibold hover:bg-yellow-700 transition">
-        Keep Loaded
-      </button>
-      <button id="clear-transcript-btn" class="px-3 py-1 border border-yellow-300 text-yellow-700 rounded text-xs font-semibold hover:bg-yellow-100 transition">
-        Clear Cache
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ── DASHBOARD WORKSPACE ── -->
-<main class="max-w-7xl mx-auto w-full px-4 py-8 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8">
-  
-  <!-- SIDEBAR NAVIGATION -->
-  <aside class="lg:col-span-3 bg-white border border-gray-200 rounded-2xl p-4 shadow-sm self-start h-auto sticky top-20">
-    <button id="overview-btn" class="w-full text-left flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition mb-4 active-tool-link">
-      📊 Dashboard Overview
-    </button>
-    
-    <div class="space-y-4">
-      <!-- YouTube Category -->
-      <div>
-        <h3 class="text-xs font-bold text-red-600 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-red-600"></span> YouTube Tools
-        </h3>
-        <ul class="space-y-1 text-sm">
-          <li>
-            <button data-tool="yt-transcript" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>📄 Transcript Generator</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="yt-hooks" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>⚡ Viral Hook Generator</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="yt-titles" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>✍️ Title Generator</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="yt-descriptions" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>📝 Description Generator</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="yt-hashtags" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>#️⃣ Hashtag Generator</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="yt-shorts" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>🎬 Shorts Script Writer</span>
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Instagram Category -->
-      <div>
-        <h3 class="text-xs font-bold text-pink-600 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-pink-600"></span> Instagram Tools
-        </h3>
-        <ul class="space-y-1 text-sm">
-          <li>
-            <button data-tool="ig-hooks" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>⚡ Reel Hook Generator</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="ig-captions" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>💬 Caption Generator</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="ig-hashtags" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>#️⃣ Hashtag Generator</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="ig-script" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>🎬 Reel Script Writer</span>
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      <!-- AI Tools Category -->
-      <div>
-        <h3 class="text-xs font-bold text-purple-600 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-purple-600"></span> AI Tools
-        </h3>
-        <ul class="space-y-1 text-sm">
-          <li>
-            <button data-tool="ai-summarizer" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>🔍 Video Summarizer</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="ai-repurpose" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>🔄 Content Repurposer</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="ai-thumbnail" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>🎨 Thumbnail Idea Gen</span>
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Media Tools Category -->
-      <div>
-        <h3 class="text-xs font-bold text-orange-600 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-orange-600"></span> Media Tools
-        </h3>
-        <ul class="space-y-1 text-sm">
-          <li>
-            <button data-tool="media-analyzer" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>🔗 Video URL Analyzer</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="media-metadata" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>ℹ️ Metadata Viewer</span>
-            </button>
-          </li>
-          <li>
-            <button data-tool="media-utility" class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
-              <span>🛠️ Creator Utilities</span>
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MAIN WORKSPACE -->
-  <section class="lg:col-span-9">
-    
-    <!-- ── 0. DASHBOARD OVERVIEW PANEL ── -->
-    <div id="panel-overview" class="tool-panel space-y-8">
-      <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-        <h2 class="text-xl font-bold text-gray-800 mb-2">Welcome to the Creator Hub!</h2>
-        <p class="text-gray-600 text-sm">
-          Select a tool from the sidebar or browse the directories below. If you transcribe a video, the transcript will automatically load here, making summarization and scripts a 1-click process!
-        </p>
-      </div>
-
-      <!-- YouTube Grid -->
-      <div>
-        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <span class="bg-red-100 text-red-600 p-1.5 rounded-lg text-sm">📺</span> YouTube Tools
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div data-target="yt-transcript" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
-            <h4 class="font-bold text-gray-800 mb-1">Transcript Generator</h4>
-            <p class="text-xs text-gray-500 mb-3">Extract text transcripts from any YouTube video instantly.</p>
-            <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="yt-hooks" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
-            <h4 class="font-bold text-gray-800 mb-1">Viral Hook Generator</h4>
-            <p class="text-xs text-gray-500 mb-3">Get attention-grabbing opening lines for videos.</p>
-            <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="yt-titles" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
-            <h4 class="font-bold text-gray-800 mb-1">Title Generator</h4>
-            <p class="text-xs text-gray-500 mb-3">Generate high-CTR video titles with analysis.</p>
-            <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="yt-descriptions" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
-            <h4 class="font-bold text-gray-800 mb-1">Description Generator</h4>
-            <p class="text-xs text-gray-500 mb-3">Create structured descriptions with timestamps.</p>
-            <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="yt-hashtags" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
-            <h4 class="font-bold text-gray-800 mb-1">YouTube Hashtags</h4>
-            <p class="text-xs text-gray-500 mb-3">Generate search-optimized tags for your video.</p>
-            <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="yt-shorts" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
-            <h4 class="font-bold text-gray-800 mb-1">Shorts Script Writer</h4>
-            <p class="text-xs text-gray-500 mb-3">Create 60s scripts with visual cue notes.</p>
-            <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Instagram Grid -->
-      <div>
-        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <span class="bg-pink-100 text-pink-600 p-1.5 rounded-lg text-sm">📸</span> Instagram Tools
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div data-target="ig-hooks" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-pink-400">
-            <h4 class="font-bold text-gray-800 mb-1">Reel Hook Generator</h4>
-            <p class="text-xs text-gray-500 mb-3">5 styles of hooks tailored to stop scroll on IG.</p>
-            <span class="text-xs font-semibold text-pink-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="ig-captions" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-pink-400">
-            <h4 class="font-bold text-gray-800 mb-1">Caption Generator</h4>
-            <p class="text-xs text-gray-500 mb-3">Generate engaging Reel captions with emojis.</p>
-            <span class="text-xs font-semibold text-pink-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="ig-hashtags" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-pink-400">
-            <h4 class="font-bold text-gray-800 mb-1">Instagram Hashtags</h4>
-            <p class="text-xs text-gray-500 mb-3">Group-focused Instagram tag builder.</p>
-            <span class="text-xs font-semibold text-pink-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="ig-script" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-pink-400">
-            <h4 class="font-bold text-gray-800 mb-1">Reel Script Writer</h4>
-            <p class="text-xs text-gray-500 mb-3">Write high-pacing scripts for Reels.</p>
-            <span class="text-xs font-semibold text-pink-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- AI Tools Grid -->
-      <div>
-        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <span class="bg-purple-100 text-purple-600 p-1.5 rounded-lg text-sm">🤖</span> AI Tools
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div data-target="ai-summarizer" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-purple-400">
-            <h4 class="font-bold text-gray-800 mb-1">Video Summarizer</h4>
-            <p class="text-xs text-gray-500 mb-3">Extract TL;DR and key points from transcripts.</p>
-            <span class="text-xs font-semibold text-purple-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="ai-repurpose" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-purple-400">
-            <h4 class="font-bold text-gray-800 mb-1">Content Repurposer</h4>
-            <p class="text-xs text-gray-500 mb-3">Repurpose video text to Tweet threads, outlines, or blogs.</p>
-            <span class="text-xs font-semibold text-purple-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="ai-thumbnail" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-purple-400">
-            <h4 class="font-bold text-gray-800 mb-1">Thumbnail Idea Gen</h4>
-            <p class="text-xs text-gray-500 mb-3">Generate thumbnail visual briefs & overlays.</p>
-            <span class="text-xs font-semibold text-purple-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Media Tools Grid -->
-      <div>
-        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <span class="bg-orange-100 text-orange-600 p-1.5 rounded-lg text-sm">🔧</span> Media Tools
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div data-target="media-analyzer" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-orange-400">
-            <h4 class="font-bold text-gray-800 mb-1">Video URL Analyzer</h4>
-            <p class="text-xs text-gray-500 mb-3">Analyze YouTube URLs and extract direct parameters.</p>
-            <span class="text-xs font-semibold text-orange-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="media-metadata" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-orange-400">
-            <h4 class="font-bold text-gray-800 mb-1">Metadata Viewer</h4>
-            <p class="text-xs text-gray-500 mb-3">Inspect tags, descriptions, titles, and thumbnails.</p>
-            <span class="text-xs font-semibold text-orange-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-          <div data-target="media-utility" class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-orange-400">
-            <h4 class="font-bold text-gray-800 mb-1">Creator Utilities</h4>
-            <p class="text-xs text-gray-500 mb-3">Speech timer, title length checker, word counters.</p>
-            <span class="text-xs font-semibold text-orange-600 hover:underline">Open Tool &rarr;</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── DYNAMIC TOOL WORKSPACE CONTAINERS ── -->
-    <div id="tool-workspace" class="hidden space-y-6">
-      
-      <!-- TOOL WRAPPER -->
-      <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-        
-        <!-- Back button inside workspace -->
-        <button id="workspace-back-btn" class="mb-4 text-xs font-bold text-gray-500 hover:text-gray-800 flex items-center gap-1">
-          &larr; Back to Overview
-        </button>
-
-        <!-- Tool Header -->
-        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
-          <span id="tool-header-icon" class="text-3xl">📝</span>
-          <div>
-            <h2 id="tool-header-title" class="text-2xl font-bold text-gray-800">Tool Title</h2>
-            <p id="tool-header-desc" class="text-sm text-gray-500">Tool description goes here.</p>
-          </div>
-        </div>
-
-        <!-- Dynamic Form Fields will be inserted here by JavaScript -->
-        <form id="tool-form" class="space-y-4">
-          <div id="dynamic-inputs" class="space-y-4">
-            <!-- Loaded by JS -->
-          </div>
-          
-          <button type="submit" id="generate-btn" class="w-full py-3 rounded-xl font-bold text-white btn-gradient flex items-center justify-center gap-2">
-            <span>✨ Generate Content</span>
-          </button>
-        </form>
-
-        <!-- Progress Spinner -->
-        <div id="tool-loader" class="hidden py-8 text-center space-y-3">
-          <div class="inline-block w-8 h-8 border-4 border-orange-200 border-t-pink-500 rounded-full animate-spin"></div>
-          <p class="text-sm font-semibold text-gray-600" id="tool-loader-text">AI engine preparing output...</p>
-        </div>
-
-        <!-- Result Box -->
-        <div id="tool-result-container" class="hidden mt-8 space-y-4 border-t border-gray-100 pt-6">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-gray-800 flex items-center gap-1.5">
-              <span>📋 Generated Result</span>
-              <span class="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">Ready</span>
-            </h3>
-            <div class="flex items-center gap-2">
-              <button id="result-copy-btn" class="px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-50 transition flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                Copy
-              </button>
-              <button id="result-download-btn" class="px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-50 transition flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download
-              </button>
-            </div>
-          </div>
-          
-          <!-- Text output area -->
-          <div id="tool-output" class="bg-gray-50 border border-gray-200 rounded-xl p-5 text-sm leading-relaxed text-gray-700 font-mono whitespace-pre-wrap max-h-96 overflow-y-auto">
-            <!-- Generated output goes here -->
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-</main>
-
-<!-- ── FOOTER ── -->
-<footer role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="index.html" class="logo">📄 Tube<span style="color:#FFB800;">Transcript</span></a>
-      <p>The fastest free YouTube transcript generator. No login required.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Navigation</h5>
-      <ul>
-        <li><a href="index.html">Home</a></li>
+  <!-- ── NAVIGATION ── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="logo" aria-label="TubeTranscript Home">
+        📄 Tube<span>Transcript</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html" class="active">Home</a></li>
         <li><a href="pages/about.html">About</a></li>
         <li><a href="pages/contact.html">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Legal</h5>
-      <ul>
         <li><a href="pages/privacy.html">Privacy Policy</a></li>
         <li><a href="pages/terms.html">Terms of Service</a></li>
       </ul>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <button id="donate-btn" onclick="document.getElementById('donation-modal').classList.remove('hidden')"
+          style="background:linear-gradient(135deg,#DD5E89,#FF4FA3);color:#fff;border:none;border-radius:99px;padding:0.45rem 1.1rem;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 4px 14px rgba(221,94,137,0.35);transition:all 0.3s ease;"
+          aria-label="Support this project">❤️ Support</button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
-    <div class="footer-col">
-      <h5>Tools</h5>
-      <ul>
-        <li><a href="index.html?tool=yt-transcript">Transcript Generator</a></li>
-        <li><a href="index.html?tool=yt-titles">YouTube Title Generator</a></li>
-        <li><a href="index.html?tool=ai-summarizer">AI Video Summarizer</a></li>
-      </ul>
+    <div class="mobile-menu" id="mobile-menu" role="menu">
+      <a href="index.html" role="menuitem" class="active">🏠 Home</a>
+      <a href="pages/about.html" role="menuitem">ℹ️ About</a>
+      <a href="pages/contact.html" role="menuitem">✉️ Contact</a>
+      <a href="pages/privacy.html" role="menuitem">🔒 Privacy Policy</a>
+      <a href="pages/terms.html" role="menuitem">📜 Terms of Service</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO / HEADER STRIP ── -->
+  <div class="tools-hero text-white py-8 px-4 text-center border-b-2 border-orange-200">
+    <h1 class="text-3xl md:text-4xl font-extrabold mb-2 text-white">✨ Creator Tools Dashboard</h1>
+    <p class="max-w-xl mx-auto text-white/90 text-sm md:text-base">
+      Supercharge your content workflow with specialized generators for YouTube, Instagram, and AI Repurposing.
+    </p>
+  </div>
+
+  <!-- ── STATS STRIP ── -->
+  <div
+    style="background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);border-bottom:1px solid rgba(221,94,137,0.12);padding:1.25rem 1.5rem;">
+    <div
+      style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;text-align:center;">
+      <div class="stat-card"
+        style="background:rgba(255,255,255,0.72);border:1px solid rgba(221,94,137,0.14);border-radius:16px;padding:1rem 0.75rem;box-shadow:0 4px 20px rgba(221,94,137,0.06);">
+        <div
+          style="font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#DD5E89,#FF4FA3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+          50K+</div>
+        <div style="font-size:0.78rem;font-weight:600;color:#666;margin-top:0.2rem;">Transcripts Generated</div>
+      </div>
+      <div class="stat-card"
+        style="background:rgba(255,255,255,0.72);border:1px solid rgba(221,94,137,0.14);border-radius:16px;padding:1rem 0.75rem;box-shadow:0 4px 20px rgba(221,94,137,0.06);">
+        <div
+          style="font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#DD5E89,#FF4FA3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+          60+</div>
+        <div style="font-size:0.78rem;font-weight:600;color:#666;margin-top:0.2rem;">Languages Supported</div>
+      </div>
+      <div class="stat-card"
+        style="background:rgba(255,255,255,0.72);border:1px solid rgba(221,94,137,0.14);border-radius:16px;padding:1rem 0.75rem;box-shadow:0 4px 20px rgba(221,94,137,0.06);">
+        <div
+          style="font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#DD5E89,#FF4FA3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+          25+</div>
+        <div style="font-size:0.78rem;font-weight:600;color:#666;margin-top:0.2rem;">Creator Tools</div>
+      </div>
+      <div class="stat-card"
+        style="background:rgba(255,255,255,0.72);border:1px solid rgba(221,94,137,0.14);border-radius:16px;padding:1rem 0.75rem;box-shadow:0 4px 20px rgba(221,94,137,0.06);">
+        <div
+          style="font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#DD5E89,#FF4FA3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+          100%</div>
+        <div style="font-size:0.78rem;font-weight:600;color:#666;margin-top:0.2rem;">Free · No Login</div>
+      </div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2025 TubeTranscript. All rights reserved.</span>
-    <span>Not affiliated with YouTube or Google.</span>
+
+  <!-- ── TRANSCRIPT DETECTED BANNER ── -->
+  <div id="transcript-banner" class="max-w-6xl mx-auto w-full px-4 mt-6 hidden">
+    <div
+      class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl">💡</span>
+        <div>
+          <p class="font-bold text-yellow-800">Video Transcript Detected</p>
+          <p class="text-sm text-yellow-700">
+            We found a transcript in your session cache (Title: <span id="banner-video-title"
+              class="font-semibold"></span>).
+            Our generators will automatically use this content!
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button id="use-transcript-btn"
+          class="px-3 py-1 bg-yellow-600 text-white rounded text-xs font-semibold hover:bg-yellow-700 transition">
+          Keep Loaded
+        </button>
+        <button id="clear-transcript-btn"
+          class="px-3 py-1 border border-yellow-300 text-yellow-700 rounded text-xs font-semibold hover:bg-yellow-100 transition">
+          Clear Cache
+        </button>
+      </div>
+    </div>
   </div>
-</footer>
 
-<!-- Toast notification element -->
-<div class="toast" id="toast"></div>
+  <!-- ── DASHBOARD WORKSPACE ── -->
+  <main class="max-w-7xl mx-auto w-full px-4 py-8 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-<!-- JS imports -->
-<script src="js/tools.js"></script>
+    <!-- SIDEBAR NAVIGATION -->
+    <aside
+      class="lg:col-span-3 bg-white border border-gray-200 rounded-2xl p-4 shadow-sm self-start h-auto sticky top-20">
+      <button id="overview-btn"
+        class="w-full text-left flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition mb-4 active-tool-link">
+        📊 Dashboard Overview
+      </button>
+
+      <div class="space-y-4">
+        <!-- YouTube Category -->
+        <div>
+          <h3 class="text-xs font-bold text-red-600 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-red-600"></span> YouTube Tools
+          </h3>
+          <ul class="space-y-1 text-sm">
+            <li>
+              <button data-tool="yt-transcript"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>📄 Transcript Generator</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="yt-hooks"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>⚡ Viral Hook Generator</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="yt-titles"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>✍️ Title Generator</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="yt-descriptions"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>📝 Description Generator</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="yt-hashtags"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>#️⃣ Hashtag Generator</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="yt-shorts"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>🎬 Shorts Script Writer</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Instagram Category -->
+        <div>
+          <h3 class="text-xs font-bold text-pink-600 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-pink-600"></span> Instagram Tools
+          </h3>
+          <ul class="space-y-1 text-sm">
+            <li>
+              <button data-tool="ig-hooks"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>⚡ Reel Hook Generator</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="ig-captions"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>💬 Caption Generator</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="ig-hashtags"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>#️⃣ Hashtag Generator</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="ig-script"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>🎬 Reel Script Writer</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- AI Tools Category -->
+        <div>
+          <h3 class="text-xs font-bold text-purple-600 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-purple-600"></span> AI Tools
+          </h3>
+          <ul class="space-y-1 text-sm">
+            <li>
+              <button data-tool="ai-summarizer"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>🔍 Video Summarizer</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="ai-repurpose"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>🔄 Content Repurposer</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="ai-thumbnail"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>🎨 Thumbnail Idea Gen</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Media Tools Category -->
+        <div>
+          <h3 class="text-xs font-bold text-orange-600 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-orange-600"></span> Media Tools
+          </h3>
+          <ul class="space-y-1 text-sm">
+            <li>
+              <button data-tool="media-analyzer"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>🔗 Video URL Analyzer</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="media-metadata"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>ℹ️ Metadata Viewer</span>
+              </button>
+            </li>
+            <li>
+              <button data-tool="media-utility"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>🛠️ Creator Utilities</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <section class="lg:col-span-9">
+
+      <!-- ── 0. DASHBOARD OVERVIEW PANEL ── -->
+      <div id="panel-overview" class="tool-panel space-y-8">
+        <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Welcome to the Creator Hub!</h2>
+          <p class="text-gray-600 text-sm">
+            Select a tool from the sidebar or browse the directories below. If you transcribe a video, the transcript
+            will automatically load here, making summarization and scripts a 1-click process!
+          </p>
+        </div>
+
+        <!-- YouTube Grid -->
+        <div>
+          <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="bg-red-100 text-red-600 p-1.5 rounded-lg text-sm">📺</span> YouTube Tools
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div data-target="yt-transcript"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
+              <h4 class="font-bold text-gray-800 mb-1">Transcript Generator</h4>
+              <p class="text-xs text-gray-500 mb-3">Extract text transcripts from any YouTube video instantly.</p>
+              <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="yt-hooks"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
+              <h4 class="font-bold text-gray-800 mb-1">Viral Hook Generator</h4>
+              <p class="text-xs text-gray-500 mb-3">Get attention-grabbing opening lines for videos.</p>
+              <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="yt-titles"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
+              <h4 class="font-bold text-gray-800 mb-1">Title Generator</h4>
+              <p class="text-xs text-gray-500 mb-3">Generate high-CTR video titles with analysis.</p>
+              <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="yt-descriptions"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
+              <h4 class="font-bold text-gray-800 mb-1">Description Generator</h4>
+              <p class="text-xs text-gray-500 mb-3">Create structured descriptions with timestamps.</p>
+              <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="yt-hashtags"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
+              <h4 class="font-bold text-gray-800 mb-1">YouTube Hashtags</h4>
+              <p class="text-xs text-gray-500 mb-3">Generate search-optimized tags for your video.</p>
+              <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="yt-shorts"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-red-400">
+              <h4 class="font-bold text-gray-800 mb-1">Shorts Script Writer</h4>
+              <p class="text-xs text-gray-500 mb-3">Create 60s scripts with visual cue notes.</p>
+              <span class="text-xs font-semibold text-red-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instagram Grid -->
+        <div>
+          <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="bg-pink-100 text-pink-600 p-1.5 rounded-lg text-sm">📸</span> Instagram Tools
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div data-target="ig-hooks"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-pink-400">
+              <h4 class="font-bold text-gray-800 mb-1">Reel Hook Generator</h4>
+              <p class="text-xs text-gray-500 mb-3">5 styles of hooks tailored to stop scroll on IG.</p>
+              <span class="text-xs font-semibold text-pink-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="ig-captions"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-pink-400">
+              <h4 class="font-bold text-gray-800 mb-1">Caption Generator</h4>
+              <p class="text-xs text-gray-500 mb-3">Generate engaging Reel captions with emojis.</p>
+              <span class="text-xs font-semibold text-pink-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="ig-hashtags"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-pink-400">
+              <h4 class="font-bold text-gray-800 mb-1">Instagram Hashtags</h4>
+              <p class="text-xs text-gray-500 mb-3">Group-focused Instagram tag builder.</p>
+              <span class="text-xs font-semibold text-pink-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="ig-script"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-pink-400">
+              <h4 class="font-bold text-gray-800 mb-1">Reel Script Writer</h4>
+              <p class="text-xs text-gray-500 mb-3">Write high-pacing scripts for Reels.</p>
+              <span class="text-xs font-semibold text-pink-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Tools Grid -->
+        <div>
+          <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="bg-purple-100 text-purple-600 p-1.5 rounded-lg text-sm">🤖</span> AI Tools
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div data-target="ai-summarizer"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-purple-400">
+              <h4 class="font-bold text-gray-800 mb-1">Video Summarizer</h4>
+              <p class="text-xs text-gray-500 mb-3">Extract TL;DR and key points from transcripts.</p>
+              <span class="text-xs font-semibold text-purple-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="ai-repurpose"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-purple-400">
+              <h4 class="font-bold text-gray-800 mb-1">Content Repurposer</h4>
+              <p class="text-xs text-gray-500 mb-3">Repurpose video text to Tweet threads, outlines, or blogs.</p>
+              <span class="text-xs font-semibold text-purple-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="ai-thumbnail"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-purple-400">
+              <h4 class="font-bold text-gray-800 mb-1">Thumbnail Idea Gen</h4>
+              <p class="text-xs text-gray-500 mb-3">Generate thumbnail visual briefs & overlays.</p>
+              <span class="text-xs font-semibold text-purple-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Media Tools Grid -->
+        <div>
+          <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="bg-orange-100 text-orange-600 p-1.5 rounded-lg text-sm">🔧</span> Media Tools
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div data-target="media-analyzer"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-orange-400">
+              <h4 class="font-bold text-gray-800 mb-1">Video URL Analyzer</h4>
+              <p class="text-xs text-gray-500 mb-3">Analyze YouTube URLs and extract direct parameters.</p>
+              <span class="text-xs font-semibold text-orange-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="media-metadata"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-orange-400">
+              <h4 class="font-bold text-gray-800 mb-1">Metadata Viewer</h4>
+              <p class="text-xs text-gray-500 mb-3">Inspect tags, descriptions, titles, and thumbnails.</p>
+              <span class="text-xs font-semibold text-orange-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="media-utility"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-orange-400">
+              <h4 class="font-bold text-gray-800 mb-1">Creator Utilities</h4>
+              <p class="text-xs text-gray-500 mb-3">Speech timer, title length checker, word counters.</p>
+              <span class="text-xs font-semibold text-orange-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DYNAMIC TOOL WORKSPACE CONTAINERS ── -->
+      <div id="tool-workspace" class="hidden space-y-6">
+
+        <!-- TOOL WRAPPER -->
+        <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+
+          <!-- Back button inside workspace -->
+          <button id="workspace-back-btn"
+            class="mb-4 text-xs font-bold text-gray-500 hover:text-gray-800 flex items-center gap-1">
+            &larr; Back to Overview
+          </button>
+
+          <!-- Tool Header -->
+          <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+            <span id="tool-header-icon" class="text-3xl">📝</span>
+            <div>
+              <h2 id="tool-header-title" class="text-2xl font-bold text-gray-800">Tool Title</h2>
+              <p id="tool-header-desc" class="text-sm text-gray-500">Tool description goes here.</p>
+            </div>
+          </div>
+
+          <!-- Dynamic Form Fields will be inserted here by JavaScript -->
+          <form id="tool-form" class="space-y-4">
+            <div id="dynamic-inputs" class="space-y-4">
+              <!-- Loaded by JS -->
+            </div>
+
+            <button type="submit" id="generate-btn"
+              class="w-full py-3 rounded-xl font-bold text-white btn-gradient flex items-center justify-center gap-2">
+              <span>✨ Generate Content</span>
+            </button>
+          </form>
+
+          <!-- Progress Spinner -->
+          <div id="tool-loader" class="hidden py-8 text-center space-y-3">
+            <div class="inline-block w-8 h-8 border-4 border-orange-200 border-t-pink-500 rounded-full animate-spin">
+            </div>
+            <p class="text-sm font-semibold text-gray-600" id="tool-loader-text">AI engine preparing output...</p>
+          </div>
+
+          <!-- Result Box -->
+          <div id="tool-result-container" class="hidden mt-8 space-y-4 border-t border-gray-100 pt-6">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-gray-800 flex items-center gap-1.5">
+                <span>📋 Generated Result</span>
+                <span class="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">Ready</span>
+              </h3>
+              <div class="flex items-center gap-2">
+                <button id="result-copy-btn"
+                  class="px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-50 transition flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                  </svg>
+                  Copy
+                </button>
+                <button id="result-download-btn"
+                  class="px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-50 transition flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  Download
+                </button>
+              </div>
+            </div>
+
+            <!-- Text output area -->
+            <div id="tool-output"
+              class="bg-gray-50 border border-gray-200 rounded-xl p-5 text-sm leading-relaxed text-gray-700 font-mono whitespace-pre-wrap max-h-96 overflow-y-auto">
+              <!-- Generated output goes here -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">📄 Tube<span style="color:#FFB800;">Transcript</span></a>
+        <p>The fastest free YouTube transcript generator. No login required.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pages/about.html">About</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="pages/privacy.html">Privacy Policy</a></li>
+          <li><a href="pages/terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Tools</h5>
+        <ul>
+          <li><a href="index.html?tool=yt-transcript">Transcript Generator</a></li>
+          <li><a href="index.html?tool=yt-titles">YouTube Title Generator</a></li>
+          <li><a href="index.html?tool=ai-summarizer">AI Video Summarizer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 TubeTranscript. All rights reserved.</span>
+      <span>Not affiliated with YouTube or Google.</span>
+    </div>
+  </footer>
+
+  <!-- Toast notification element -->
+  <div class="toast" id="toast"></div>
+
+  <!-- JS imports -->
+  <script src="js/tools.js"></script>
 </body>
+
 </html>
