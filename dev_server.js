@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const { YoutubeTranscript } = require('youtube-transcript');
+const { spawn } = require('child_process');
 
 const PORT = 3000;
 
@@ -49,10 +49,89 @@ const server = http.createServer(async (req, res) => {
       vid = match[1];
     }
 
+    // Run Python subprocess locally to match production behavior and catch exact exceptions
+    const pythonScript = `
+import sys
+import json
+import re
+from youtube_transcript_api import (
+    YouTubeTranscriptApi,
+    NoTranscriptFound,
+    TranscriptsDisabled,
+    VideoUnavailable,
+    RequestBlocked,
+    TooManyRequests,
+    YouTubeTranscriptApiException
+)
+
+try:
+    api = YouTubeTranscriptApi()
+    transcript_list = api.list("${vid}")
+    try:
+        transcript_obj = transcript_list.find_transcript(['en'])
+    except NoTranscriptFound:
+        transcript_obj = next(iter(transcript_list))
+    transcript_data = transcript_obj.fetch()
+    data = [{"text": entry.text, "start": entry.start, "duration": entry.duration} for entry in transcript_data]
+    print(json.dumps({"transcript": data}))
+except NoTranscriptFound as e:
+    print(json.dumps({"error_type": "NoTranscriptFound", "error": str(e)}))
+except TranscriptsDisabled as e:
+    print(json.dumps({"error_type": "TranscriptsDisabled", "error": str(e)}))
+except VideoUnavailable as e:
+    print(json.dumps({"error_type": "VideoUnavailable", "error": str(e)}))
+except RequestBlocked as e:
+    print(json.dumps({"error_type": "RequestBlocked", "error": str(e)}))
+except TooManyRequests as e:
+    print(json.dumps({"error_type": "TooManyRequests", "error": str(e)}))
+except YouTubeTranscriptApiException as e:
+    print(json.dumps({"error_type": e.__class__.__name__, "error": str(e)}))
+except Exception as e:
+    print(json.dumps({"error_type": "InternalError", "error": str(e)}))
+`;
+
+    // Attempt spawning python first, then python3 as a fallback if python is not in path
+    const runPython = (cmd) => {
+      return new Promise((resolve, reject) => {
+        const py = spawn(cmd, ['-c', pythonScript]);
+        let stdout = '';
+        let stderr = '';
+        py.on('error', (err) => {
+          reject(err);
+        });
+        py.stdout.on('data', (data) => { stdout += data.toString(); });
+        py.stderr.on('data', (data) => { stderr += data.toString(); });
+        py.on('close', (code) => {
+          if (code !== 0) {
+            reject(new Error(stderr || 'Python process exited with code ' + code));
+            return;
+          }
+          try {
+            resolve(JSON.parse(stdout.trim()));
+          } catch (err) {
+            reject(new Error('Failed to parse Python output: ' + err.message));
+          }
+        });
+      });
+    };
+
     try {
-      const transcript = await YoutubeTranscript.fetchTranscript(vid);
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ transcript }));
+      // Try python command
+      let result;
+      try {
+        result = await runPython('python');
+      } catch (err) {
+        // Fallback to python3
+        result = await runPython('python3');
+      }
+
+      if (result.error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: `[${result.error_type}] ${result.error}`, error_type: result.error_type }));
+      } else {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result));
+      }
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: err.message }));
