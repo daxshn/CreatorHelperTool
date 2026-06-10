@@ -466,14 +466,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const initialTool = urlParams.get('tool');
     if (initialTool) {
-      switchTool(initialTool);
+      switchTool(initialTool, true);
+      setTimeout(() => {
+        if (toolWorkspace) {
+          toolWorkspace.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }, 300);
     } else {
-      switchTool('overview');
+      switchTool('overview', true);
     }
+
+    // Handle back/forward history navigation
+    window.addEventListener('popstate', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tool = urlParams.get('tool');
+      if (tool) {
+        switchTool(tool, false);
+      } else {
+        switchTool('overview', false);
+      }
+    });
   }
 
   // Switch active tool
-  function switchTool(toolId) {
+  function switchTool(toolId, preventScroll = false) {
     currentTool = toolId;
     
     // Update active sidebar styles
@@ -565,8 +584,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     
-    // Scroll to top of workspace
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll to the active container (workspace or overview panel)
+    if (!preventScroll) {
+      const targetElement = toolId === 'overview' ? overviewPanel : toolWorkspace;
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
   }
 
   // ── TOOL DEFINITIONS AND TEMPLATES ──

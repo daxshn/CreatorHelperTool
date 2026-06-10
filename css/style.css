@@ -265,6 +265,10 @@ aside .active-tool-link {
 }
 
 /* ── PREMIUM GLASS WORKSPACE PANELS ── */
+#tool-workspace, #panel-overview {
+  scroll-margin-top: 90px;
+}
+
 #tool-workspace > div, #panel-overview > div, .transcript-box {
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(20px);
