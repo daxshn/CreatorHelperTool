@@ -1236,3 +1236,157 @@ body.dark-mode .toast {
   border-color: rgba(221,94,137,0.2) !important;
   color: #fff !important;
 }
+
+/* ── CREATOR INTELLIGENCE TICKER & PILLS ── */
+.ticker-wrap {
+  overflow: hidden;
+  width: 100%;
+}
+.ticker-content {
+  display: inline-flex;
+  animation: marquee 35s linear infinite;
+}
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+.ticker-content:hover {
+  animation-play-state: paused;
+}
+
+.trend-pill {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 99px;
+  border: 1.5px solid rgba(221, 94, 137, 0.12);
+  background: rgba(255, 255, 255, 0.65);
+  padding: 0.45rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #4A4446;
+  box-shadow: 0 2px 8px rgba(221, 94, 137, 0.02);
+}
+
+body.dark-mode .trend-pill {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(25, 18, 35, 0.55);
+  color: #D3C9E2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.trend-pill:hover {
+  transform: translateY(-2px) scale(1.02);
+  background: rgba(221, 94, 137, 0.08);
+  border-color: rgba(221, 94, 137, 0.3);
+  box-shadow: 0 4px 12px rgba(221, 94, 137, 0.08);
+}
+
+body.dark-mode .trend-pill:hover {
+  background: rgba(255, 79, 163, 0.1);
+  border-color: rgba(255, 79, 163, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 79, 163, 0.15);
+}
+
+.trend-pill.active {
+  background: linear-gradient(135deg, #DD5E89 0%, #FF4FA3 100%) !important;
+  color: #FFF !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 15px rgba(221, 94, 137, 0.3) !important;
+}
+
+.trend-score-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.1rem 0.35rem;
+  border-radius: 99px;
+  background: rgba(221, 94, 137, 0.1);
+  color: #DD5E89;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .trend-score-badge {
+  background: rgba(255, 79, 163, 0.15);
+  color: #FF4FA3;
+}
+
+.trend-pill.active .trend-score-badge {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #FFF !important;
+}
+
+/* Custom scrollbar for breakout topics container */
+#trends-pills-container::-webkit-scrollbar {
+  width: 4px;
+}
+#trends-pills-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+#trends-pills-container::-webkit-scrollbar-thumb {
+  background: rgba(221, 94, 137, 0.2);
+  border-radius: 99px;
+}
+#trends-pills-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(221, 94, 137, 0.4);
+}
+
+/* ── LIVE VIRAL VIDEOS SECTION STYLING ── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.video-card {
+  position: relative;
+  flex: 0 0 280px; /* fixed width on desktop for snap scroll */
+  border-radius: 24px !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .video-card {
+    flex: 0 0 85vw; /* adapt card size to small viewport widths */
+  }
+}
+
+.video-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(221, 94, 137, 0.12);
+}
+
+body.dark-mode .video-card:hover {
+  box-shadow: 0 20px 40px rgba(255, 79, 163, 0.1);
+}
+
+/* Skeleton Loading Shimmer */
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(221, 94, 137, 0.06) 25%, rgba(221, 94, 137, 0.12) 50%, rgba(221, 94, 137, 0.06) 75%);
+  background-size: 200% 100%;
+  animation: shimmerGlow 1.6s infinite linear;
+}
+
+body.dark-mode .skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes shimmerGlow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Custom overlay smooth zoom */
+.video-card-overlay {
+  background: linear-gradient(to top, rgba(15, 10, 20, 0.85) 0%, rgba(15, 10, 20, 0.3) 50%, transparent 100%);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+.video-card:hover .video-card-overlay {
+  opacity: 1;
+}

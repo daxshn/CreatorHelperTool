@@ -1,4 +1,4 @@
-/* ── TubeTranscript Shared Theme JS ── */
+/* ── CreatorHelperTools Shared Theme JS ── */
 (function () {
   const BODY = document.body || document.documentElement;
   const HTML = document.documentElement;

@@ -19,6 +19,11 @@ const MIME_TYPES = {
   '.xml': 'application/xml'
 };
 
+// Caches
+let trendingCache = null;
+let trendingCacheTime = 0;
+const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
+
 const server = http.createServer(async (req, res) => {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -137,6 +142,121 @@ except Exception as e:
       res.end(JSON.stringify({ error: err.message }));
     }
     return;
+  } else if (pathname === '/api/trending') {
+    // Check local cache
+    const now = Date.now();
+    if (trendingCache && (now - trendingCacheTime < CACHE_DURATION)) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(trendingCache));
+      return;
+    }
+
+    const pythonScript = `
+import sys
+import json
+import urllib.request
+import os
+import re
+
+api_key = os.environ.get("YOUTUBE_API_KEY")
+if not api_key:
+    print(json.dumps({"error": "YOUTUBE_API_KEY environment variable is not configured."}))
+    sys.exit(0)
+
+url = f"https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=IN&maxResults=24&key={api_key}"
+
+try:
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    with urllib.request.urlopen(req, timeout=10) as response:
+        res_body = response.read().decode('utf-8')
+        raw_data = json.loads(res_body)
+    
+    videos = []
+    for item in raw_data.get('items', []):
+        snippet = item.get('snippet', {})
+        stats = item.get('statistics', {})
+        thumbnails = snippet.get('thumbnails', {})
+        details = item.get('contentDetails', {})
+        
+        thumb_url = ""
+        for size in ['maxres', 'standard', 'high', 'medium', 'default']:
+            if size in thumbnails:
+                thumb_url = thumbnails[size].get('url', '')
+                break
+
+        # Determine if it's a Short (<= 60 seconds)
+        duration = details.get('duration', '')
+        is_short = False
+        if duration and 'H' not in duration:
+            m = re.match(r'PT(?:(\d+)M)?(?:(\d+)S)?', duration)
+            if m:
+                minutes = int(m.group(1)) if m.group(1) else 0
+                seconds = int(m.group(2)) if m.group(2) else 0
+                if minutes == 0 or (minutes == 1 and seconds == 0):
+                    is_short = True
+
+        videos.append({
+            "videoId": item.get('id', ''),
+            "title": snippet.get('title', ''),
+            "channelTitle": snippet.get('channelTitle', ''),
+            "thumbnail": thumb_url,
+            "viewCount": stats.get('viewCount', '0'),
+            "publishedAt": snippet.get('publishedAt', ''),
+            "isShort": is_short
+        })
+    print(json.dumps({"videos": videos}))
+except Exception as e:
+    print(json.dumps({"error": f"Failed to fetch trending videos: {str(e)}"}))
+`;
+
+    const runPython = (cmd) => {
+      return new Promise((resolve, reject) => {
+        const py = spawn(cmd, ['-c', pythonScript]);
+        let stdout = '';
+        let stderr = '';
+        py.on('error', (err) => {
+          reject(err);
+        });
+        py.stdout.on('data', (data) => { stdout += data.toString(); });
+        py.stderr.on('data', (data) => { stderr += data.toString(); });
+        py.on('close', (code) => {
+          if (code !== 0) {
+            reject(new Error(stderr || 'Python process exited with code ' + code));
+            return;
+          }
+          try {
+            resolve(JSON.parse(stdout.trim()));
+          } catch (err) {
+            reject(new Error('Failed to parse Python output: ' + err.message));
+          }
+        });
+      });
+    };
+
+    try {
+      let result;
+      try {
+        result = await runPython('python');
+      } catch (err) {
+        result = await runPython('python3');
+      }
+
+      if (result.error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result));
+      } else {
+        // Cache successful response
+        trendingCache = result;
+        trendingCacheTime = Date.now();
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result));
+      }
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+    return;
   }
 
   // Serve static files
@@ -168,6 +288,6 @@ except Exception as e:
 });
 
 server.listen(PORT, () => {
-  console.log(`TubeTranscript development server running at http://localhost:${PORT}`);
+  console.log(`CreatorHelperTools development server running at http://localhost:${PORT}`);
   console.log('Press Ctrl+C to stop the server.');
 });

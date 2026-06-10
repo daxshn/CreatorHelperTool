@@ -1,7 +1,7 @@
 {
-  "name": "tubetranscript",
+  "name": "creatorhelpertools",
   "version": "1.0.0",
-  "description": "YouTube Transcript Generator",
+  "description": "CreatorHelperTools – The Ultimate Creator Toolkit",
   "main": "api/transcript.js",
   "scripts": {
     "start": "node api/transcript.js",

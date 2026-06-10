@@ -11,87 +11,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toolMetadata = {
     'overview': {
-      title: 'Creator Tools Dashboard – TubeTranscript',
+      title: 'CreatorHelperTools – The Ultimate Creator Toolkit',
       desc: 'Unlock powerful free tools for creators: YouTube transcript generators, CTR title generators, viral hook builders, Instagram Reel writers, and AI video repurposers.',
       canonical: 'https://creatorhelpertool.vercel.app/'
     },
     'yt-transcript': {
-      title: 'Free YouTube Transcript Generator & Extractor – TubeTranscript',
+      title: 'Free YouTube Transcript Generator & Extractor – CreatorHelperTools',
       desc: 'Extract clean, accurate transcripts and captions from any YouTube video instantly for free. No login required, supports 60+ languages.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-transcript'
     },
     'yt-hooks': {
-      title: 'YouTube Viral Hook Generator & Retention Builder – TubeTranscript',
+      title: 'YouTube Viral Hook Generator & Retention Builder – CreatorHelperTools',
       desc: 'Create attention-grabbing opening hooks for your YouTube videos. Stop the scroll, build audience retention, and boost your CTR instantly.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-hooks'
     },
     'yt-titles': {
-      title: 'YouTube Title Generator: Optimize High-CTR Titles – TubeTranscript',
+      title: 'YouTube Title Generator: Optimize High-CTR Titles – CreatorHelperTools',
       desc: 'Generate viral, high-CTR, and SEO-optimized titles for your YouTube videos. Leverage curiosity gaps, FOBA, and search keywords.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-titles'
     },
     'yt-descriptions': {
-      title: 'YouTube Description Generator & SEO Optimizer – TubeTranscript',
+      title: 'YouTube Description Generator & SEO Optimizer – CreatorHelperTools',
       desc: 'Generate structured, keyword-rich video descriptions with auto-timestamps, social links, disclaimers, and call-to-actions instantly.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-descriptions'
     },
     'yt-hashtags': {
-      title: 'YouTube Tags & Hashtag Generator for SEO – TubeTranscript',
+      title: 'YouTube Tags & Hashtag Generator for SEO – CreatorHelperTools',
       desc: 'Find highly searched tags and hashtags to grow your YouTube search rankings and suggest-feed video performance.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-hashtags'
     },
     'yt-shorts': {
-      title: 'YouTube Shorts Script Writer: Viral 60s Scripts – TubeTranscript',
+      title: 'YouTube Shorts Script Writer: Viral 60s Scripts – CreatorHelperTools',
       desc: 'Create highly engaging 60-second scripts for YouTube Shorts, complete with camera directions, audio cues, and viral pacing.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=yt-shorts'
     },
     'ig-hooks': {
-      title: 'Instagram Reels Hook Generator: Stop the Scroll – TubeTranscript',
+      title: 'Instagram Reels Hook Generator: Stop the Scroll – CreatorHelperTools',
       desc: 'Stop viewers from scrolling past your Reels. Generate highly engaging hook ideas designed to maximize Reel algorithm reach.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=ig-hooks'
     },
     'ig-captions': {
-      title: 'Instagram Caption Generator: Engaging Reel Copy – TubeTranscript',
+      title: 'Instagram Caption Generator: Engaging Reel Copy – CreatorHelperTools',
       desc: 'Write high-converting Instagram Reel captions with emojis, call-to-actions, and spacing optimized for readability and saves.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=ig-captions'
     },
     'ig-hashtags': {
-      title: 'Instagram Hashtags Generator: Reach Explore Page – TubeTranscript',
+      title: 'Instagram Hashtags Generator: Reach Explore Page – CreatorHelperTools',
       desc: 'Get highly relevant, categorized hashtag groups for your Instagram posts to boost impressions and organic follower growth.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=ig-hashtags'
     },
     'ig-script': {
-      title: 'Instagram Reel Script Writer: Viral Video Copy – TubeTranscript',
+      title: 'Instagram Reel Script Writer: Viral Video Copy – CreatorHelperTools',
       desc: 'Write high-pacing scripts for Instagram Reels with hook-body-CTA structures that boost views, shares, and saves.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=ig-script'
     },
     'ai-summarizer': {
-      title: 'AI Video Summarizer: YouTube Video TL;DR – TubeTranscript',
+      title: 'AI Video Summarizer: YouTube Video TL;DR – CreatorHelperTools',
       desc: 'Summarize long YouTube videos instantly. Extract key points, action items, and clear TL;DR outlines from any video transcript.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-summarizer'
     },
     'ai-repurpose': {
-      title: 'AI Video Content Repurposer: Video to Text – TubeTranscript',
+      title: 'AI Video Content Repurposer: Video to Text – CreatorHelperTools',
       desc: 'Convert YouTube transcripts into Tweet threads, SEO blog outlines, LinkedIn posts, or newsletters with a single click.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-repurpose'
     },
     'ai-thumbnail': {
-      title: 'YouTube Thumbnail Idea Generator & briefs – TubeTranscript',
+      title: 'YouTube Thumbnail Idea Generator & briefs – CreatorHelperTools',
       desc: 'Generate viral thumbnail concepts, overlays, text visual briefs, and color palettes optimized for maximum visual CTR.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-thumbnail'
     },
     'media-analyzer': {
-      title: 'YouTube Video URL Analyzer & Parameter ID – TubeTranscript',
+      title: 'YouTube Video URL Analyzer & Parameter ID – CreatorHelperTools',
       desc: 'Extract video ID, channel ID, query structures, and direct metadata fields from any YouTube links instantly.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=media-analyzer'
     },
     'media-metadata': {
-      title: 'YouTube Video Metadata Inspector & Viewer – TubeTranscript',
+      title: 'YouTube Video Metadata Inspector & Viewer – CreatorHelperTools',
       desc: 'Inspect thumbnail URLs, tags, video description metadata, and direct channel references from any video.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=media-metadata'
     },
     'media-utility': {
-      title: 'Creator Utilities: Speech Timers & Word Counters – TubeTranscript',
+      title: 'Creator Utilities: Speech Timers & Word Counters – CreatorHelperTools',
       desc: 'Free tools for content creators: speech reading time estimation, Title CTR calculator, and description word-counter.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=media-utility'
     }
@@ -1484,9 +1484,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tool-result-container').classList.add('hidden');
     document.getElementById('tool-loader').classList.add('hidden');
 
-    // Pre-fill transcript if available
+    // Pre-fill selected trend OR transcript if available
+    const selectedTrend = sessionStorage.getItem('selected_trend');
     const cachedTranscript = sessionStorage.getItem('current_transcript');
-    if (cachedTranscript) {
+    
+    let filled = false;
+    if (selectedTrend) {
+      const trendFillMap = {
+        'yt-titles': 'input-topic',
+        'yt-hooks': 'input-topic',
+        'yt-hashtags': 'input-keyword'
+      };
+      const fieldId = trendFillMap[toolId];
+      if (fieldId) {
+        const el = document.getElementById(fieldId);
+        if (el) {
+          el.value = selectedTrend;
+          filled = true;
+        }
+      }
+    }
+    
+    if (!filled && cachedTranscript) {
       const fillMap = {
         'ai-summarizer': 'input-transcript',
         'yt-summarizer': 'input-transcript',
@@ -1705,6 +1724,889 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+
+  // ── TRENDS DASHBOARD ENGINE ──
+  const trendingData = [
+    {
+      topic: "AI Movies & Trailers",
+      category: "AI",
+      score: 98,
+      growth: "+320%",
+      competition: "Medium",
+      rating: "High",
+      details: "Creators are generating full cinematic trailers using Sora, Runway Gen-3, and Midjourney."
+    },
+    {
+      topic: "ChatGPT Search & Agents",
+      category: "AI",
+      score: 95,
+      growth: "+240%",
+      competition: "High",
+      rating: "High",
+      details: "New OpenAI GPT search features and automation workflows are dominating developer & tech media."
+    },
+    {
+      topic: "AI Avatar Video Generation",
+      category: "AI",
+      score: 92,
+      growth: "+180%",
+      competition: "Low",
+      rating: "Very High",
+      details: "HeyGen and ElevenLabs translation features are allowing localized multi-language content creation."
+    },
+    {
+      topic: "Virat Kohli Edit & Tributes",
+      category: "YouTube",
+      score: 99,
+      growth: "+450%",
+      competition: "High",
+      rating: "High",
+      details: "Cinematic sports edits featuring cricket matches and motivational audios are racking up millions of views."
+    },
+    {
+      topic: "Fitness Transformation Journey",
+      category: "YouTube",
+      score: 89,
+      growth: "+120%",
+      competition: "Medium",
+      rating: "Medium",
+      details: "High-speed progress compilations with aesthetic workouts and diets are popular in self-improvement niches."
+    },
+    {
+      topic: "Minecraft Speedrunning Tricks",
+      category: "Gaming",
+      score: 87,
+      growth: "+95%",
+      competition: "High",
+      rating: "Medium",
+      details: "New glitches and tricks in speedrunning Minecraft are drawing huge viewer attention on YouTube Shorts."
+    },
+    {
+      topic: "Money & Side Hustle Challenge",
+      category: "Business",
+      score: 94,
+      growth: "+210%",
+      competition: "Medium",
+      rating: "Very High",
+      details: "100-day challenges to start passive income streams using no-code AI tools or print-on-demand."
+    },
+    {
+      topic: "Viral Storytelling Reels",
+      category: "Instagram",
+      score: 96,
+      growth: "+280%",
+      competition: "Low",
+      rating: "Very High",
+      details: "Short-form history, crime, or mystery storytelling with engaging captions and dark ambient B-roll."
+    },
+    {
+      topic: "Aesthetic Cafe Vlogs",
+      category: "Instagram",
+      score: 85,
+      growth: "+75%",
+      competition: "Medium",
+      rating: "Medium",
+      details: "Relaxing, quiet morning routines and coffee aesthetic reels with smooth transitions and lofi background tracks."
+    },
+    {
+      topic: "Digital Product Funnels",
+      category: "Business",
+      score: 91,
+      growth: "+145%",
+      competition: "Medium",
+      rating: "High",
+      details: "Selling Notion templates, PDF guides, and membership communities directly through link-in-bio tools."
+    },
+    {
+      topic: "Newsletter Sponsor Strategy",
+      category: "Business",
+      score: 88,
+      growth: "+110%",
+      competition: "Low",
+      rating: "High",
+      details: "Monetizing micro-audiences using sponsor placements and advertising packages in Beehiiv/Substack."
+    },
+    {
+      topic: "GTA 6 Map & Leaks",
+      category: "Gaming",
+      score: 97,
+      growth: "+410%",
+      competition: "High",
+      rating: "Very High",
+      details: "Frame-by-frame analysis and breakdown of promotional content and releases from Rockstar Games."
+    },
+    {
+      topic: "Elden Ring DLC Builds",
+      category: "Gaming",
+      score: 93,
+      growth: "+190%",
+      competition: "Medium",
+      rating: "High",
+      details: "Fast gameplay walkthroughs and gear builds to defeat DLC bosses in record time."
+    }
+  ];
+
+  let activeFilter = 'All';
+  let activeTrendIndex = 0;
+  let rotationInterval = null;
+  let isUserInteracting = false;
+  let interactionTimeout = null;
+
+  function renderTrends() {
+    const container = document.getElementById('trends-pills-container');
+    if (!container) return;
+
+    const filteredTrends = trendingData.filter(t => activeFilter === 'All' || t.category === activeFilter);
+    
+    container.innerHTML = '';
+    filteredTrends.forEach((trend, idx) => {
+      const pill = document.createElement('button');
+      pill.className = `trend-pill ${idx === activeTrendIndex ? 'active' : ''}`;
+      pill.setAttribute('data-index', idx);
+      
+      pill.innerHTML = `
+        <span>${trend.topic}</span>
+        <span class="trend-score-badge">🔥 ${trend.score}</span>
+      `;
+      
+      pill.addEventListener('click', () => {
+        handleTrendClick(idx);
+      });
+      
+      container.appendChild(pill);
+    });
+
+    updateOpportunityCard(filteredTrends[activeTrendIndex]);
+  }
+
+  function handleFilterChange(category) {
+    activeFilter = category;
+    activeTrendIndex = 0;
+    
+    const filterButtons = document.querySelectorAll('.trend-filter-btn');
+    filterButtons.forEach(btn => {
+      const cat = btn.getAttribute('data-category');
+      if (cat === category) {
+        btn.className = "trend-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-pink-500 text-white shadow-sm";
+      } else {
+        btn.className = "trend-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800";
+      }
+    });
+
+    pauseRotationOnInteraction();
+    renderTrends();
+  }
+
+  function updateOpportunityCard(trend) {
+    const card = document.getElementById('opportunity-card');
+    if (!card || !trend) return;
+
+    let growthColor = "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400";
+    let compColor = "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400";
+    if (trend.competition === 'High') {
+      compColor = "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400";
+    } else if (trend.competition === 'Low') {
+      compColor = "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400";
+    }
+    
+    let ratingColor = "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400";
+    if (trend.rating === 'Very High') {
+      ratingColor = "bg-gradient-to-r from-pink-500/20 to-orange-500/20 text-pink-600 dark:text-pink-300 border border-pink-500/20";
+    }
+
+    card.innerHTML = `
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-pink-600 dark:text-pink-400 px-2 py-0.5 rounded-md bg-pink-500/10">${trend.category} Trend</span>
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-bold text-gray-400">Score:</span>
+            <span class="text-xs font-black text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">🔥 ${trend.score}</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-black text-gray-900 dark:text-white leading-snug">${trend.topic}</h4>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed">${trend.details}</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 py-2 border-y border-gray-100 dark:border-gray-800/60">
+          <div>
+            <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Growth</div>
+            <div class="text-xs font-extrabold ${growthColor} inline-block px-1.5 py-0.5 rounded mt-1">${trend.growth}</div>
+          </div>
+          <div>
+            <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Competition</div>
+            <div class="text-xs font-extrabold ${compColor} inline-block px-1.5 py-0.5 rounded mt-1">${trend.competition}</div>
+          </div>
+          <div>
+            <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Opportunity</div>
+            <div class="text-xs font-extrabold ${ratingColor} inline-block px-1.5 py-0.5 rounded mt-1">${trend.rating}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3 space-y-2">
+        <div class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Generate Content:</div>
+        <div class="grid grid-cols-3 gap-1.5">
+          <button class="trend-gen-btn flex items-center justify-center gap-1 px-1 py-2 rounded-xl text-[10px] font-extrabold text-white bg-gradient-to-r from-pink-500 to-rose-500 hover:opacity-90 active:scale-95 transition" data-tool="yt-titles" data-trend="${trend.topic}">
+            ✍️ Title
+          </button>
+          <button class="trend-gen-btn flex items-center justify-center gap-1 px-1 py-2 rounded-xl text-[10px] font-extrabold text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:opacity-90 active:scale-95 transition" data-tool="yt-hooks" data-trend="${trend.topic}">
+            ⚡ Hook
+          </button>
+          <button class="trend-gen-btn flex items-center justify-center gap-1 px-1 py-2 rounded-xl text-[10px] font-extrabold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 active:scale-95 transition" data-tool="yt-hashtags" data-trend="${trend.topic}">
+            #️⃣ Tag
+          </button>
+        </div>
+      </div>
+    `;
+
+    card.querySelectorAll('.trend-gen-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const toolId = btn.getAttribute('data-tool');
+        const trendVal = btn.getAttribute('data-trend');
+        
+        sessionStorage.setItem('selected_trend', trendVal);
+        switchTool(toolId);
+        showToast(`Auto-filled trend into ${toolsData[toolId].title}!`);
+      });
+    });
+  }
+
+  function handleTrendClick(index) {
+    activeTrendIndex = index;
+    pauseRotationOnInteraction();
+    
+    const filteredTrends = trendingData.filter(t => activeFilter === 'All' || t.category === activeFilter);
+    const trend = filteredTrends[activeTrendIndex];
+    if (trend) {
+      sessionStorage.setItem('selected_trend', trend.topic);
+    }
+    
+    renderTrends();
+  }
+
+  function startRotation() {
+    if (rotationInterval) clearInterval(rotationInterval);
+    rotationInterval = setInterval(() => {
+      if (isUserInteracting) return;
+      
+      const filteredTrends = trendingData.filter(t => activeFilter === 'All' || t.category === activeFilter);
+      if (filteredTrends.length === 0) return;
+      
+      activeTrendIndex = (activeTrendIndex + 1) % filteredTrends.length;
+      
+      const activeTrend = filteredTrends[activeTrendIndex];
+      if (activeTrend) {
+        sessionStorage.setItem('selected_trend', activeTrend.topic);
+      }
+      
+      renderTrends();
+    }, 6000);
+  }
+
+  function pauseRotationOnInteraction() {
+    isUserInteracting = true;
+    if (interactionTimeout) clearTimeout(interactionTimeout);
+    interactionTimeout = setTimeout(() => {
+      isUserInteracting = false;
+    }, 20000);
+  }
+
+  function animateCounters() {
+    const counters = [
+      { id: 'counter-topics', target: 1248 },
+      { id: 'counter-viral', target: 34912 },
+      { id: 'counter-tools', target: 28 }
+    ];
+
+    counters.forEach(c => {
+      const el = document.getElementById(c.id);
+      if (!el) return;
+
+      const duration = 2000;
+      const startTime = performance.now();
+
+      function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = progress * (2 - progress);
+        const currentValue = Math.floor(easeProgress * c.target);
+
+        if (c.id === 'counter-tools') {
+          el.textContent = currentValue + '+';
+        } else {
+          el.textContent = currentValue.toLocaleString();
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(updateCounter);
+        }
+      }
+
+      requestAnimationFrame(updateCounter);
+    });
+  }
+
+  // ── LIVE VIRAL VIDEOS ENGINE ──
+  let viralVideosData = [];
+  let activeViralTab = "All";
+  let activeObserver = null;
+  let scrollPlayTimeout = null;
+
+  // Format Helpers
+  function formatViews(viewsStr) {
+    const num = parseInt(viewsStr, 10);
+    if (isNaN(num)) return "0 views";
+    if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M views';
+    if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K views';
+    return num + ' views';
+  }
+
+  function formatRelativeTime(publishedAt) {
+    const published = new Date(publishedAt);
+    const now = new Date();
+    const diffMs = now - published;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHr = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHr / 24);
+
+    if (diffDay > 0) return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
+    if (diffHr > 0) return `${diffHr} hour${diffHr > 1 ? 's' : ''} ago`;
+    if (diffMin > 0) return `${diffMin} minute${diffMin > 1 ? 's' : ''} ago`;
+    return "Just now";
+  }
+
+  function assignCategory(title) {
+    const t = title.toLowerCase();
+    if (t.includes('ai') || t.includes('sora') || t.includes('gpt') || t.includes('midjourney') || t.includes('tech') || t.includes('robot') || t.includes('apple') || t.includes('google')) {
+      return "AI";
+    }
+    if (t.includes('game') || t.includes('gaming') || t.includes('edit') || t.includes('pubg') || t.includes('free fire') || t.includes('minecraft') || t.includes('elden ring') || t.includes('cricket') || t.includes('sports') || t.includes('kohli')) {
+      return "Gaming";
+    }
+    if (t.includes('business') || t.includes('saas') || t.includes('money') || t.includes('earn') || t.includes('side hustle') || t.includes('rich') || t.includes('finance') || t.includes('startup') || t.includes('invest')) {
+      return "Business";
+    }
+    return "AI"; // Default category to match landing tabs
+  }
+
+  async function fetchViralVideos() {
+    renderViralSkeletons();
+    try {
+      const res = await fetch('/api/trending');
+      if (!res.ok) throw new Error('API server returned error');
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      viralVideosData = (data.videos || []).map((video, idx) => {
+        const viewVal = parseInt(video.viewCount, 10) || 0;
+        const likes = Math.floor(viewVal * 0.05);
+        const comments = Math.floor(viewVal * 0.003);
+        const shares = Math.floor(viewVal * 0.007);
+        const platform = video.isShort ? "YouTube Shorts" : "YouTube";
+        const category = assignCategory(video.title);
+
+        return {
+          id: video.videoId,
+          videoId: video.videoId,
+          title: video.title,
+          platform: platform,
+          videoUrl: `https://www.youtube.com/watch?v=${video.videoId}`,
+          thumbnail: video.thumbnail,
+          views: formatViews(video.viewCount),
+          uploadTime: formatRelativeTime(video.publishedAt),
+          trendScore: 99 - (idx % 10),
+          category: category,
+          description: `Trending video by ${video.channelTitle}. View count: ${viewVal.toLocaleString()}.`,
+          likes: likes >= 1000 ? (likes / 1000).toFixed(1) + 'K' : likes.toString(),
+          comments: comments >= 1000 ? (comments / 1000).toFixed(1) + 'K' : comments.toString(),
+          shares: shares >= 1000 ? (shares / 1000).toFixed(1) + 'K' : shares.toString(),
+          growth: `+${250 - idx * 8}% breakout`,
+          competition: idx % 3 === 0 ? "Low" : (idx % 3 === 1 ? "Medium" : "High"),
+          opportunity: idx % 2 === 0 ? "Very High" : "High"
+        };
+      });
+
+      renderViralVideos();
+    } catch (err) {
+      console.error(err);
+      const container = document.getElementById("video-carousel");
+      if (container) {
+        container.innerHTML = `
+          <div class="w-full py-8 text-center text-sm font-semibold text-red-500 bg-red-500/10 border border-red-500/20 rounded-[24px]">
+            ⚠️ Error loading live viral videos: ${err.message}. Please configure your YOUTUBE_API_KEY environment variable.
+          </div>
+        `;
+      }
+    }
+  }
+
+  function renderViralSkeletons() {
+    const container = document.getElementById("video-carousel");
+    if (!container) return;
+
+    container.innerHTML = "";
+    for (let i = 0; i < 4; i++) {
+      const card = document.createElement("div");
+      card.className = "flex-shrink-0 w-[280px] bg-white/10 dark:bg-white/5 border border-white/10 rounded-[24px] p-3 space-y-4";
+      card.innerHTML = `
+        <div class="w-full aspect-[9/16] rounded-[20px] skeleton-shimmer"></div>
+        <div class="h-4 w-3/4 rounded-md skeleton-shimmer"></div>
+        <div class="h-3 w-1/2 rounded-md skeleton-shimmer"></div>
+      `;
+      container.appendChild(card);
+    }
+  }
+
+  function renderViralVideos() {
+    const container = document.getElementById("video-carousel");
+    if (!container) return;
+
+    const filtered = viralVideosData.filter(v => {
+      if (activeViralTab === "All") return true;
+      if (activeViralTab === "YouTube Shorts") return v.platform === "YouTube Shorts";
+      if (activeViralTab === "Instagram Reels") return v.platform === "Instagram Reels";
+      return v.category === activeViralTab;
+    });
+
+    container.innerHTML = "";
+    
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="w-full py-8 text-center text-sm font-semibold text-gray-500 dark:text-gray-400">
+          No live viral videos found in this category right now.
+        </div>
+      `;
+      return;
+    }
+
+    filtered.forEach(video => {
+      const card = document.createElement("div");
+      card.className = "video-card flex-shrink-0 bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/20 dark:border-white/10 p-3 shadow-lg snap-start";
+      card.setAttribute("data-id", video.id);
+      
+      card.innerHTML = `
+        <!-- Video Player Wrapper -->
+        <div class="video-player-wrapper relative w-full aspect-[9/16] overflow-hidden rounded-[20px] bg-black shadow-md border border-white/10">
+          <img src="${video.thumbnail}" class="w-full h-full object-cover" loading="lazy">
+          
+          <!-- Floating Category & Trend Score -->
+          <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
+            <span class="text-[9px] font-black uppercase tracking-wider bg-black/60 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/10">${video.category}</span>
+            <span class="text-[9px] font-black bg-pink-500 text-white px-2 py-0.5 rounded-full shadow-md">🔥 ${video.trendScore}</span>
+          </div>
+
+          <!-- Bottom Floating Specs Overlay -->
+          <div class="absolute inset-x-0 bottom-0 p-3 video-card-overlay flex flex-col justify-end gap-1.5 z-10 pointer-events-none">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider bg-red-500/90 text-white">${video.platform}</span>
+              <span class="text-[10px] font-extrabold text-white drop-shadow-sm">${video.views}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meta Content below video -->
+        <div class="mt-3.5 space-y-1 px-1">
+          <h4 class="text-xs font-black text-gray-900 dark:text-white leading-snug line-clamp-2 hover:text-pink-500 transition-colors">${video.title}</h4>
+          <div class="flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500">
+            <span>⚡ Opportunity: High</span>
+            <span>${video.uploadTime}</span>
+          </div>
+        </div>
+      `;
+
+      // Hover play events
+      card.addEventListener("mouseenter", () => {
+        playCardVideo(card);
+      });
+
+      // Click event
+      card.addEventListener("click", () => {
+        openVideoModal(video);
+      });
+
+      container.appendChild(card);
+    });
+
+    setupIntersectionObserver();
+    setTimeout(() => playCentermostVideo(), 100);
+  }
+
+  function handleViralTabChange(tabName) {
+    activeViralTab = tabName;
+    const tabButtons = document.querySelectorAll(".viral-tab-btn");
+    tabButtons.forEach(btn => {
+      const tab = btn.getAttribute("data-tab");
+      if (tab === tabName) {
+        btn.className = "viral-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md";
+      } else {
+        btn.className = "viral-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800";
+      }
+    });
+
+    renderViralSkeletons();
+    setTimeout(() => {
+      renderViralVideos();
+    }, 1000);
+  }
+
+  function setupIntersectionObserver() {
+    if (activeObserver) {
+      activeObserver.disconnect();
+    }
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.2
+    };
+
+    activeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          const wrapper = entry.target.querySelector(".video-player-wrapper");
+          const cardId = entry.target.getAttribute("data-id");
+          const videoData = viralVideosData.find(v => v.id === cardId);
+          if (wrapper && wrapper.querySelector("iframe") && videoData) {
+            wrapper.innerHTML = `
+              <img src="${videoData.thumbnail}" class="w-full h-full object-cover" loading="lazy">
+              <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
+                <span class="text-[9px] font-black uppercase tracking-wider bg-black/60 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/10">${videoData.category}</span>
+                <span class="text-[9px] font-black bg-pink-500 text-white px-2 py-0.5 rounded-full shadow-md">🔥 ${videoData.trendScore}</span>
+              </div>
+              <div class="absolute inset-x-0 bottom-0 p-3 video-card-overlay flex flex-col justify-end gap-1.5 z-10 pointer-events-none">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider bg-red-500/90 text-white">${videoData.platform}</span>
+                  <span class="text-[10px] font-extrabold text-white drop-shadow-sm">${videoData.views}</span>
+                </div>
+              </div>
+            `;
+          }
+        } else {
+          if (scrollPlayTimeout) clearTimeout(scrollPlayTimeout);
+          scrollPlayTimeout = setTimeout(() => {
+            playCentermostVideo();
+          }, 150);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll(".video-card").forEach(card => {
+      activeObserver.observe(card);
+    });
+  }
+
+  function playCardVideo(targetCard) {
+    if (!targetCard) return;
+    const targetId = targetCard.getAttribute("data-id");
+    const targetData = viralVideosData.find(v => v.id === targetId);
+    if (!targetData) return;
+
+    const carousel = document.getElementById("video-carousel");
+    if (!carousel) return;
+    const cards = carousel.querySelectorAll(".video-card");
+
+    const wrapper = targetCard.querySelector(".video-player-wrapper");
+    if (wrapper && !wrapper.querySelector("iframe")) {
+      wrapper.innerHTML = `
+        <iframe src="https://www.youtube.com/embed/${targetId}?autoplay=1&mute=1&loop=1&playlist=${targetId}&controls=0&modestbranding=1&rel=0&playsinline=1" class="w-full h-full object-cover border-0" allow="autoplay; encrypted-media"></iframe>
+        <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
+          <span class="text-[9px] font-black uppercase tracking-wider bg-black/60 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/10">${targetData.category}</span>
+          <span class="text-[9px] font-black bg-pink-500 text-white px-2 py-0.5 rounded-full shadow-md">🔥 ${targetData.trendScore}</span>
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-3 video-card-overlay flex flex-col justify-end gap-1.5 z-10 pointer-events-none">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider bg-red-500/90 text-white">${targetData.platform}</span>
+            <span class="text-[10px] font-extrabold text-white drop-shadow-sm">${targetData.views}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    cards.forEach(c => {
+      if (c !== targetCard) {
+        const otherId = c.getAttribute("data-id");
+        const otherData = viralVideosData.find(v => v.id === otherId);
+        const otherWrapper = c.querySelector(".video-player-wrapper");
+        if (otherWrapper && otherWrapper.querySelector("iframe") && otherData) {
+          otherWrapper.innerHTML = `
+            <img src="${otherData.thumbnail}" class="w-full h-full object-cover" loading="lazy">
+            <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
+              <span class="text-[9px] font-black uppercase tracking-wider bg-black/60 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/10">${otherData.category}</span>
+              <span class="text-[9px] font-black bg-pink-500 text-white px-2 py-0.5 rounded-full shadow-md">🔥 ${otherData.trendScore}</span>
+            </div>
+            <div class="absolute inset-x-0 bottom-0 p-3 video-card-overlay flex flex-col justify-end gap-1.5 z-10 pointer-events-none">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider bg-red-500/90 text-white">${otherData.platform}</span>
+                <span class="text-[10px] font-extrabold text-white drop-shadow-sm">${otherData.views}</span>
+              </div>
+            </div>
+          `;
+        }
+      }
+    });
+  }
+
+  function playCentermostVideo() {
+    const carousel = document.getElementById("video-carousel");
+    if (!carousel) return;
+
+    const cards = carousel.querySelectorAll(".video-card");
+    if (cards.length === 0) return;
+
+    const carouselRect = carousel.getBoundingClientRect();
+    const carouselCenter = carouselRect.left + carouselRect.width / 2;
+
+    let centermostCard = null;
+    let minDistance = Infinity;
+
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.left + rect.width / 2;
+      const distance = Math.abs(carouselCenter - cardCenter);
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        centermostCard = card;
+      }
+    });
+
+    if (centermostCard) {
+      playCardVideo(centermostCard);
+    }
+  }
+
+  function setupCarouselControls() {
+    const carousel = document.getElementById("video-carousel");
+    const prevBtn = document.getElementById("carousel-prev");
+    const nextBtn = document.getElementById("carousel-next");
+
+    if (carousel && prevBtn && nextBtn) {
+      prevBtn.addEventListener("click", () => {
+        const card = carousel.querySelector(".video-card");
+        if (!card) return;
+        const scrollAmount = card.offsetWidth + 24;
+
+        if (carousel.scrollLeft <= 15) {
+          carousel.scrollLeft = carousel.scrollWidth;
+        } else {
+          carousel.scrollBy({ left: -scrollAmount * 2, behavior: "smooth" });
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        const card = carousel.querySelector(".video-card");
+        if (!card) return;
+        const scrollAmount = card.offsetWidth + 24;
+
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+        if (carousel.scrollLeft >= maxScroll - 15) {
+          carousel.scrollLeft = 0;
+        } else {
+          carousel.scrollBy({ left: scrollAmount * 2, behavior: "smooth" });
+        }
+      });
+
+      carousel.addEventListener("scroll", () => {
+        if (scrollPlayTimeout) clearTimeout(scrollPlayTimeout);
+        scrollPlayTimeout = setTimeout(() => {
+          playCentermostVideo();
+        }, 150);
+      });
+    }
+  }
+
+  function openVideoModal(video) {
+    const carousel = document.getElementById("video-carousel");
+    if (carousel) {
+      carousel.querySelectorAll(".video-card").forEach(c => {
+        const id = c.getAttribute("data-id");
+        const videoData = viralVideosData.find(v => v.id === id);
+        const wrapper = c.querySelector(".video-player-wrapper");
+        if (wrapper && wrapper.querySelector("iframe") && videoData) {
+          wrapper.innerHTML = `
+            <img src="${videoData.thumbnail}" class="w-full h-full object-cover" loading="lazy">
+            <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
+              <span class="text-[9px] font-black uppercase tracking-wider bg-black/60 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/10">${videoData.category}</span>
+              <span class="text-[9px] font-black bg-pink-500 text-white px-2 py-0.5 rounded-full shadow-md">🔥 ${videoData.trendScore}</span>
+            </div>
+            <div class="absolute inset-x-0 bottom-0 p-3 video-card-overlay flex flex-col justify-end gap-1.5 z-10 pointer-events-none">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider bg-red-500/90 text-white">${videoData.platform}</span>
+                <span class="text-[10px] font-extrabold text-white drop-shadow-sm">${videoData.views}</span>
+              </div>
+            </div>
+          `;
+        }
+      });
+    }
+
+    const modal = document.createElement("div");
+    modal.id = "viral-video-modal";
+    modal.className = "fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-all duration-300";
+    
+    let compColor = "bg-green-500/10 text-green-500 border border-green-500/20";
+    if (video.competition === "High") {
+      compColor = "bg-red-500/10 text-red-500 border border-red-500/20";
+    }
+
+    modal.innerHTML = `
+      <div class="relative bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col md:flex-row animate-[scaleUp_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+        
+        <button id="modal-close-btn" class="absolute right-4 top-4 z-30 bg-black/50 hover:bg-black/80 text-white rounded-full p-2.5 transition active:scale-95" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <div class="relative w-full md:w-[50%] bg-black flex items-center justify-center aspect-video md:aspect-auto md:h-full min-h-[300px]">
+          <iframe id="modal-player" src="https://www.youtube.com/embed/${video.videoId}?autoplay=1&controls=1&rel=0" class="w-full h-full min-h-[300px] border-0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+
+        <div class="w-full md:w-[50%] p-6 md:p-8 flex flex-col justify-between overflow-y-auto max-h-[50vh] md:max-h-[90vh]">
+          
+          <div class="space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-black uppercase tracking-wider bg-pink-500/10 text-pink-600 dark:text-pink-400 px-3 py-1 rounded-md">${video.category}</span>
+              <span class="text-[10px] font-black uppercase tracking-wider bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-3 py-1 rounded-md">${video.platform}</span>
+            </div>
+            
+            <h3 class="text-lg md:text-xl font-black text-gray-900 dark:text-white leading-snug">${video.title}</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">${video.description}</p>
+          </div>
+
+          <div class="grid grid-cols-4 gap-2.5 py-4 my-4 border-y border-gray-100 dark:border-zinc-800/60">
+            <div class="text-center p-2 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
+              <div class="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider">Views</div>
+              <div class="text-xs font-black text-gray-800 dark:text-white mt-1">${video.views}</div>
+            </div>
+            <div class="text-center p-2 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
+              <div class="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider">Likes</div>
+              <div class="text-xs font-black text-gray-800 dark:text-white mt-1">${video.likes}</div>
+            </div>
+            <div class="text-center p-2 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
+              <div class="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider">Comments</div>
+              <div class="text-xs font-black text-gray-800 dark:text-white mt-1">${video.comments}</div>
+            </div>
+            <div class="text-center p-2 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
+              <div class="text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider">Shares</div>
+              <div class="text-xs font-black text-gray-800 dark:text-white mt-1">${video.shares}</div>
+            </div>
+          </div>
+
+          <div class="space-y-3.5 mb-6">
+            <div class="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider">Trend Diagnostics</div>
+            
+            <div class="grid grid-cols-3 gap-3">
+              <div class="p-3 rounded-2xl bg-pink-500/5 border border-pink-500/10 flex flex-col justify-between">
+                <span class="text-[9px] font-black text-pink-600 dark:text-pink-400 uppercase tracking-wider">Trend Score</span>
+                <span class="text-lg font-black text-gray-900 dark:text-white mt-1">🔥 ${video.trendScore}</span>
+              </div>
+              <div class="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800 flex flex-col justify-between">
+                <span class="text-[9px] font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Growth Velocity</span>
+                <span class="text-xs font-black text-green-600 dark:text-green-400 mt-1">${video.growth}</span>
+              </div>
+              <div class="p-3 rounded-2xl ${compColor} flex flex-col justify-between">
+                <span class="text-[9px] font-black uppercase tracking-wider opacity-80">Competition</span>
+                <span class="text-xs font-black mt-1">${video.competition}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider">Creator Workspace Options</div>
+            
+            <div class="grid grid-cols-3 gap-2">
+              <button class="modal-gen-btn py-3 px-1 rounded-2xl text-[10px] font-black text-white bg-gradient-to-r from-pink-500 to-rose-500 hover:opacity-90 active:scale-95 transition" data-tool="yt-titles" data-topic="${video.title}">
+                ✍️ Gen Title
+              </button>
+              <button class="modal-gen-btn py-3 px-1 rounded-2xl text-[10px] font-black text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:opacity-90 active:scale-95 transition" data-tool="yt-hooks" data-topic="${video.title}">
+                ⚡ Gen Hook
+              </button>
+              <button class="modal-gen-btn py-3 px-1 rounded-2xl text-[10px] font-black text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 active:scale-95 transition" data-tool="yt-hashtags" data-topic="${video.title}">
+                #️⃣ Gen Tags
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+    document.body.style.overflow = "hidden";
+
+    const closeModal = () => {
+      document.body.removeChild(modal);
+      document.body.style.overflow = "";
+      setTimeout(() => playCentermostVideo(), 100);
+    };
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+    modal.querySelector("#modal-close-btn").addEventListener("click", closeModal);
+
+    modal.querySelectorAll(".modal-gen-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const toolId = btn.getAttribute("data-tool");
+        const topicVal = btn.getAttribute("data-topic");
+        
+        sessionStorage.setItem("selected_trend", topicVal);
+        closeModal();
+        switchTool(toolId);
+        showToast(`Auto-filled trend details into ${toolsData[toolId].title}!`);
+      });
+    });
+  }
+
+  // Inject animation keyframes
+  if (!document.getElementById("scale-up-style")) {
+    const styleSheet = document.createElement("style");
+    styleSheet.id = "scale-up-style";
+    styleSheet.textContent = `
+      @keyframes scaleUp {
+        from { transform: scale(0.92); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+  }
+
+  // Initialize Dashboard Widgets
+  if (document.getElementById('trends-pills-container')) {
+    renderTrends();
+    startRotation();
+    animateCounters();
+
+    const filters = document.getElementById('trend-filters');
+    if (filters) {
+      filters.querySelectorAll('.trend-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const category = btn.getAttribute('data-category');
+          handleFilterChange(category);
+        });
+      });
+    }
+  }
+
+  // Initialize Live Viral Videos
+  if (document.getElementById('video-carousel')) {
+    fetchViralVideos();
+    setupCarouselControls();
+
+    const viralTabsContainer = document.getElementById('viral-tabs');
+    if (viralTabsContainer) {
+      viralTabsContainer.querySelectorAll('.viral-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tab = btn.getAttribute('data-tab');
+          handleViralTabChange(tab);
+        });
+      });
+    }
   }
 
   // Start navigation routing
