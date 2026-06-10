@@ -2120,7 +2120,8 @@ document.addEventListener('DOMContentLoaded', () => {
           uploadTime: formatRelativeTime(video.publishedAt),
           trendScore: 99 - (idx % 10),
           category: category,
-          description: `Trending video by ${video.channelTitle}. View count: ${viewVal.toLocaleString()}.`,
+          channelTitle: video.channelTitle || "Unknown Creator",
+          description: `Trending video by ${video.channelTitle || "Unknown Creator"}. View count: ${viewVal.toLocaleString()}.`,
           likes: likes >= 1000 ? (likes / 1000).toFixed(1) + 'K' : likes.toString(),
           comments: comments >= 1000 ? (comments / 1000).toFixed(1) + 'K' : comments.toString(),
           shares: shares >= 1000 ? (shares / 1000).toFixed(1) + 'K' : shares.toString(),
@@ -2185,7 +2186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     filtered.forEach(video => {
       const card = document.createElement("div");
-      card.className = "video-card flex-shrink-0 bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/20 dark:border-white/10 p-3 shadow-lg snap-start";
+      card.className = "video-card flex-shrink-0 bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/20 dark:border-white/10 p-3 shadow-lg snap-start rounded-[24px]";
       card.setAttribute("data-id", video.id);
       
       card.innerHTML = `
@@ -2212,7 +2213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="mt-3.5 space-y-1 px-1">
           <h4 class="text-xs font-black text-gray-900 dark:text-white leading-snug line-clamp-2 hover:text-pink-500 transition-colors">${video.title}</h4>
           <div class="flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500">
-            <span>⚡ Opportunity: High</span>
+            <span class="truncate max-w-[140px]" title="${video.channelTitle}">👤 ${video.channelTitle}</span>
             <span>${video.uploadTime}</span>
           </div>
         </div>
