@@ -46,7 +46,7 @@ class handler(BaseHTTPRequestHandler):
             return
 
         # Query YouTube API (including contentDetails to extract duration)
-        url = f"https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=IN&maxResults=24&key={api_key}"
+        url = f"https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=IN&maxResults=50&key={api_key}"
         
         try:
             req = urllib.request.Request(
@@ -83,15 +83,63 @@ class handler(BaseHTTPRequestHandler):
                         if minutes == 0 or (minutes == 1 and seconds == 0):
                             is_short = True
 
+                title = snippet.get('title', '')
+                description = snippet.get('description', '')
+                tags = snippet.get('tags', [])
+                
+                title_lower = title.lower()
+                desc_lower = description.lower() if description else ""
+                tags_lower = [t.lower() for t in tags] if tags else []
+                text = title_lower + " " + desc_lower + " " + " ".join(tags_lower)
+                
+                score = 0
+                
+                # Prioritize YouTube Shorts
+                if is_short:
+                    score += 5
+                
+                # Prioritize AI
+                ai_keywords = ['ai', 'artificial intelligence', 'chatgpt', 'sora', 'gpt', 'midjourney', 'openai', 'deepseek', 'gemini', 'claude', 'llm', 'machine learning', 'robot', 'automation', 'technology', 'tech']
+                if any(kw in text for kw in ai_keywords):
+                    score += 10
+                
+                # Prioritize Business
+                biz_keywords = ['business', 'startup', 'finance', 'earn', 'side hustle', 'investing', 'stock', 'crypto', 'marketing', 'money', 'sales', 'passive income', 'rich', 'entrepreneur', 'ecommerce']
+                if any(kw in text for kw in biz_keywords):
+                    score += 10
+                
+                # Prioritize Content Creation
+                creator_keywords = ['creator', 'content creation', 'youtube', 'editing', 'filmmaking', 'viral', 'hook', 'scripting', 'grow', 'camera', 'subscriber', 'reels', 'tiktok', 'portfolio', 'podcast']
+                if any(kw in text for kw in creator_keywords):
+                    score += 10
+                
+                # Prioritize Gaming
+                gaming_keywords = ['gaming', 'gamer', 'gameplay', 'minecraft', 'free fire', 'pubg', 'gta', 'fortnite', 'esports', 'roblox', 'nintendo', 'playstation', 'xbox', 'cod']
+                if any(kw in text for kw in gaming_keywords):
+                    score += 8
+
                 videos.append({
                     "videoId": item.get('id', ''),
-                    "title": snippet.get('title', ''),
+                    "title": title,
                     "channelTitle": snippet.get('channelTitle', ''),
                     "thumbnail": thumb_url,
                     "viewCount": stats.get('viewCount', '0'),
                     "publishedAt": snippet.get('publishedAt', ''),
-                    "isShort": is_short
+                    "isShort": is_short,
+                    "score": score
                 })
+
+            # Sort by score descending, then by views descending
+            videos.sort(key=lambda x: (x['score'], int(x['viewCount']) if x['viewCount'].isdigit() else 0), reverse=True)
+            
+            # Filter out videos that have a score of 0, keeping only relevant content
+            filtered_videos = [v for v in videos if v['score'] > 0]
+            if len(filtered_videos) >= 8:
+                videos = filtered_videos
+                
+            # Remove temporary score property
+            for v in videos:
+                v.pop('score', None)
 
             # Update cache
             cache_data = {"videos": videos}
