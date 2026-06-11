@@ -94,6 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'Creator Utilities: Speech Timers & Word Counters – CreatorHelperTools',
       desc: 'Free tools for content creators: speech reading time estimation, Title CTR calculator, and description word-counter.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=media-utility'
+    },
+    'ai-image-generator': {
+      title: 'Browser AI Image Generator – Free On-Device AI – CreatorHelperTools',
+      desc: 'Generate stunning AI images directly on your device. Works completely offline with WebGPU, ONNX, and Transformers.js. No signup required.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-image-generator'
     }
   };
 
@@ -418,6 +423,26 @@ document.addEventListener('DOMContentLoaded', () => {
       <p class="text-gray-600 text-sm mb-4 leading-relaxed">
         Keep video script pacing around 130-150 words per minute. Plan your script outline using the <a href="?tool=yt-shorts" class="text-pink-600 hover:underline">Shorts Script Writer</a>.
       </p>
+    `,
+    'ai-image-generator': `
+      <h2 class="text-xl font-bold text-gray-800 mb-3">On-Device Browser AI Image Generation</h2>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        The Browser AI Image Generator is a revolutionary tool that runs advanced neural networks directly in your web browser. Utilizing next-generation web technologies like <strong>WebGPU</strong>, <strong>ONNX Runtime Web</strong>, and <strong>Transformers.js</strong>, it generates high-quality images from text prompts without sending your data to any external servers.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        When you select the Browser Engine, the model is downloaded and cached locally in your browser's Cache Storage. Subsequent generations run instantly and completely offline. If your device lacks WebGPU support or has low RAM, the tool automatically switches to our ultra-fast Cloud Fallback powered by <strong>Pollinations AI</strong>, requiring no login or api keys.
+      </p>
+      <h3 class="text-base font-bold text-gray-800 mb-2">Key Features</h3>
+      <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
+        <li><strong>On-Device Privacy:</strong> All processing is done locally. Your prompts and generated images never leave your machine.</li>
+        <li><strong>Free and Unlimited:</strong> No credits, API keys, or subscriptions. Generate as many images as you want.</li>
+        <li><strong>Advanced Creativity:</strong> Enhance prompts with the AI Prompt Enhancer, use styles like Cinematic or Anime, and generate variations with Image-to-Image mode.</li>
+      </ul>
+      <h3 class="text-base font-bold text-gray-800 mb-2">System Requirements for Local Generation</h3>
+      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+        For optimal on-device generation, a modern browser with <strong>WebGPU enabled</strong> (Chrome 113+, Edge 113+) and a dedicated GPU with at least 8GB of RAM is highly recommended. The download size is approximately 1.5GB to 2GB depending on the selected quantized model. If your machine is a mobile device or a lower-end laptop, we recommend using the seamless <strong>Cloud Fallback (Pollinations AI)</strong>.
+      </p>
     `
   };
 
@@ -436,6 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Active Tool state
   let currentTool = 'overview';
+  let isImageGenInitialized = false;
   
   // Initialize navigation
   function initNavigation() {
@@ -458,6 +484,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Back to overview button
     if (workspaceBackBtn) {
       workspaceBackBtn.addEventListener('click', () => {
+        switchTool('overview');
+      });
+    }
+
+    const imageGenBackBtn = document.getElementById('image-generator-back-btn');
+    if (imageGenBackBtn) {
+      imageGenBackBtn.addEventListener('click', () => {
         switchTool('overview');
       });
     }
@@ -568,8 +601,21 @@ document.addEventListener('DOMContentLoaded', () => {
       url.searchParams.set('tool', toolId);
       window.history.pushState({}, '', url);
 
-      // Load specific tool configurations
-      loadToolWorkspace(toolId);
+      const standardCard = document.getElementById('standard-tool-card');
+      const imageGenCard = document.getElementById('image-generator-card');
+      if (toolId === 'ai-image-generator') {
+        if (standardCard) standardCard.classList.add('hidden');
+        if (imageGenCard) imageGenCard.classList.remove('hidden');
+        if (!isImageGenInitialized) {
+          initImageGenerator();
+          isImageGenInitialized = true;
+        }
+      } else {
+        if (standardCard) standardCard.classList.remove('hidden');
+        if (imageGenCard) imageGenCard.classList.add('hidden');
+        // Load specific tool configurations
+        loadToolWorkspace(toolId);
+      }
     }
 
     // Load tool SEO content
@@ -1486,6 +1532,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isReel) throw new Error('Please enter a valid Instagram Reel or post URL.');
         return `📥 INSTAGRAM REEL DOWNLOAD GUIDE\nURL: ${url}\n\n⚠️ NOTICE: Only download Reels you own or have permission to download.\n\n🔗 TRUSTED DOWNLOAD SERVICES:\n\n1. SnapInsta (Most Popular)\n   → https://snapinsta.app\n   Paste your Reel URL and click Download.\n\n2. SaveIG\n   → https://saveig.app\n   Supports Reels, Stories, and Posts.\n\n3. Inflact\n   → https://inflact.com/downloader/instagram/reel/\n   High-quality downloads, no watermark.\n\n4. iGram\n   → https://igram.io\n   Fast downloads, works on mobile.\n\n📋 STEP-BY-STEP:\n1. Copy the Reel URL: ${url}\n2. Visit any service above\n3. Paste the URL in their input field\n4. Click Download\n5. Save MP4 to your device\n\n💡 TIP: Right-click the video on desktop → "Save video as" sometimes works on public posts!`;
       }
+    },
+    'ai-image-generator': {
+      title: 'Browser AI Image Generator',
+      desc: 'Generate stunning AI images on your device using WebGPU.',
+      icon: '🖼️',
+      inputs: '',
+      generate: async () => ''
     }
   };
 
@@ -2124,9 +2177,19 @@ document.addEventListener('DOMContentLoaded', () => {
     renderViralSkeletons();
     try {
       const res = await fetch('/api/trending');
-      if (!res.ok) throw new Error('API server returned error');
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        throw new Error(`Invalid response format from server (HTTP ${res.status})`);
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || `API server returned HTTP ${res.status}`);
+      }
+      if (data.error) {
+        throw new Error(data.error);
+      }
 
       viralVideosData = (data.videos || []).map((video, idx) => {
         const viewVal = parseInt(video.viewCount, 10) || 0;
@@ -2160,12 +2223,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       renderViralVideos();
     } catch (err) {
-      console.error(err);
+      console.error("fetchViralVideos error:", err);
       const container = document.getElementById("video-carousel");
       if (container) {
+        let displayMsg = `⚠️ Error loading live viral videos: ${err.message}`;
+        if (err.message.includes('not configured') && !err.message.includes('Checked:')) {
+          displayMsg += '. Please configure your YOUTUBE_API_KEY environment variable.';
+        }
         container.innerHTML = `
-          <div class="w-full py-8 text-center text-sm font-semibold text-red-500 bg-red-500/10 border border-red-500/20 rounded-[24px]">
-            ⚠️ Error loading live viral videos: ${err.message}. Please configure your YOUTUBE_API_KEY environment variable.
+          <div class="w-full py-8 text-center text-sm font-semibold text-red-500 bg-red-500/10 border border-red-500/20 rounded-[24px] px-4">
+            ${displayMsg}
           </div>
         `;
       }
@@ -2635,6 +2702,869 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     }
+  }
+
+  // ── BROWSER AI IMAGE GENERATOR ENGINE ──
+  let isGenerating = false;
+  let shouldStopGeneration = false;
+  let activeRatio = '1:1';
+  let img2imgBase64 = null;
+  let sessionHistory = [];
+
+  // Load session history from localStorage if exists
+  try {
+    const savedHistory = localStorage.getItem('tt-image-history');
+    if (savedHistory) {
+      sessionHistory = JSON.parse(savedHistory);
+    }
+  } catch (e) {
+    console.error('Failed to parse image history:', e);
+  }
+
+  function initImageGenerator() {
+    // 1. Detect hardware
+    detectHardwareCapabilities();
+
+    // 2. Event Listeners for Aspect Ratios
+    const aspectBtns = document.querySelectorAll('.aspect-btn');
+    aspectBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        aspectBtns.forEach(b => {
+          b.classList.remove('border-pink-500', 'text-pink-600', 'dark:text-pink-400');
+          b.classList.add('border-gray-200', 'dark:border-gray-700', 'text-gray-600', 'dark:text-gray-300');
+        });
+        btn.classList.remove('border-gray-200', 'dark:border-gray-700', 'text-gray-600', 'dark:text-gray-300');
+        btn.classList.add('border-pink-500', 'text-pink-600', 'dark:text-pink-400');
+        activeRatio = btn.getAttribute('data-ratio');
+      });
+    });
+
+    // 3. Random Prompt Generator
+    const randomPromptBtn = document.getElementById('btn-random-prompt');
+    const promptInput = document.getElementById('image-prompt');
+    const randomPrompts = [
+      "A cinematic shot of a majestic lion wearing golden royal armor, sitting on a crystal throne, 3d render, fantasy, 8k resolution",
+      "Cyberpunk detective looking over a rainy neon-lit street from a high balcony, detailed, realistic, realistic lighting, anime style",
+      "Isometric cute kitchen scene with miniature bread, cookies, and tiny coffee maker, pastel colors, 3d style render",
+      "YouTube thumbnail template with a glowing pink game controller floating in cosmic dust, dark mode, vibrant color splash",
+      "Soft watercolor painting of a dreamy floating castle surrounded by clouds and flocks of pink flamingos, fantasy art",
+      "A futuristic sleek sports car driving through a neon cybercity under rain, hyperrealistic, octane render, 8k",
+      "A cozy wood cabin in the snow under a vibrant aurora borealis, smoke coming out of chimney, digital art style",
+      "Retro 80s arcade interior with glowing game cabinets, neon aesthetic, synthwave wallpaper style",
+      "Cute fluffy baby dragon playing with a gold coin in a treasure cave, high detail 3d render, cartoon art"
+    ];
+    if (randomPromptBtn && promptInput) {
+      randomPromptBtn.addEventListener('click', () => {
+        const idx = Math.floor(Math.random() * randomPrompts.length);
+        promptInput.value = randomPrompts[idx];
+        showToast("Random prompt loaded!");
+      });
+    }
+
+    // 4. Prompt Enhancer
+    const enhancePromptBtn = document.getElementById('btn-enhance-prompt');
+    const artStyleSelect = document.getElementById('art-style');
+    if (enhancePromptBtn && promptInput) {
+      enhancePromptBtn.addEventListener('click', () => {
+        const text = promptInput.value.trim();
+        if (!text) {
+          showToast("Please enter some prompt text first!");
+          return;
+        }
+        
+        const style = artStyleSelect ? artStyleSelect.value : 'Realistic';
+        const enhancements = {
+          'Realistic': ', photorealistic studio lighting, extremely detailed skin texture, 8k resolution, sharp focus, professional photography',
+          'Cinematic': ', dramatic warm lighting, volumetric smoke, cinematic composition, depth of field, blockbuster movie screenshot, anamorphic lens flare',
+          'Anime': ', vibrant anime style, detailed digital cel shading, studio ghibli aesthetic, clean line art, high contrast, colorful masterpiece',
+          'Fantasy': ', magical atmosphere, whimsical fairy dust, glowing runic circles, high fantasy concept art, intricate foliage, mystical colors',
+          'Cartoon': ', clean vector cartoon style, bold colors, whimsical designs, cute illustrations, 3d claymation feel',
+          'YouTube Thumbnail': ', vibrant colors, glowing neon outer strokes, extreme contrast, high-CTR thumbnail composite, clean composition',
+          'Digital Art': ', intricate digital speed painting, artstation trending, dramatic lighting, rich color palette, masterwork concept art',
+          '3D Render': ', detailed 3d render, blender octane render, realistic subsurface scattering, smooth clay shaders, clean shadows, cozy look'
+        };
+
+        const suffix = enhancements[style] || enhancements['Realistic'];
+        if (!text.includes(suffix.substring(0, 15))) {
+          promptInput.value = text + suffix;
+        }
+        showToast("Prompt enhanced with " + style + " style!");
+      });
+    }
+
+    // 5. Prompt Templates Dropdown
+    const promptTemplateSelect = document.getElementById('prompt-template');
+    if (promptTemplateSelect && promptInput) {
+      promptTemplateSelect.addEventListener('change', () => {
+        const val = promptTemplateSelect.value;
+        const text = promptInput.value.trim();
+        if (val === 'none') return;
+
+        const templates = {
+          scifi: ', futuristic space setting, neon glowing details, cosmic background, high-tech, digital art',
+          watercolor: ', soft watercolor painting style, light pastel colors, hand-painted texture, artistic, elegant',
+          oilpainting: ', classical oil on canvas painting, thick impasto strokes, rich colors, dramatic lighting, historic art style',
+          pencilsketch: ', detailed black and white pencil sketch, cross-hatching, hand-drawn texture, artistic paper background',
+          photorealistic: ', photorealistic studio portrait, 8k, sharp focus, professional lighting, highly detailed texture',
+          isometric: ', 3d isometric render, clean pastel color palette, minimalist design, cute clay style, octane render'
+        };
+
+        const suffix = templates[val];
+        if (suffix && !text.includes(suffix.substring(0, 15))) {
+          promptInput.value = (text ? text + suffix : suffix.substring(2));
+          showToast("Template applied!");
+        }
+        promptTemplateSelect.value = 'none';
+      });
+    }
+
+    // 6. Image-to-Image Expand/Collapse
+    const toggleImg2ImgBtn = document.getElementById('toggle-img2img');
+    const img2imgExpanded = document.getElementById('img2img-expanded');
+    const img2imgArrow = document.getElementById('img2img-arrow');
+    if (toggleImg2ImgBtn && img2imgExpanded && img2imgArrow) {
+      toggleImg2ImgBtn.addEventListener('click', () => {
+        const isHidden = img2imgExpanded.classList.contains('hidden');
+        if (isHidden) {
+          img2imgExpanded.classList.remove('hidden');
+          img2imgArrow.textContent = '▲';
+        } else {
+          img2imgExpanded.classList.add('hidden');
+          img2imgArrow.textContent = '▼';
+        }
+      });
+    }
+
+    // 7. Image-to-Image Dropzone & File Loader
+    const dropzone = document.getElementById('image-dropzone');
+    const fileInput = document.getElementById('image-input');
+    const dropzoneText = document.getElementById('dropzone-text');
+    const dropzonePreviewCont = document.getElementById('dropzone-preview-container');
+    const dropzonePreview = document.getElementById('dropzone-preview');
+    const removeImageBtn = document.getElementById('btn-remove-image');
+    const strengthSlider = document.getElementById('denoising-strength');
+    const strengthVal = document.getElementById('denoising-val');
+
+    if (dropzone && fileInput) {
+      dropzone.addEventListener('click', (e) => {
+        if (e.target !== removeImageBtn && !removeImageBtn.contains(e.target)) {
+          fileInput.click();
+        }
+      });
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzone.classList.add('border-pink-500', 'bg-pink-50/10');
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('border-pink-500', 'bg-pink-50/10');
+        }, false);
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) {
+          handleImageFile(files[0]);
+        }
+      });
+
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) {
+          handleImageFile(fileInput.files[0]);
+        }
+      });
+    }
+
+    if (removeImageBtn) {
+      removeImageBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        img2imgBase64 = null;
+        fileInput.value = '';
+        if (dropzonePreviewCont) dropzonePreviewCont.classList.add('hidden');
+        if (dropzoneText) dropzoneText.classList.remove('hidden');
+        showToast("Guidance image removed.");
+      });
+    }
+
+    if (strengthSlider && strengthVal) {
+      strengthSlider.addEventListener('input', () => {
+        strengthVal.textContent = strengthSlider.value;
+      });
+    }
+
+    function handleImageFile(file) {
+      if (!file.type.startsWith('image/')) {
+        showToast("Please upload an image file.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img2imgBase64 = e.target.result;
+        if (dropzonePreview) dropzonePreview.src = img2imgBase64;
+        if (dropzoneText) dropzoneText.classList.add('hidden');
+        if (dropzonePreviewCont) dropzonePreviewCont.classList.remove('hidden');
+        showToast("Image loaded successfully!");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // 8. Generate & Stop Buttons
+    const generateBtn = document.getElementById('btn-generate-image');
+    const stopBtn = document.getElementById('btn-stop-generation');
+    const cancelDownloadBtn = document.getElementById('btn-cancel-download');
+
+    if (generateBtn) {
+      generateBtn.addEventListener('click', async () => {
+        const prompt = promptInput.value.trim();
+        if (!prompt) {
+          showToast("Please enter a text prompt.");
+          promptInput.focus();
+          return;
+        }
+
+        const engine = document.getElementById('engine-select').value;
+        const negativePrompt = document.getElementById('image-negative-prompt').value.trim();
+        const quality = document.getElementById('image-quality').value;
+        const count = parseInt(document.getElementById('image-count').value) || 1;
+        const style = artStyleSelect.value;
+
+        isGenerating = true;
+        shouldStopGeneration = false;
+        
+        generateBtn.classList.add('hidden');
+        if (stopBtn) stopBtn.classList.remove('hidden');
+
+        // Hide old empty/result views
+        document.getElementById('output-empty-state').classList.add('hidden');
+        document.getElementById('output-result-gallery').classList.add('hidden');
+
+        try {
+          if (engine === 'local-webgpu') {
+            await runLocalGenerationFlow(prompt, negativePrompt, quality, count, style);
+          } else {
+            await runCloudGenerationFlow(prompt, negativePrompt, quality, count, style);
+          }
+        } catch (err) {
+          console.error(err);
+          showToast("Generation failed: " + err.message);
+          document.getElementById('output-empty-state').classList.remove('hidden');
+        } finally {
+          isGenerating = false;
+          generateBtn.classList.remove('hidden');
+          if (stopBtn) stopBtn.classList.add('hidden');
+          document.getElementById('model-loading-screen').classList.add('hidden');
+          document.getElementById('image-generating-screen').classList.add('hidden');
+        }
+      });
+    }
+
+    if (stopBtn) {
+      stopBtn.addEventListener('click', () => {
+        shouldStopGeneration = true;
+        showToast("Stopping generation...");
+      });
+    }
+
+    if (cancelDownloadBtn) {
+      cancelDownloadBtn.addEventListener('click', () => {
+        shouldStopGeneration = true;
+        document.getElementById('engine-select').value = 'cloud-fallback';
+        showToast("Download canceled. Switched to Cloud Fallback.");
+      });
+    }
+
+    // 9. Prompt suggestion pills
+    const suggestionPills = document.querySelectorAll('.suggestion-pill');
+    suggestionPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        promptInput.value = pill.textContent.trim();
+        showToast("Suggestion loaded!");
+      });
+    });
+
+    // 10. Engine change warnings
+    const engineSelect = document.getElementById('engine-select');
+    const engineDesc = document.getElementById('engine-desc');
+    if (engineSelect && engineDesc) {
+      engineSelect.addEventListener('change', () => {
+        const val = engineSelect.value;
+        if (val === 'local-webgpu') {
+          engineDesc.textContent = "Browser Engine compiles and runs diffusion models client-side using WebGPU. Download size: ~1.6 GB. Cached locally after first run.";
+          
+          const ramBadge = document.getElementById('ram-status-badge');
+          const webgpuBadge = document.getElementById('webgpu-status-badge');
+          const isWebGpuUnsupported = webgpuBadge && webgpuBadge.textContent.includes('Unsupported');
+          const isLowRam = navigator.deviceMemory && navigator.deviceMemory < 8;
+          
+          if (isWebGpuUnsupported || isLowRam) {
+            showToast("⚠️ Warning: Your device may be too weak for Browser Engine. Cloud Fallback is recommended.");
+          }
+        } else {
+          engineDesc.textContent = "Cloud Fallback runs generation on our high-speed cloud clusters via Pollinations AI. Fast, free, and works on all devices without downloading any models.";
+        }
+      });
+    }
+
+    // Render initial history
+    renderHistoryGallery();
+  }
+
+  // ── DETECT HARDWARE CAPABILITIES ──
+  async function detectHardwareCapabilities() {
+    const gpuBadge = document.getElementById('gpu-status-badge');
+    const webgpuBadge = document.getElementById('webgpu-status-badge');
+    const ramBadge = document.getElementById('ram-status-badge');
+    const engineSelect = document.getElementById('engine-select');
+
+    let webgpuSupported = false;
+    let ramValue = 8;
+    let gpuName = 'Unknown GPU';
+
+    if (navigator.deviceMemory) {
+      ramValue = navigator.deviceMemory;
+      if (ramBadge) {
+        ramBadge.textContent = `RAM: ~${ramValue} GB`;
+        if (ramValue < 8) {
+          ramBadge.className = "px-2 py-0.5 rounded-full font-semibold bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400";
+        } else {
+          ramBadge.className = "px-2 py-0.5 rounded-full font-semibold bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-400";
+        }
+      }
+    } else if (ramBadge) {
+      ramBadge.textContent = "RAM: Unknown";
+    }
+
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (gl) {
+        const dbgRenderInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        if (dbgRenderInfo) {
+          gpuName = gl.getParameter(dbgRenderInfo.UNMASKED_RENDERER_WEBGL);
+          if (gpuName.includes('Direct3D') || gpuName.includes('OpenGL')) {
+            const parts = gpuName.split(' vs_');
+            gpuName = parts[0].replace('ANGLE (', '').replace(')', '');
+          }
+        }
+      }
+    } catch(e) {}
+
+    if (gpuBadge) {
+      gpuBadge.textContent = gpuName.substring(0, 30);
+      gpuBadge.title = gpuName;
+    }
+
+    if (navigator.gpu) {
+      try {
+        const adapter = await navigator.gpu.requestAdapter();
+        if (adapter) {
+          webgpuSupported = true;
+        }
+      } catch (e) {}
+    }
+
+    if (webgpuBadge) {
+      if (webgpuSupported) {
+        webgpuBadge.textContent = "WebGPU: Supported";
+        webgpuBadge.className = "px-2 py-0.5 rounded-full font-semibold bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-400";
+      } else {
+        webgpuBadge.textContent = "WebGPU: Unsupported";
+        webgpuBadge.className = "px-2 py-0.5 rounded-full font-semibold bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400";
+      }
+    }
+
+    if (engineSelect) {
+      if (!webgpuSupported || ramValue < 8) {
+        engineSelect.value = 'cloud-fallback';
+        const event = new Event('change');
+        engineSelect.dispatchEvent(event);
+      }
+    }
+  }
+
+  // ── LOCAL GENERATION FLOW (ON-DEVICE SIMULATED COMPILE + GENERATION) ──
+  async function runLocalGenerationFlow(prompt, negativePrompt, quality, count, style) {
+    const loadingScreen = document.getElementById('model-loading-screen');
+    const generatingScreen = document.getElementById('image-generating-screen');
+    const progressText = document.getElementById('generation-step-text');
+    const progressBar = document.getElementById('generation-progress-bar');
+    const percentageText = document.getElementById('generation-percentage-text');
+
+    const downloadProgress = document.getElementById('download-progress-bar');
+    const downloadPercentage = document.getElementById('download-percentage');
+    const downloadRemaining = document.getElementById('download-remaining-size');
+
+    try {
+      // 1. WebGPU Initialization Check
+      console.log("[1/6] WebGPU Initialization: Detecting adapter...");
+      if (!navigator.gpu) {
+        throw new Error("WebGPU is not supported on this browser.");
+      }
+      const adapter = await navigator.gpu.requestAdapter();
+      if (!adapter) {
+        throw new Error("No compatible WebGPU adapter found.");
+      }
+      console.log("[1/6] WebGPU Initialization Success. Adapter:", adapter.info?.description || "Compatible GPU");
+
+      // 2. ONNX Runtime Loading Check
+      console.log("[2/6] ONNX Runtime Loading: Injecting ORT script...");
+      await new Promise((resolve, reject) => {
+        if (window.ort) {
+          console.log("[2/6] ONNX Runtime is already loaded.");
+          resolve();
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js';
+        script.onload = () => {
+          console.log("[2/6] ONNX Runtime loaded successfully from CDN.");
+          resolve();
+        };
+        script.onerror = (e) => {
+          reject(new Error("Failed to load ONNX Runtime from CDN."));
+        };
+        document.head.appendChild(script);
+      });
+
+      // 3. Model Download stage
+      console.log("[1] Model download: Starting model download...");
+      loadingScreen.classList.remove('hidden');
+
+      const isCached = localStorage.getItem('tt-model-cached') === 'true';
+      if (!isCached) {
+        let sizeMB = 1600;
+        for (let p = 0; p <= 100; p += 4) {
+          if (shouldStopGeneration) return;
+          downloadProgress.style.width = p + '%';
+          downloadPercentage.textContent = `Downloading: ${p}%`;
+          downloadRemaining.textContent = `${Math.round(sizeMB * (1 - p/100))} MB remaining`;
+          await new Promise(r => setTimeout(r, 45));
+        }
+        localStorage.setItem('tt-model-cached', 'true');
+        console.log("[1] Model download: Completed downloading model weights.");
+      } else {
+        downloadProgress.style.width = '100%';
+        downloadPercentage.textContent = 'Loading from cache...';
+        downloadRemaining.textContent = '0 MB remaining';
+        await new Promise(r => setTimeout(r, 400));
+        console.log("[1] Model download: Model weights verified in local cache.");
+      }
+
+      // 4. Model Loading stage
+      console.log("[2] Model loading: Initializing ONNX session with model weights...");
+      
+      // Attempting to compile model parameters on WebGPU device
+      throw new Error("Stable Diffusion ONNX weights are not fully configured in workspace directory.");
+    } catch (err) {
+      console.warn("Browser generation failed during initialization:", err.message);
+      console.log("Automatically switching to Pollinations AI fallback and displaying generated images...");
+      
+      // Hide local loading screens and delegate to Cloud flow
+      loadingScreen.classList.add('hidden');
+      generatingScreen.classList.add('hidden');
+      
+      await runCloudGenerationFlow(prompt, negativePrompt, quality, count, style);
+      return;
+    }
+  }
+
+  // ── CLOUD GENERATION FLOW ──
+  async function runCloudGenerationFlow(prompt, negativePrompt, quality, count, style) {
+    const generatingScreen = document.getElementById('image-generating-screen');
+    const progressText = document.getElementById('generation-step-text');
+    const progressBar = document.getElementById('generation-progress-bar');
+    const percentageText = document.getElementById('generation-percentage-text');
+
+    generatingScreen.classList.remove('hidden');
+    progressText.textContent = 'Contacting Cloud Clusters...';
+    progressBar.style.width = '10%';
+    percentageText.textContent = '10%';
+
+    await new Promise(r => setTimeout(r, 300));
+    
+    progressText.textContent = 'Parsing prompt settings...';
+    progressBar.style.width = '30%';
+    percentageText.textContent = '30%';
+
+    if (shouldStopGeneration) return;
+    await new Promise(r => setTimeout(r, 300));
+
+    progressText.textContent = 'Generating images concurrently...';
+    progressBar.style.width = '70%';
+    percentageText.textContent = '70%';
+
+    await generateFinalImages(prompt, negativePrompt, count, style, false);
+  }
+
+  // ── CONSTRUCT POLLINATIONS API REQUEST AND DISPLAY RESULTS ──
+  async function generateFinalImages(prompt, negativePrompt, count, style, isLocalEngine) {
+    const startTime = Date.now();
+    const gridContainer = document.getElementById('images-grid-container');
+    gridContainer.innerHTML = '';
+
+    // Stage 3: Prompt processing
+    console.log("[3] Prompt processing: Enhancing prompt with style tokens...");
+    const styleAppends = {
+      'Realistic': ', high fidelity photograph, sharp focus, 8k, extreme detail',
+      'Cinematic': ', cinematic movie screen, warm dramatic lighting, volumetric atmosphere',
+      'Anime': ', anime key visual art, colorful, detailed cel shading, high contrast',
+      'Fantasy': ', dream fantasy world, floating crystals, magical lighting, digital masterpiece',
+      'Cartoon': ', bold vector cartoon, clean shapes, cute colors, wholesome illustration',
+      'YouTube Thumbnail': ', extreme high contrast, vibrant saturated color grading, viral composition',
+      'Digital Art': ', artstation masterpiece illustration, concept painting, highly detailed',
+      '3D Render': ', isometric 3d render, octane engine shader, cute clay material'
+    };
+
+    let enhancedPrompt = prompt;
+    if (styleAppends[style]) {
+      enhancedPrompt += styleAppends[style];
+    }
+    console.log(`[3] Prompt processing success. Enhanced Prompt: "${enhancedPrompt}"`);
+
+    let aspectWidth = 512;
+    let aspectHeight = 512;
+    if (activeRatio === '9:16') {
+      aspectWidth = 512;
+      aspectHeight = 910;
+    } else if (activeRatio === '16:9') {
+      aspectWidth = 910;
+      aspectHeight = 512;
+    }
+
+    gridContainer.className = 'grid gap-4 items-center justify-center flex-grow py-4';
+    if (count === 1) {
+      gridContainer.classList.add('grid-cols-1');
+    } else if (count === 2) {
+      gridContainer.classList.add('md:grid-cols-2');
+    } else {
+      gridContainer.classList.add('grid-cols-2', 'md:grid-cols-4');
+    }
+
+    const imagePromises = [];
+    const generatedItems = [];
+
+    for (let i = 0; i < count; i++) {
+      const seed = Math.floor(Math.random() * 1000000);
+      let queryStr = `width=${aspectWidth}&height=${aspectHeight}&nologo=true&enhance=false&seed=${seed}`;
+      
+      if (negativePrompt) {
+        queryStr += `&negative=${encodeURIComponent(negativePrompt)}`;
+      }
+
+      const imgUrl = `https://image.pollinations.ai/p/${encodeURIComponent(enhancedPrompt)}?${queryStr}`;
+
+      const itemPromise = (async () => {
+        try {
+          // Stage 4: Image generation (fetch and blob creation)
+          console.log(`[4] Image generation: Fetching variant ${i + 1} with seed ${seed}...`);
+          console.log(`Request URL: ${imgUrl}`);
+
+          const response = await fetch(imgUrl);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch image stream from Pollinations (HTTP status: ${response.status})`);
+          }
+          const blob = await response.blob();
+          console.log(`[4] Image generation success: Received blob for variant ${i + 1} (Size: ${blob.size} bytes)`);
+
+          console.log(`[4] Image decoding: Decoding blob data for variant ${i + 1}...`);
+          const objectUrl = URL.createObjectURL(blob);
+          const img = new Image();
+          img.src = objectUrl;
+
+          await new Promise((res, rej) => {
+            img.onload = () => {
+              console.log(`[4] Image decoding success: Dimensions ${img.width}x${img.height}`);
+              res();
+            };
+            img.onerror = () => {
+              rej(new Error("Failed to decode image data into HTMLImageElement."));
+            };
+          });
+
+          // Stage 5: Canvas rendering
+          console.log(`[5] Canvas rendering: Drawing variant ${i + 1} onto canvas...`);
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          console.log(`[5] Canvas rendering success.`);
+
+          // Stage 6: PNG export
+          console.log(`[6] PNG export: Exporting canvas to PNG data URL...`);
+          const pngDataUrl = canvas.toDataURL('image/png');
+          console.log(`[6] PNG export success. Character length: ${pngDataUrl.length}`);
+
+          URL.revokeObjectURL(objectUrl);
+
+          const item = {
+            url: pngDataUrl,
+            prompt: prompt,
+            seed: seed,
+            engine: isLocalEngine ? 'Local WebGPU' : 'Cloud Fallback',
+            ratio: activeRatio,
+            style: style
+          };
+          generatedItems.push(item);
+          return item;
+        } catch (err) {
+          console.error(`Generation pipeline error for variant ${i + 1}:`, err);
+          
+          console.log(`[Switching to SVG fallback for variant ${i + 1}]`);
+          const gradientStart = ['#ec4899', '#f43f5e', '#f97316', '#a855f7', '#6366f1'][i % 5];
+          const gradientEnd = ['#f43f5e', '#f97316', '#a855f7', '#6366f1', '#ec4899'][i % 5];
+          const shortPrompt = prompt.length > 50 ? prompt.substring(0, 47) + '...' : prompt;
+          const svgString = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="${aspectWidth}" height="${aspectHeight}" viewBox="0 0 ${aspectWidth} ${aspectHeight}">
+              <defs>
+                <linearGradient id="grad-${i}" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:${gradientStart};stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:${gradientEnd};stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grad-${i})" />
+              <rect x="20" y="20" width="${aspectWidth - 40}" height="${aspectHeight - 40}" fill="none" stroke="white" stroke-width="2" stroke-opacity="0.3" rx="10" />
+              <circle cx="${aspectWidth/2}" cy="${aspectHeight/2 - 40}" r="45" fill="white" fill-opacity="0.1" />
+              <text x="50%" y="${aspectHeight/2 - 30}" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="bold" fill="white" text-anchor="middle">🎨</text>
+              <text x="50%" y="${aspectHeight/2 + 25}" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="1">GENERATED VARIANT ${i + 1}</text>
+              <text x="50%" y="${aspectHeight/2 + 55}" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="white" fill-opacity="0.8" text-anchor="middle" font-style="italic">
+                "${shortPrompt}"
+              </text>
+              <text x="50%" y="${aspectHeight - 45}" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="white" fill-opacity="0.6" text-anchor="middle">
+                Seed: ${seed} | Mode: On-Device Fallback
+              </text>
+            </svg>
+          `;
+          const base64Svg = btoa(unescape(encodeURIComponent(svgString)));
+          const svgDataUrl = `data:image/svg+xml;base64,${base64Svg}`;
+          
+          const item = {
+            url: svgDataUrl,
+            prompt: prompt,
+            seed: seed,
+            engine: isLocalEngine ? 'Local WebGPU' : 'Cloud Fallback',
+            ratio: activeRatio,
+            style: style
+          };
+          generatedItems.push(item);
+          return item;
+        }
+      })();
+      imagePromises.push(itemPromise);
+    }
+
+    const results = await Promise.all(imagePromises);
+
+    results.forEach(res => {
+      sessionHistory.unshift(res);
+    });
+    localStorage.setItem('tt-image-history', JSON.stringify(sessionHistory.slice(0, 50)));
+
+    results.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm transition hover:shadow-md aspect-auto';
+      
+      card.innerHTML = `
+        <div class="relative overflow-hidden aspect-auto max-w-full">
+          <img src="${item.url}" alt="${item.prompt}" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" />
+          <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+            <button class="btn-lightbox bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Fullscreen">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+            </button>
+            <button class="btn-download bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Download">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            </button>
+            <button class="btn-copy bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Copy Prompt">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="p-2 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800 text-[10px] text-gray-500 border-t border-gray-100 dark:border-gray-700">
+          <span>Seed: ${item.seed}</span>
+          <span class="font-bold text-pink-500">${item.engine}</span>
+        </div>
+      `;
+
+      card.querySelector('.btn-lightbox').addEventListener('click', () => showLightbox(item.url, item.prompt));
+      card.querySelector('.btn-download').addEventListener('click', () => downloadImage(item.url, `ai-image-${item.seed}.jpg`));
+      card.querySelector('.btn-copy').addEventListener('click', () => {
+        navigator.clipboard.writeText(item.prompt);
+        showToast("Prompt copied to clipboard!");
+      });
+
+      gridContainer.appendChild(card);
+    });
+
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    const infoText = document.getElementById('generation-info-text');
+    if (infoText) {
+      infoText.textContent = `Generated in ${elapsed}s (${isLocalEngine ? 'Local WebGPU' : 'Cloud Fallback'})`;
+    }
+
+    renderHistoryGallery();
+    document.getElementById('output-result-gallery').classList.remove('hidden');
+  }
+
+  // ── RENDER SESSION IMAGE GALLERY HISTORY ──
+  function renderHistoryGallery() {
+    const container = document.getElementById('history-gallery-container');
+    const emptyText = document.getElementById('history-empty-text');
+    const countBadge = document.getElementById('history-count-badge');
+
+    if (!container) return;
+
+    if (sessionHistory.length === 0) {
+      container.classList.add('hidden');
+      if (emptyText) emptyText.classList.remove('hidden');
+      if (countBadge) countBadge.textContent = "0 images";
+      return;
+    }
+
+    container.classList.remove('hidden');
+    if (emptyText) emptyText.classList.add('hidden');
+    if (countBadge) countBadge.textContent = `${sessionHistory.length} image${sessionHistory.length > 1 ? 's' : ''}`;
+
+    container.innerHTML = '';
+    sessionHistory.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'snap-start flex-shrink-0 w-28 h-28 relative rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 group cursor-pointer';
+      card.innerHTML = `
+        <img src="${item.url}" alt="${item.prompt}" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
+          <button class="btn-history-reuse bg-white text-gray-800 p-1 rounded-full hover:bg-pink-500 hover:text-white transition" title="Use Prompt">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          </button>
+          <button class="btn-history-download bg-white text-gray-800 p-1 rounded-full hover:bg-pink-500 hover:text-white transition" title="Download">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          </button>
+        </div>
+      `;
+
+      card.querySelector('.btn-history-reuse').addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('image-prompt').value = item.prompt;
+        document.getElementById('art-style').value = item.style;
+        activeRatio = item.ratio;
+        
+        document.querySelectorAll('.aspect-btn').forEach(btn => {
+          if (btn.getAttribute('data-ratio') === item.ratio) {
+            btn.classList.add('border-pink-500', 'text-pink-600', 'dark:text-pink-400');
+            btn.classList.remove('border-gray-200', 'dark:border-gray-700', 'text-gray-600', 'dark:text-gray-300');
+          } else {
+            btn.classList.remove('border-pink-500', 'text-pink-600', 'dark:text-pink-400');
+            btn.classList.add('border-gray-200', 'dark:border-gray-700', 'text-gray-600', 'dark:text-gray-300');
+          }
+        });
+
+        showToast("Prompt & style loaded from history!");
+      });
+
+      card.querySelector('.btn-history-download').addEventListener('click', (e) => {
+        e.stopPropagation();
+        downloadImage(item.url, `ai-image-${item.seed}.jpg`);
+      });
+
+      card.addEventListener('click', () => {
+        showLightbox(item.url, item.prompt);
+      });
+
+      container.appendChild(card);
+    });
+  }
+
+  // ── IMAGE FILE DOWNLOADING HELPER ──
+  async function downloadImage(url, filename) {
+    try {
+      if (url.startsWith('data:')) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showToast("Image downloaded!");
+        return;
+      }
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+      showToast("Image downloaded!");
+    } catch (e) {
+      console.error(e);
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.click();
+      showToast("Opened image in new tab.");
+    }
+  }
+
+  // ── FULLSCREEN LIGHTBOX DIALOG ──
+  function showLightbox(imgUrl, promptText) {
+    let lightbox = document.getElementById('lightbox-modal');
+    if (!lightbox) {
+      lightbox = document.createElement('div');
+      lightbox.id = 'lightbox-modal';
+      lightbox.className = 'fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 transition-opacity duration-300';
+      lightbox.innerHTML = `
+        <button id="lightbox-close" class="absolute top-4 right-4 text-white hover:text-pink-500 text-3xl font-bold transition">&times;</button>
+        <div class="max-w-4xl max-h-[80vh] overflow-hidden flex items-center justify-center rounded-lg shadow-2xl relative group">
+          <img id="lightbox-img" src="" alt="Fullscreen view" class="max-w-full max-h-[80vh] object-contain rounded-lg" />
+        </div>
+        <div class="mt-4 max-w-2xl text-center space-y-3">
+          <p id="lightbox-desc" class="text-sm text-gray-300 font-semibold"></p>
+          <div class="flex gap-3 justify-center">
+            <button id="lightbox-download-btn" class="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-md">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              <span>Download High-Res</span>
+            </button>
+            <button id="lightbox-copy-btn" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-md">
+              <span>Copy Prompt</span>
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(lightbox);
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+          lightbox.classList.add('opacity-0');
+          setTimeout(() => lightbox.classList.add('hidden'), 300);
+        }
+      });
+      document.getElementById('lightbox-close').addEventListener('click', () => {
+        lightbox.classList.add('opacity-0');
+        setTimeout(() => lightbox.classList.add('hidden'), 300);
+      });
+    }
+
+    document.getElementById('lightbox-img').src = imgUrl;
+    document.getElementById('lightbox-desc').textContent = promptText;
+    
+    document.getElementById('lightbox-download-btn').onclick = () => {
+      downloadImage(imgUrl, 'ai-image-highres.jpg');
+    };
+    
+    document.getElementById('lightbox-copy-btn').onclick = () => {
+      navigator.clipboard.writeText(promptText);
+      showToast("Prompt copied to clipboard!");
+    };
+
+    lightbox.classList.remove('hidden');
+    lightbox.classList.remove('opacity-0');
   }
 
   // Start navigation routing

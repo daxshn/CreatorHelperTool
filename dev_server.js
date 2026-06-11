@@ -4,6 +4,35 @@ const path = require('path');
 const url = require('url');
 const { spawn } = require('child_process');
 
+// Load .env files if present
+function loadDotenv() {
+  const envPaths = ['.env', '../.env', '../../.env'];
+  for (const p of envPaths) {
+    if (fs.existsSync(p)) {
+      try {
+        const content = fs.readFileSync(p, 'utf-8');
+        content.split(/\r?\n/).forEach(line => {
+          const trimmed = line.trim();
+          if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+            const idx = trimmed.indexOf('=');
+            const k = trimmed.substring(0, idx).trim();
+            let v = trimmed.substring(idx + 1).trim();
+            if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+              v = v.substring(1, v.length - 1);
+            }
+            process.env[k] = v;
+          }
+        });
+        console.log(`[INFO] Loaded environment variables from: ${path.resolve(p)}`);
+      } catch (e) {
+        console.error(`[WARN] Failed to read env file ${p}:`, e.message);
+      }
+      break;
+    }
+  }
+}
+loadDotenv();
+
 const PORT = 3000;
 
 const MIME_TYPES = {
@@ -155,21 +184,56 @@ except Exception as e:
 import sys
 import json
 import urllib.request
+import urllib.error
 import os
 import re
 
-api_key = os.environ.get("YOUTUBE_API_KEY")
+# Load .env file if it exists
+def load_dotenv():
+    for path in ['.env', '../.env', '../../.env']:
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith('#') and '=' in line:
+                            k, v = line.split('=', 1)
+                            os.environ[k.strip()] = v.strip().strip("'").strip('"')
+            except Exception as e:
+                sys.stderr.write(f"[WARN] Failed to load env file {path}: {str(e)}\\n")
+            break
+
+load_dotenv()
+
+# Find key in environment
+keys = ["YOUTUBE_API_KEY", "VITE_YOUTUBE_API_KEY", "NEXT_PUBLIC_YOUTUBE_API_KEY"]
+api_key = None
+detected_key_name = None
+for k in keys:
+    val = os.environ.get(k)
+    if val:
+        api_key = val
+        detected_key_name = k
+        break
+
+sys.stderr.write(f"[DEBUG] YouTube API key check: {'Detected (' + detected_key_name + ')' if api_key else 'Not detected'}\\n")
+
 if not api_key:
-    print(json.dumps({"error": "YOUTUBE_API_KEY environment variable is not configured."}))
+    print(json.dumps({"error": "YouTube API Key environment variable is not configured. Checked: YOUTUBE_API_KEY, VITE_YOUTUBE_API_KEY, NEXT_PUBLIC_YOUTUBE_API_KEY. Please configure one."}))
     sys.exit(0)
 
 url = f"https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=IN&maxResults=50&key={api_key}"
+
+masked_key = api_key[:6] + "..." + api_key[-4:] if len(api_key) > 10 else "..."
+masked_url = url.replace(api_key, masked_key)
+sys.stderr.write(f"[DEBUG] API request URL: {masked_url}\\n")
 
 try:
     req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     with urllib.request.urlopen(req, timeout=10) as response:
         res_body = response.read().decode('utf-8')
         raw_data = json.loads(res_body)
+    sys.stderr.write(f"[DEBUG] API response status: 200 OK\\n")
     
     videos = []
     for item in raw_data.get('items', []):
@@ -254,7 +318,18 @@ try:
         v.pop('score', None)
 
     print(json.dumps({"videos": videos}))
+except urllib.error.HTTPError as e:
+    err_body = e.read().decode('utf-8') if e else ""
+    sys.stderr.write(f"[DEBUG] API response status: {e.code}\\n")
+    sys.stderr.write(f"[DEBUG] API error message: {err_body}\\n")
+    try:
+        err_data = json.loads(err_body)
+        error_msg = err_data.get('error', {}).get('message', err_body)
+    except Exception:
+        error_msg = err_body or str(e)
+    print(json.dumps({"error": f"YouTube API Error (Status {e.code}): {error_msg}"}))
 except Exception as e:
+    sys.stderr.write(f"[DEBUG] API Request Exception: {str(e)}\\n")
     print(json.dumps({"error": f"Failed to fetch trending videos: {str(e)}"}))
 `;
 
@@ -267,7 +342,10 @@ except Exception as e:
           reject(err);
         });
         py.stdout.on('data', (data) => { stdout += data.toString(); });
-        py.stderr.on('data', (data) => { stderr += data.toString(); });
+        py.stderr.on('data', (data) => {
+          stderr += data.toString();
+          process.stderr.write(data);
+        });
         py.on('close', (code) => {
           if (code !== 0) {
             reject(new Error(stderr || 'Python process exited with code ' + code));

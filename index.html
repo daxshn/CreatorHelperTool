@@ -495,6 +495,12 @@
                 <span>🎨 Thumbnail Idea Gen</span>
               </button>
             </li>
+            <li>
+              <button data-tool="ai-image-generator"
+                class="w-full text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition flex items-center justify-between">
+                <span>🖼️ Browser AI Image Gen</span>
+              </button>
+            </li>
           </ul>
         </div>
 
@@ -640,6 +646,14 @@
               class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-purple-400">
               <h4 class="font-bold text-gray-800 mb-1">Thumbnail Idea Gen</h4>
               <p class="text-xs text-gray-500 mb-3">Generate thumbnail visual briefs & overlays.</p>
+              <span class="text-xs font-semibold text-purple-600 hover:underline">Open Tool &rarr;</span>
+            </div>
+            <div data-target="ai-image-generator"
+              class="tool-card bg-white border border-gray-200 p-5 rounded-2xl shadow-sm transition cursor-pointer hover:border-purple-400 relative overflow-hidden group">
+              <div class="absolute inset-0 bg-gradient-to-tr from-pink-500/5 to-orange-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="absolute top-0 right-0 bg-gradient-to-l from-pink-500 to-orange-400 text-white text-[9px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">Device AI</div>
+              <h4 class="font-bold text-gray-800 mb-1">Browser AI Image Generator</h4>
+              <p class="text-xs text-gray-500 mb-3">Generate AI images directly on your device using browser-based models.</p>
               <span class="text-xs font-semibold text-purple-600 hover:underline">Open Tool &rarr;</span>
             </div>
           </div>
@@ -808,7 +822,7 @@
       <div id="tool-workspace" class="hidden space-y-6">
 
         <!-- TOOL WRAPPER -->
-        <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <div id="standard-tool-card" class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
 
           <!-- Back button inside workspace -->
           <button id="workspace-back-btn"
@@ -878,6 +892,311 @@
             <div id="tool-output"
               class="bg-gray-50 border border-gray-200 rounded-xl p-5 text-sm leading-relaxed text-gray-700 font-mono whitespace-pre-wrap max-h-96 overflow-y-auto">
               <!-- Generated output goes here -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── CUSTOM IMAGE GENERATOR CARD ── -->
+        <div id="image-generator-card" class="hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-sm">
+
+          <!-- Back button inside workspace -->
+          <button id="image-generator-back-btn"
+            class="mb-4 text-xs font-bold text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 flex items-center gap-1">
+            &larr; Back to Overview
+          </button>
+
+          <!-- Tool Header -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🖼️</span>
+              <div>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Browser AI Image Generator</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Generate stunning AI images on your device using local WebGPU, or fast free cloud fallbacks.</p>
+              </div>
+            </div>
+            
+            <!-- System Stats & Hardware Badge -->
+            <div class="flex flex-wrap gap-2 items-center text-xs bg-gray-50 dark:bg-gray-800/50 p-2.5 rounded-xl border border-gray-100 dark:border-gray-800">
+              <span class="font-bold text-gray-500 dark:text-gray-400">System Status:</span>
+              <span id="gpu-status-badge" class="px-2 py-0.5 rounded-full font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">GPU: Checking...</span>
+              <span id="webgpu-status-badge" class="px-2 py-0.5 rounded-full font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">WebGPU: Checking...</span>
+              <span id="ram-status-badge" class="px-2 py-0.5 rounded-full font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">RAM: Checking...</span>
+            </div>
+          </div>
+
+          <!-- Engine Selection Banner -->
+          <div class="mb-6 p-4 rounded-xl border border-pink-500/10 bg-gradient-to-r from-pink-50/40 via-orange-50/10 to-transparent dark:from-pink-950/10 dark:via-black/20 dark:to-transparent flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-pink-600 dark:text-pink-400 mb-1">AI Generation Engine</label>
+              <select id="engine-select" class="bg-white dark:bg-gray-800 text-sm font-semibold p-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500">
+                <option value="local-webgpu" selected>Browser Engine (SqueezeDiffusion 1.5 - Local WebGPU)</option>
+                <option value="cloud-fallback">Cloud Fallback (Pollinations AI - Fast, No Login)</option>
+              </select>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 max-w-md">
+              <span id="engine-desc">Browser Engine compiles and runs diffusion models client-side using WebGPU. Download size: ~1.6 GB. Cached locally after first run.</span>
+            </div>
+          </div>
+
+          <!-- Main Workspace Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- LEFT PANEL: Controls (5 cols) -->
+            <div class="lg:col-span-5 space-y-5">
+              
+              <!-- Prompt Input -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label class="text-sm font-bold text-gray-700 dark:text-gray-300">Text Prompt</label>
+                  <div class="flex gap-2">
+                    <button id="btn-random-prompt" type="button" class="text-xs font-bold text-pink-600 dark:text-pink-400 hover:underline">🎲 Random</button>
+                    <button id="btn-enhance-prompt" type="button" class="text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline">✨ Enhance</button>
+                  </div>
+                </div>
+                <textarea id="image-prompt" rows="3" placeholder="Describe the image you want to generate (e.g. 'A futuristic cyberpunk cat wearing glasses in a neon alleyway')..." class="w-full border border-gray-300 dark:border-gray-700 rounded-xl p-3 outline-none focus:border-pink-500 dark:focus:border-pink-500 bg-white dark:bg-gray-800 text-sm text-gray-800 dark:text-white resize-none" required></textarea>
+              </div>
+
+              <!-- Negative Prompt Input -->
+              <div>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5">Negative Prompt (What to exclude)</label>
+                <input type="text" id="image-negative-prompt" placeholder="deformed, bad anatomy, lowres, blurry, watermark" class="w-full border border-gray-300 dark:border-gray-700 rounded-xl p-3 outline-none focus:border-pink-500 dark:focus:border-pink-500 bg-white dark:bg-gray-800 text-sm text-gray-800 dark:text-white" />
+              </div>
+
+              <!-- Prompt Templates & Style Selectors -->
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Prompt Template</label>
+                  <select id="prompt-template" class="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 outline-none focus:border-pink-500 dark:focus:border-pink-500 bg-white dark:bg-gray-800 text-xs text-gray-800 dark:text-white">
+                    <option value="none">No Template</option>
+                    <option value="scifi">Sci-Fi & Cyberpunk</option>
+                    <option value="watercolor">Soft Watercolor</option>
+                    <option value="oilpainting">Classic Oil Painting</option>
+                    <option value="pencilsketch">Detailed Pencil Sketch</option>
+                    <option value="photorealistic">Photorealistic Studio</option>
+                    <option value="isometric">3D Isometric Art</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">AI Art Style</label>
+                  <select id="art-style" class="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 outline-none focus:border-pink-500 dark:focus:border-pink-500 bg-white dark:bg-gray-800 text-xs text-gray-800 dark:text-white">
+                    <option value="Realistic" selected>Realistic</option>
+                    <option value="Cinematic">Cinematic</option>
+                    <option value="Anime">Anime</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Cartoon">Cartoon</option>
+                    <option value="YouTube Thumbnail">YouTube Thumbnail</option>
+                    <option value="Digital Art">Digital Art</option>
+                    <option value="3D Render">3D Render</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Image Settings -->
+              <div class="space-y-4 pt-2 border-t border-gray-100 dark:border-gray-800">
+                <h3 class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Image Settings</h3>
+                
+                <!-- Aspect Ratio Selector -->
+                <div>
+                  <label class="block text-xs font-bold text-gray-600 dark:text-gray-400 mb-2">Aspect Ratio</label>
+                  <div class="grid grid-cols-3 gap-2" id="aspect-ratio-selector">
+                    <button type="button" data-ratio="1:1" class="aspect-btn active-aspect flex flex-col items-center justify-center p-2 border rounded-xl text-xs font-semibold transition bg-white dark:bg-gray-800 border-pink-500 text-pink-600 dark:text-pink-400">
+                      <div class="w-4 h-4 border-2 border-current rounded-sm mb-1"></div>
+                      <span>Square (1:1)</span>
+                    </button>
+                    <button type="button" data-ratio="9:16" class="aspect-btn flex flex-col items-center justify-center p-2 border rounded-xl text-xs font-semibold transition bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300">
+                      <div class="w-3 h-5 border-2 border-current rounded-sm mb-1"></div>
+                      <span>Portrait (9:16)</span>
+                    </button>
+                    <button type="button" data-ratio="16:9" class="aspect-btn flex flex-col items-center justify-center p-2 border rounded-xl text-xs font-semibold transition bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300">
+                      <div class="w-5 h-3 border-2 border-current rounded-sm mb-1"></div>
+                      <span>Landscape (16:9)</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <!-- Quality Selector -->
+                  <div>
+                    <label class="block text-xs font-bold text-gray-600 dark:text-gray-400 mb-1.5">Quality / Steps</label>
+                    <select id="image-quality" class="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-2 outline-none focus:border-pink-500 dark:focus:border-pink-500 bg-white dark:bg-gray-800 text-xs text-gray-800 dark:text-white">
+                      <option value="fast">Fast (10 steps)</option>
+                      <option value="balanced" selected>Balanced (20 steps)</option>
+                      <option value="high">High Quality (30 steps)</option>
+                    </select>
+                  </div>
+                  <!-- Number of Images -->
+                  <div>
+                    <label class="block text-xs font-bold text-gray-600 dark:text-gray-400 mb-1.5">Images Count</label>
+                    <select id="image-count" class="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-2 outline-none focus:border-pink-500 dark:focus:border-pink-500 bg-white dark:bg-gray-800 text-xs text-gray-800 dark:text-white">
+                      <option value="1" selected>1 Image</option>
+                      <option value="2">2 Images</option>
+                      <option value="4">4 Images</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image-to-Image Mode Dropzone -->
+              <div class="pt-2 border-t border-gray-100 dark:border-gray-800">
+                <button type="button" id="toggle-img2img" class="flex items-center justify-between w-full text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                  <span class="flex items-center gap-1.5">🖼️ Image-to-Image Guidance</span>
+                  <span id="img2img-arrow">▼</span>
+                </button>
+                
+                <div id="img2img-expanded" class="hidden mt-3 space-y-3">
+                  <div id="image-dropzone" class="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-4 text-center cursor-pointer hover:border-pink-500 dark:hover:border-pink-500 transition relative bg-gray-50/50 dark:bg-gray-800/10">
+                    <input type="file" id="image-input" class="hidden" accept="image/*" />
+                    <div id="dropzone-text" class="space-y-1">
+                      <div class="text-2xl">📤</div>
+                      <div class="text-xs font-bold text-gray-700 dark:text-gray-300">Drag & drop or click to upload</div>
+                      <div class="text-[10px] text-gray-400">Supports PNG, JPG, WEBP</div>
+                    </div>
+                    <div id="dropzone-preview-container" class="hidden flex flex-col items-center justify-center relative">
+                      <img id="dropzone-preview" class="max-h-24 rounded-lg object-contain shadow-sm border border-gray-200 dark:border-gray-700" />
+                      <button type="button" id="btn-remove-image" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow-md hover:bg-red-600">×</button>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex items-center justify-between text-[11px] text-gray-500 mb-1">
+                      <span>Denoising Strength (Guidance)</span>
+                      <span id="denoising-val">0.6</span>
+                    </div>
+                    <input type="range" id="denoising-strength" min="0.1" max="0.9" step="0.05" value="0.6" class="w-full accent-pink-500" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Generation Button Group -->
+              <div class="flex gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+                <button type="button" id="btn-generate-image" class="flex-grow py-3 rounded-xl font-bold text-white btn-gradient flex items-center justify-center gap-2">
+                  <span>✨ Generate AI Images</span>
+                </button>
+                <button type="button" id="btn-stop-generation" class="hidden py-3 px-5 rounded-xl font-bold bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800 transition flex items-center justify-center gap-1.5">
+                  <span>🛑 Stop</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- RIGHT PANEL: Result & History Display (7 cols) -->
+            <div class="lg:col-span-7 bg-gray-50/50 dark:bg-gray-800/10 border border-gray-200/50 dark:border-gray-800/50 rounded-2xl p-5 flex flex-col min-h-[450px] justify-between relative overflow-hidden">
+              
+              <!-- LOADING STATE 1: Local Model Downloading Screen -->
+              <div id="model-loading-screen" class="hidden absolute inset-0 bg-white/95 dark:bg-gray-900/95 z-20 flex flex-col items-center justify-center p-8 text-center space-y-6">
+                <div class="text-4xl animate-bounce">📦</div>
+                <div class="max-w-md space-y-2">
+                  <h3 class="font-extrabold text-gray-900 dark:text-white text-lg">Downloading Local Diffusion Model</h3>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">We are caching the SqueezeDiffusion weights on your device. Future runs will be instant and run offline.</p>
+                </div>
+
+                <!-- Info Cards -->
+                <div class="grid grid-cols-3 gap-3 w-full max-w-sm text-center">
+                  <div class="bg-gray-50 dark:bg-gray-800 p-2.5 rounded-xl border border-gray-100 dark:border-gray-800">
+                    <div class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase">Est. Storage</div>
+                    <div class="text-xs font-bold text-gray-800 dark:text-white mt-0.5">1.6 GB</div>
+                  </div>
+                  <div class="bg-gray-50 dark:bg-gray-800 p-2.5 rounded-xl border border-gray-100 dark:border-gray-800">
+                    <div class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase">Est. RAM</div>
+                    <div class="text-xs font-bold text-gray-800 dark:text-white mt-0.5">8.0 GB</div>
+                  </div>
+                  <div class="bg-gray-50 dark:bg-gray-800 p-2.5 rounded-xl border border-gray-100 dark:border-gray-800">
+                    <div class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase">Est. Speed</div>
+                    <div class="text-xs font-bold text-gray-800 dark:text-white mt-0.5">~15s/img</div>
+                  </div>
+                </div>
+
+                <!-- Download Progress -->
+                <div class="w-full max-w-sm space-y-2">
+                  <div class="flex items-center justify-between text-xs font-bold">
+                    <span class="text-pink-600 dark:text-pink-400" id="download-percentage">Downloading: 0%</span>
+                    <span class="text-gray-400 dark:text-gray-500" id="download-remaining-size">1.6 GB remaining</span>
+                  </div>
+                  <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                    <div id="download-progress-bar" class="bg-gradient-to-r from-pink-500 to-orange-400 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                  </div>
+                  <p class="text-[10px] text-gray-400 italic">Caching weights inside browser CacheStorage...</p>
+                </div>
+
+                <button type="button" id="btn-cancel-download" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                  Cancel & Use Cloud Fallback
+                </button>
+              </div>
+
+              <!-- LOADING STATE 2: Image Generating Screen -->
+              <div id="image-generating-screen" class="hidden absolute inset-0 bg-white/95 dark:bg-gray-900/95 z-20 flex flex-col items-center justify-center p-8 text-center space-y-6">
+                <div class="relative flex items-center justify-center">
+                  <div class="absolute w-16 h-16 rounded-full border-4 border-pink-500/20 border-t-pink-500 animate-spin"></div>
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-500 to-orange-400 animate-pulse flex items-center justify-center text-white font-bold text-sm">AI</div>
+                </div>
+
+                <div class="max-w-md space-y-1">
+                  <h3 class="font-extrabold text-gray-900 dark:text-white text-lg">Generating Your Images</h3>
+                  <p class="text-xs text-gray-500 dark:text-gray-400" id="generation-step-text">Initializing parameters...</p>
+                </div>
+
+                <div class="w-full max-w-xs space-y-1.5">
+                  <div class="flex justify-between text-[11px] font-bold text-gray-500 dark:text-gray-400">
+                    <span>Sampling Progress</span>
+                    <span id="generation-percentage-text">0%</span>
+                  </div>
+                  <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5 overflow-hidden">
+                    <div id="generation-progress-bar" class="bg-gradient-to-r from-pink-500 to-orange-400 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONTENT DISPLAY 1: Empty State (Default) -->
+              <div id="output-empty-state" class="flex-grow flex flex-col items-center justify-center text-center p-6 space-y-4">
+                <div class="text-5xl">🎨</div>
+                <div>
+                  <h3 class="font-bold text-gray-800 dark:text-white text-base">Your AI Art Studio</h3>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 max-w-sm mt-1">Enter a prompt on the left and hit generate. Your generated creations will appear here in high resolution.</p>
+                </div>
+
+                <div class="w-full max-w-md pt-4 border-t border-gray-100 dark:border-gray-800/80">
+                  <div class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Try these prompts:</div>
+                  <div class="flex flex-wrap justify-center gap-1.5">
+                    <button type="button" class="suggestion-pill text-[11px] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-pink-500 dark:hover:border-pink-500 px-2.5 py-1 rounded-lg text-gray-600 dark:text-gray-300 transition">Cyberpunk kitty in space</button>
+                    <button type="button" class="suggestion-pill text-[11px] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-pink-500 dark:hover:border-pink-500 px-2.5 py-1 rounded-lg text-gray-600 dark:text-gray-300 transition">3D render of viral youtube thumbnail overlay</button>
+                    <button type="button" class="suggestion-pill text-[11px] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-pink-500 dark:hover:border-pink-500 px-2.5 py-1 rounded-lg text-gray-600 dark:text-gray-300 transition">Watercolor fantasy floating island</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONTENT DISPLAY 2: Image Gallery Results -->
+              <div id="output-result-gallery" class="hidden flex-grow flex flex-col justify-between space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
+                  <h3 class="font-bold text-gray-800 dark:text-white text-sm flex items-center gap-1.5">
+                    <span>📋 Generated Results</span>
+                    <span id="image-status-badge" class="text-[10px] bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-400 font-bold px-2 py-0.5 rounded-full">Success</span>
+                  </h3>
+                  
+                  <div class="text-xs text-gray-400" id="generation-info-text">Generated in 2.4s (Cloud Fallback)</div>
+                </div>
+
+                <!-- Grid layout for generated images -->
+                <div id="images-grid-container" class="grid grid-cols-1 gap-4 items-center justify-center flex-grow py-4">
+                  <!-- Generated image items will be dynamically inserted here -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- SESSION GALLERY HISTORY -->
+          <div class="mt-10 pt-8 border-t border-gray-100 dark:border-gray-800">
+            <h3 class="font-bold text-gray-800 dark:text-white text-sm mb-4 flex items-center gap-2">
+              <span>📚 Session Image History</span>
+              <span id="history-count-badge" class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-full">0 images</span>
+            </h3>
+            
+            <div id="history-empty-text" class="text-xs text-gray-400 dark:text-gray-500 italic">No images generated in this session yet.</div>
+            
+            <!-- Horizontal Scroll Gallery -->
+            <div id="history-gallery-container" class="hidden flex gap-4 overflow-x-auto pb-3 scroll-smooth no-scrollbar snap-x">
+              <!-- Loaded by JS -->
             </div>
           </div>
 

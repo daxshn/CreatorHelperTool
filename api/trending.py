@@ -33,22 +33,57 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(cache_data).encode('utf-8'))
             return
 
-        # Fetch from environment
-        api_key = os.environ.get("YOUTUBE_API_KEY")
+        # Load .env file if it exists
+        def load_dotenv():
+            for path in ['.env', '../.env', '../../.env']:
+                if os.path.exists(path):
+                    try:
+                        with open(path, 'r', encoding='utf-8') as f:
+                            for line in f:
+                                line = line.strip()
+                                if line and not line.startswith('#') and '=' in line:
+                                    k, v = line.split('=', 1)
+                                    os.environ[k.strip()] = v.strip().strip("'").strip('"')
+                    except Exception as e:
+                        import sys
+                        sys.stderr.write(f"[WARN] Failed to load env file {path}: {str(e)}\n")
+                    break
+
+        load_dotenv()
+
+        # Fetch from environment (check all three variable names)
+        keys = ["YOUTUBE_API_KEY", "VITE_YOUTUBE_API_KEY", "NEXT_PUBLIC_YOUTUBE_API_KEY"]
+        api_key = None
+        detected_key_name = None
+        for k in keys:
+            val = os.environ.get(k)
+            if val:
+                api_key = val
+                detected_key_name = k
+                break
+
+        import sys
+        sys.stderr.write(f"[DEBUG] YouTube API key check: {'Detected (' + detected_key_name + ')' if api_key else 'Not detected'}\n")
+
         if not api_key:
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({
-                "error": "YOUTUBE_API_KEY environment variable is not configured."
+                "error": "YouTube API Key environment variable is not configured. Checked: YOUTUBE_API_KEY, VITE_YOUTUBE_API_KEY, NEXT_PUBLIC_YOUTUBE_API_KEY. Please configure one."
             }).encode('utf-8'))
             return
 
         # Query YouTube API (including contentDetails to extract duration)
         url = f"https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=IN&maxResults=50&key={api_key}"
         
+        masked_key = api_key[:6] + "..." + api_key[-4:] if len(api_key) > 10 else "..."
+        masked_url = url.replace(api_key, masked_key)
+        sys.stderr.write(f"[DEBUG] API request URL: {masked_url}\n")
+
         try:
+            import urllib.error
             req = urllib.request.Request(
                 url, 
                 headers={'User-Agent': 'Mozilla/5.0'}
@@ -56,6 +91,7 @@ class handler(BaseHTTPRequestHandler):
             with urllib.request.urlopen(req, timeout=10) as response:
                 res_body = response.read().decode('utf-8')
                 raw_data = json.loads(res_body)
+            sys.stderr.write(f"[DEBUG] API response status: 200 OK\n")
             
             videos = []
             for item in raw_data.get('items', []):
@@ -151,8 +187,27 @@ class handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(cache_data).encode('utf-8'))
 
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode('utf-8') if e else ""
+            sys.stderr.write(f"[DEBUG] API response status: {e.code}\n")
+            sys.stderr.write(f"[DEBUG] API error message: {err_body}\n")
+            try:
+                err_data = json.loads(err_body)
+                error_msg = err_data.get('error', {}).get('message', err_body)
+            except Exception:
+                error_msg = err_body or str(e)
+
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "error": f"YouTube API Error (Status {e.code}): {error_msg}"
+            }).encode('utf-8'))
+
         except Exception as e:
             traceback.print_exc()
+            sys.stderr.write(f"[DEBUG] API Request Exception: {str(e)}\n")
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
