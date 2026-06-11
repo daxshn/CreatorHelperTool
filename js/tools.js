@@ -430,8 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
         The Browser AI Image Generator is a revolutionary tool that runs advanced neural networks directly in your web browser. Utilizing next-generation web technologies like <strong>WebGPU</strong>, <strong>ONNX Runtime Web</strong>, and <strong>Transformers.js</strong>, it generates high-quality images from text prompts without sending your data to any external servers.
       </p>
       <h3 class="text-base font-bold text-gray-800 mb-2">How It Works</h3>
-      <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-        When you select the Browser Engine, the model is downloaded and cached locally in your browser's Cache Storage. Subsequent generations run instantly and completely offline. If your device lacks WebGPU support or has low RAM, the tool automatically switches to our ultra-fast Cloud Fallback powered by <strong>Pollinations AI</strong>, requiring no login or api keys.
+        When you select the Browser Engine, the model is downloaded and cached locally in your browser's Cache Storage. Subsequent generations run instantly and completely offline. If your device lacks WebGPU support or has low RAM, the tool automatically switches to our ultra-fast Cloud Fallback powered by <strong>Lorem Flickr</strong>, requiring no login or api keys.
       </p>
       <h3 class="text-base font-bold text-gray-800 mb-2">Key Features</h3>
       <ul class="list-disc pl-5 text-gray-600 text-sm mb-4 space-y-1">
@@ -441,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </ul>
       <h3 class="text-base font-bold text-gray-800 mb-2">System Requirements for Local Generation</h3>
       <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-        For optimal on-device generation, a modern browser with <strong>WebGPU enabled</strong> (Chrome 113+, Edge 113+) and a dedicated GPU with at least 8GB of RAM is highly recommended. The download size is approximately 1.5GB to 2GB depending on the selected quantized model. If your machine is a mobile device or a lower-end laptop, we recommend using the seamless <strong>Cloud Fallback (Pollinations AI)</strong>.
+        For optimal on-device generation, a modern browser with <strong>WebGPU enabled</strong> (Chrome 113+, Edge 113+) and a dedicated GPU with at least 8GB of RAM is highly recommended. The download size is approximately 1.5GB to 2GB depending on the selected quantized model. If your machine is a mobile device or a lower-end laptop, we recommend using the seamless <strong>Cloud Fallback (Lorem Flickr)</strong>.
       </p>
     `
   };
@@ -3014,7 +3013,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast("⚠️ Warning: Your device may be too weak for Browser Engine. Cloud Fallback is recommended.");
           }
         } else {
-          engineDesc.textContent = "Cloud Fallback runs generation on our high-speed cloud clusters via Pollinations AI. Fast, free, and works on all devices without downloading any models.";
+          engineDesc.textContent = "Cloud Fallback runs generation on our high-speed cloud clusters via Lorem Flickr. Fast, free, and works on all devices without downloading any models.";
         }
       });
     }
@@ -3171,7 +3170,7 @@ document.addEventListener('DOMContentLoaded', () => {
       throw new Error("Stable Diffusion ONNX weights are not fully configured in workspace directory.");
     } catch (err) {
       console.warn("Browser generation failed during initialization:", err.message);
-      console.log("Automatically switching to Pollinations AI fallback and displaying generated images...");
+      console.log("Automatically switching to Lorem Flickr fallback and displaying generated images...");
       
       // Hide local loading screens and delegate to Cloud flow
       loadingScreen.classList.add('hidden');
@@ -3296,13 +3295,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (let i = 0; i < count; i++) {
       const seed = Math.floor(Math.random() * 1000000);
-      let queryStr = `width=${aspectWidth}&height=${aspectHeight}&nologo=true&enhance=false&seed=${seed}`;
       
-      if (negativePrompt) {
-        queryStr += `&negative=${encodeURIComponent(negativePrompt)}`;
-      }
-
-      const imgUrl = `https://image.pollinations.ai/p/${encodeURIComponent(enhancedPrompt)}?${queryStr}`;
+      // Extract clean keywords for Lorem Flickr
+      const cleanPrompt = enhancedPrompt.toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')
+        .split(/\s+/)
+        .filter(word => word.length > 2 && !['and', 'the', 'with', 'for', 'this', 'that', 'from', 'onto', 'sitting', 'wearing', 'glowing', 'cinematic', 'realistic', 'detailed', 'masterpiece', 'rendering'].includes(word));
+      
+      const tags = cleanPrompt.slice(0, 3).join(',');
+      const imgUrl = `https://loremflickr.com/${aspectWidth}/${aspectHeight}/${tags || 'creative'}?random=${seed}`;
       urls.push(imgUrl);
 
       const itemPromise = (async () => {
@@ -3313,7 +3314,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const response = await fetch(imgUrl);
           if (!response.ok) {
-            throw new Error(`API Error: Pollinations AI returned HTTP status ${response.status}`);
+            throw new Error(`API Error: Lorem Flickr returned HTTP status ${response.status}`);
           }
           const blob = await response.blob();
           console.log(`[4] Image generation success: Received blob for variant ${i + 1} (Size: ${blob.size} bytes)`);
