@@ -2711,14 +2711,22 @@ document.addEventListener('DOMContentLoaded', () => {
   let img2imgBase64 = null;
   let sessionHistory = [];
 
-  // Load session history from localStorage if exists
+  // Load session history from localStorage if exists and filter out old SVG fallbacks
   try {
     const savedHistory = localStorage.getItem('tt-image-history');
     if (savedHistory) {
-      sessionHistory = JSON.parse(savedHistory);
+      const parsed = JSON.parse(savedHistory);
+      if (Array.isArray(parsed)) {
+        sessionHistory = parsed.filter(item => {
+          return item && item.url && !item.url.startsWith('data:image/svg+xml');
+        });
+        if (sessionHistory.length !== parsed.length) {
+          localStorage.setItem('tt-image-history', JSON.stringify(sessionHistory));
+        }
+      }
     }
   } catch (e) {
-    console.error('Failed to parse image history:', e);
+    console.error('Failed to parse/clean image history:', e);
   }
 
   function initImageGenerator() {
