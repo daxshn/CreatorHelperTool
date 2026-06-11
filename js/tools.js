@@ -3206,7 +3206,41 @@ document.addEventListener('DOMContentLoaded', () => {
   async function generateFinalImages(prompt, negativePrompt, count, style, isLocalEngine) {
     const startTime = Date.now();
     const gridContainer = document.getElementById('images-grid-container');
+    const statusBadge = document.getElementById('image-status-badge');
+    const infoText = document.getElementById('generation-info-text');
+    const resultGallery = document.getElementById('output-result-gallery');
+    const emptyState = document.getElementById('output-empty-state');
+    
+    // Debug panel elements
+    const debugEngineBadge = document.getElementById('debug-engine-badge');
+    const debugPrompt = document.getElementById('debug-prompt');
+    const debugUrl = document.getElementById('debug-url');
+    const debugResponseStatus = document.getElementById('debug-response-status');
+    const debugRenderStatus = document.getElementById('debug-render-status');
+
     gridContainer.innerHTML = '';
+    
+    // Reset status badge to default
+    if (statusBadge) {
+      statusBadge.textContent = 'Generating...';
+      statusBadge.className = 'text-[10px] bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 font-bold px-2 py-0.5 rounded-full';
+    }
+
+    // Initialize debug panel
+    if (debugEngineBadge) debugEngineBadge.textContent = isLocalEngine ? 'Local WebGPU' : 'Cloud Fallback';
+    if (debugPrompt) debugPrompt.textContent = prompt;
+    if (debugUrl) debugUrl.textContent = 'Initializing request...';
+    if (debugResponseStatus) {
+      debugResponseStatus.textContent = 'Pending';
+      debugResponseStatus.className = 'ml-1 text-gray-500 font-bold';
+    }
+    if (debugRenderStatus) {
+      debugRenderStatus.textContent = 'Pending';
+      debugRenderStatus.className = 'ml-1 text-gray-500 font-bold';
+    }
+
+    if (emptyState) emptyState.classList.add('hidden');
+    if (resultGallery) resultGallery.classList.remove('hidden');
 
     // Stage 3: Prompt processing
     console.log("[3] Prompt processing: Enhancing prompt with style tokens...");
@@ -3226,6 +3260,8 @@ document.addEventListener('DOMContentLoaded', () => {
       enhancedPrompt += styleAppends[style];
     }
     console.log(`[3] Prompt processing success. Enhanced Prompt: "${enhancedPrompt}"`);
+
+    if (debugPrompt) debugPrompt.textContent = enhancedPrompt;
 
     let aspectWidth = 512;
     let aspectHeight = 512;
@@ -3248,6 +3284,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const imagePromises = [];
     const generatedItems = [];
+    const urls = [];
 
     for (let i = 0; i < count; i++) {
       const seed = Math.floor(Math.random() * 1000000);
@@ -3258,6 +3295,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const imgUrl = `https://image.pollinations.ai/p/${encodeURIComponent(enhancedPrompt)}?${queryStr}`;
+      urls.push(imgUrl);
 
       const itemPromise = (async () => {
         try {
@@ -3267,7 +3305,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const response = await fetch(imgUrl);
           if (!response.ok) {
-            throw new Error(`Failed to fetch image stream from Pollinations (HTTP status: ${response.status})`);
+            throw new Error(`API Error: Pollinations AI returned HTTP status ${response.status}`);
           }
           const blob = await response.blob();
           console.log(`[4] Image generation success: Received blob for variant ${i + 1} (Size: ${blob.size} bytes)`);
@@ -3309,48 +3347,30 @@ document.addEventListener('DOMContentLoaded', () => {
             seed: seed,
             engine: isLocalEngine ? 'Local WebGPU' : 'Cloud Fallback',
             ratio: activeRatio,
-            style: style
+            style: style,
+            status: '200 OK',
+            render: 'Canvas Rendered (PNG)'
           };
           generatedItems.push(item);
           return item;
         } catch (err) {
           console.error(`Generation pipeline error for variant ${i + 1}:`, err);
           
-          console.log(`[Switching to SVG fallback for variant ${i + 1}]`);
-          const gradientStart = ['#ec4899', '#f43f5e', '#f97316', '#a855f7', '#6366f1'][i % 5];
-          const gradientEnd = ['#f43f5e', '#f97316', '#a855f7', '#6366f1', '#ec4899'][i % 5];
-          const shortPrompt = prompt.length > 50 ? prompt.substring(0, 47) + '...' : prompt;
-          const svgString = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="${aspectWidth}" height="${aspectHeight}" viewBox="0 0 ${aspectWidth} ${aspectHeight}">
-              <defs>
-                <linearGradient id="grad-${i}" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:${gradientStart};stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:${gradientEnd};stop-opacity:1" />
-                </linearGradient>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grad-${i})" />
-              <rect x="20" y="20" width="${aspectWidth - 40}" height="${aspectHeight - 40}" fill="none" stroke="white" stroke-width="2" stroke-opacity="0.3" rx="10" />
-              <circle cx="${aspectWidth/2}" cy="${aspectHeight/2 - 40}" r="45" fill="white" fill-opacity="0.1" />
-              <text x="50%" y="${aspectHeight/2 - 30}" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="bold" fill="white" text-anchor="middle">🎨</text>
-              <text x="50%" y="${aspectHeight/2 + 25}" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="1">GENERATED VARIANT ${i + 1}</text>
-              <text x="50%" y="${aspectHeight/2 + 55}" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="white" fill-opacity="0.8" text-anchor="middle" font-style="italic">
-                "${shortPrompt}"
-              </text>
-              <text x="50%" y="${aspectHeight - 45}" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="white" fill-opacity="0.6" text-anchor="middle">
-                Seed: ${seed} | Mode: On-Device Fallback
-              </text>
-            </svg>
-          `;
-          const base64Svg = btoa(unescape(encodeURIComponent(svgString)));
-          const svgDataUrl = `data:image/svg+xml;base64,${base64Svg}`;
-          
+          if (err.message && err.message.includes('API Error:')) {
+            throw err; // Re-throw to handle as a genuine API error
+          }
+
+          // Fall back to direct image URL if it's a CORS / local storage block
+          console.log(`[Switching to direct URL fallback for variant ${i + 1}]`);
           const item = {
-            url: svgDataUrl,
+            url: imgUrl,
             prompt: prompt,
             seed: seed,
             engine: isLocalEngine ? 'Local WebGPU' : 'Cloud Fallback',
             ratio: activeRatio,
-            style: style
+            style: style,
+            status: 'Success (Direct URL)',
+            render: 'Rendered via <img> tag'
           };
           generatedItems.push(item);
           return item;
@@ -3359,56 +3379,104 @@ document.addEventListener('DOMContentLoaded', () => {
       imagePromises.push(itemPromise);
     }
 
-    const results = await Promise.all(imagePromises);
+    // Populate debug URL list
+    if (debugUrl) {
+      debugUrl.innerHTML = urls.map(u => `<a href="${u}" target="_blank" class="hover:underline text-pink-500 block truncate" title="${u}">${u}</a>`).join('');
+    }
 
-    results.forEach(res => {
-      sessionHistory.unshift(res);
-    });
-    localStorage.setItem('tt-image-history', JSON.stringify(sessionHistory.slice(0, 50)));
+    try {
+      const results = await Promise.all(imagePromises);
 
-    results.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm transition hover:shadow-md aspect-auto';
-      
-      card.innerHTML = `
-        <div class="relative overflow-hidden aspect-auto max-w-full">
-          <img src="${item.url}" alt="${item.prompt}" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" />
-          <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-            <button class="btn-lightbox bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Fullscreen">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-            </button>
-            <button class="btn-download bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Download">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            </button>
-            <button class="btn-copy bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Copy Prompt">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            </button>
+      // Render success state
+      if (statusBadge) {
+        statusBadge.textContent = 'Success';
+        statusBadge.className = 'text-[10px] bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-400 font-bold px-2 py-0.5 rounded-full';
+      }
+
+      // Populate debug panel details from the main item
+      const mainItem = results[0] || {};
+      if (debugResponseStatus) {
+        debugResponseStatus.textContent = mainItem.status || '200 OK';
+        debugResponseStatus.className = 'ml-1 text-green-500 font-bold';
+      }
+      if (debugRenderStatus) {
+        debugRenderStatus.textContent = mainItem.render || 'Success';
+        debugRenderStatus.className = 'ml-1 text-green-500 font-bold';
+      }
+
+      results.forEach(res => {
+        sessionHistory.unshift(res);
+      });
+      localStorage.setItem('tt-image-history', JSON.stringify(sessionHistory.slice(0, 50)));
+
+      results.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm transition hover:shadow-md aspect-auto';
+        
+        card.innerHTML = `
+          <div class="relative overflow-hidden aspect-auto max-w-full">
+            <img src="${item.url}" alt="${item.prompt}" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+              <button class="btn-lightbox bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Fullscreen">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              </button>
+              <button class="btn-download bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Download">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              </button>
+              <button class="btn-copy bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition shadow-md" title="Copy Prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="p-2 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800 text-[10px] text-gray-500 border-t border-gray-100 dark:border-gray-700">
-          <span>Seed: ${item.seed}</span>
-          <span class="font-bold text-pink-500">${item.engine}</span>
+          <div class="p-2 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800 text-[10px] text-gray-500 border-t border-gray-100 dark:border-gray-700">
+            <span>Seed: ${item.seed}</span>
+            <span class="font-bold text-pink-500">${item.engine}</span>
+          </div>
+        `;
+
+        card.querySelector('.btn-lightbox').addEventListener('click', () => showLightbox(item.url, item.prompt));
+        card.querySelector('.btn-download').addEventListener('click', () => downloadImage(item.url, `ai-image-${item.seed}.jpg`));
+        card.querySelector('.btn-copy').addEventListener('click', () => {
+          navigator.clipboard.writeText(item.prompt);
+          showToast("Prompt copied to clipboard!");
+        });
+
+        gridContainer.appendChild(card);
+      });
+
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      if (infoText) {
+        infoText.textContent = `Generated in ${elapsed}s (${isLocalEngine ? 'Local WebGPU' : 'Cloud Fallback'})`;
+      }
+      renderHistoryGallery();
+    } catch (err) {
+      console.error("Image generation flow failed:", err);
+      
+      // Update UI Status to Error
+      if (statusBadge) {
+        statusBadge.textContent = 'Error';
+        statusBadge.className = 'text-[10px] bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 font-bold px-2 py-0.5 rounded-full';
+      }
+
+      if (debugResponseStatus) {
+        debugResponseStatus.textContent = err.message || 'Failed';
+        debugResponseStatus.className = 'ml-1 text-red-500 font-bold';
+      }
+      if (debugRenderStatus) {
+        debugRenderStatus.textContent = 'Failed to load';
+        debugRenderStatus.className = 'ml-1 text-red-500 font-bold';
+      }
+
+      // Add a clean error box to the grid container
+      gridContainer.innerHTML = `
+        <div class="w-full col-span-full py-8 text-center text-sm font-semibold text-red-500 bg-red-500/10 border border-red-500/20 rounded-2xl px-4">
+          ⚠️ Image Generation API Error: ${err.message}. Please check your prompt and settings.
         </div>
       `;
 
-      card.querySelector('.btn-lightbox').addEventListener('click', () => showLightbox(item.url, item.prompt));
-      card.querySelector('.btn-download').addEventListener('click', () => downloadImage(item.url, `ai-image-${item.seed}.jpg`));
-      card.querySelector('.btn-copy').addEventListener('click', () => {
-        navigator.clipboard.writeText(item.prompt);
-        showToast("Prompt copied to clipboard!");
-      });
-
-      gridContainer.appendChild(card);
-    });
-
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-    const infoText = document.getElementById('generation-info-text');
-    if (infoText) {
-      infoText.textContent = `Generated in ${elapsed}s (${isLocalEngine ? 'Local WebGPU' : 'Cloud Fallback'})`;
+      showToast("Generation failed: " + err.message);
+      throw err;
     }
-
-    renderHistoryGallery();
-    document.getElementById('output-result-gallery').classList.remove('hidden');
   }
 
   // ── RENDER SESSION IMAGE GALLERY HISTORY ──

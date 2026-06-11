@@ -1179,6 +1179,35 @@
                 <div id="images-grid-container" class="grid grid-cols-1 gap-4 items-center justify-center flex-grow py-4">
                   <!-- Generated image items will be dynamically inserted here -->
                 </div>
+
+                <!-- Debug Panel -->
+                <div id="image-debug-panel" class="mt-4 p-4 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 text-[11px] font-mono text-gray-600 dark:text-gray-400 space-y-2">
+                  <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-1.5 font-bold uppercase tracking-wider text-xs text-gray-800 dark:text-white">
+                    <span>🛠 Whiteboard Diagnostic Debug Panel</span>
+                    <span id="debug-engine-badge" class="text-[9px] bg-pink-100 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400 px-1.5 py-0.5 rounded">Idle</span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1">
+                    <div>
+                      <span class="font-bold text-gray-800 dark:text-white">Prompt:</span>
+                      <div id="debug-prompt" class="bg-white dark:bg-gray-900 p-1.5 rounded border border-gray-100 dark:border-gray-800 break-words max-h-16 overflow-y-auto mt-0.5">-</div>
+                    </div>
+                    <div>
+                      <span class="font-bold text-gray-800 dark:text-white">Generated URL:</span>
+                      <div id="debug-url" class="bg-white dark:bg-gray-900 p-1.5 rounded border border-gray-100 dark:border-gray-800 truncate select-all mt-0.5">-</div>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 pt-1 border-t border-gray-100/50 dark:border-gray-800/50">
+                    <div>
+                      <span class="font-bold text-gray-800 dark:text-white">Response Status:</span>
+                      <span id="debug-response-status" class="ml-1 text-gray-500 font-bold">-</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-gray-800 dark:text-white">Render Status:</span>
+                      <span id="debug-render-status" class="ml-1 text-gray-500 font-bold">-</span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
             </div>
