@@ -99,6 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'Browser AI Image Generator – Free On-Device AI – CreatorHelperTools',
       desc: 'Generate stunning AI images directly on your device. Works completely offline with WebGPU, ONNX, and Transformers.js. No signup required.',
       canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-image-generator'
+    },
+    'ai-prompt-library': {
+      title: 'YouTube Thumbnail Prompt Library & Gallery – CreatorHelperTools',
+      desc: 'Browse, search, favorite, and bulk-upload high-CTR YouTube thumbnail prompt templates for AI image generation. 100% free and client-side.',
+      canonical: 'https://creatorhelpertool.vercel.app/?tool=ai-prompt-library'
     }
   };
 
@@ -442,6 +447,22 @@ document.addEventListener('DOMContentLoaded', () => {
       <p class="text-gray-600 text-sm mb-4 leading-relaxed">
         For optimal on-device generation, a modern browser with <strong>WebGPU enabled</strong> (Chrome 113+, Edge 113+) and a dedicated GPU with at least 8GB of RAM is highly recommended. The download size is approximately 1.5GB to 2GB depending on the selected quantized model. If your machine is a mobile device or a lower-end laptop, we recommend using the seamless <strong>Cloud Fallback (Lorem Flickr)</strong>.
       </p>
+    `,
+    'ai-prompt-library': `
+      <h2 class="text-xl font-bold text-gray-805 mb-3">YouTube Thumbnail Prompt Library & Gallery</h2>
+      <p class="text-gray-650 text-sm mb-4 leading-relaxed">
+        The Thumbnail Prompt Library is a professional client-side system designed to help creators organize, preview, and share high-performing YouTube thumbnail templates and the precise text prompts used to generate them using browser-based or cloud-based AI tools.
+      </p>
+      <h3 class="text-base font-bold text-gray-805 mb-2">How It Works</h3>
+      <p class="text-gray-650 text-sm mb-4 leading-relaxed">
+        You can build your gallery by manually uploading thumbnail designs with title, category, prompt, and tags, or by using the <strong>Bulk ZIP Import</strong> mode. All data is saved inside your browser's local storage (completely private to you).
+      </p>
+      <h3 class="text-base font-bold text-gray-805 mb-2">Main Features</h3>
+      <ul class="list-disc pl-5 text-gray-650 text-sm mb-4 space-y-1">
+        <li><strong>One-Click Prompt Copying:</strong> Instantly copy generation prompts to use in Midjourney, DALL-E, or Stable Diffusion.</li>
+        <li><strong>Search and Filter:</strong> Easily query templates by keyword, category, tags, or favorites.</li>
+        <li><strong>Export/Import Backup:</strong> Back up your library by exporting it to a single portable JSON file, and restore it anytime.</li>
+      </ul>
     `
   };
 
@@ -461,6 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Active Tool state
   let currentTool = 'overview';
   let isImageGenInitialized = false;
+  let isPromptLibraryInitialized = false;
   
   // Initialize navigation
   function initNavigation() {
@@ -490,6 +512,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageGenBackBtn = document.getElementById('image-generator-back-btn');
     if (imageGenBackBtn) {
       imageGenBackBtn.addEventListener('click', () => {
+        switchTool('overview');
+      });
+    }
+
+    const promptLibraryBackBtn = document.getElementById('prompt-library-back-btn');
+    if (promptLibraryBackBtn) {
+      promptLibraryBackBtn.addEventListener('click', () => {
         switchTool('overview');
       });
     }
@@ -602,16 +631,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const standardCard = document.getElementById('standard-tool-card');
       const imageGenCard = document.getElementById('image-generator-card');
+      const promptLibraryCard = document.getElementById('prompt-library-card');
       if (toolId === 'ai-image-generator') {
         if (standardCard) standardCard.classList.add('hidden');
         if (imageGenCard) imageGenCard.classList.remove('hidden');
+        if (promptLibraryCard) promptLibraryCard.classList.add('hidden');
         if (!isImageGenInitialized) {
           initImageGenerator();
           isImageGenInitialized = true;
         }
+      } else if (toolId === 'ai-prompt-library') {
+        if (standardCard) standardCard.classList.add('hidden');
+        if (imageGenCard) imageGenCard.classList.add('hidden');
+        if (promptLibraryCard) promptLibraryCard.classList.remove('hidden');
+        if (!isPromptLibraryInitialized) {
+          initPromptLibrary();
+          isPromptLibraryInitialized = true;
+        }
       } else {
         if (standardCard) standardCard.classList.remove('hidden');
         if (imageGenCard) imageGenCard.classList.add('hidden');
+        if (promptLibraryCard) promptLibraryCard.classList.add('hidden');
         // Load specific tool configurations
         loadToolWorkspace(toolId);
       }
@@ -2176,11 +2216,18 @@ document.addEventListener('DOMContentLoaded', () => {
     renderViralSkeletons();
     try {
       const res = await fetch('/api/trending');
+      const resText = await res.text();
+
+      // Log Request URL, Response status, and Response body
+      console.log("Request URL:", res.url || '/api/trending');
+      console.log("Response status:", res.status);
+      console.log("Response body:", resText);
+
       let data;
       try {
-        data = await res.json();
+        data = JSON.parse(resText);
       } catch (jsonErr) {
-        throw new Error(`Invalid response format from server (HTTP ${res.status})`);
+        throw new Error(`Invalid response format from server (HTTP ${res.status}): ${resText.substring(0, 200)}`);
       }
 
       if (!res.ok) {
@@ -3642,6 +3689,799 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lightbox.classList.remove('hidden');
     lightbox.classList.remove('opacity-0');
+  }
+
+  // ── THUMBNAIL PROMPT LIBRARY SYSTEM ──
+  function initPromptLibrary() {
+    const libSearch = document.getElementById('lib-search');
+    const libToggleFavs = document.getElementById('lib-toggle-favs');
+    const libBtnAdd = document.getElementById('lib-btn-add');
+    const libBtnExport = document.getElementById('lib-btn-export');
+    const libImportFile = document.getElementById('lib-import-file');
+    const libBtnDemo = document.getElementById('lib-btn-demo');
+    const libBtnClear = document.getElementById('lib-btn-clear');
+    const libCategoryFilters = document.getElementById('lib-category-filters');
+    
+    const libAddPanel = document.getElementById('lib-add-panel');
+    const libPanelTitle = document.getElementById('lib-panel-title');
+    const libBtnSwitchBulk = document.getElementById('lib-btn-switch-bulk');
+    const libBtnSwitchSingle = document.getElementById('lib-btn-switch-single');
+    const libSingleForm = document.getElementById('lib-single-form');
+    const libBulkPanel = document.getElementById('lib-bulk-panel');
+    
+    const libAddTitle = document.getElementById('lib-add-title');
+    const libAddCategory = document.getElementById('lib-add-category');
+    const libAddTags = document.getElementById('lib-add-tags');
+    const libAddPrompt = document.getElementById('lib-add-prompt');
+    
+    const libImgDropzone = document.getElementById('lib-img-dropzone');
+    const libAddImageInput = document.getElementById('lib-add-image-input');
+    const libImgDropzoneText = document.getElementById('lib-img-dropzone-text');
+    const libImgDropzonePreview = document.getElementById('lib-img-dropzone-preview');
+    const libBtnRemoveImage = document.getElementById('lib-btn-remove-image');
+    const libBtnCancel = document.getElementById('lib-btn-cancel');
+    
+    const libBulkDropzone = document.getElementById('lib-bulk-dropzone');
+    const libBulkFileInput = document.getElementById('lib-bulk-file-input');
+    const libBulkStatus = document.getElementById('lib-bulk-status');
+    const libBtnCancelBulk = document.getElementById('lib-btn-cancel-bulk');
+    
+    const libEmptyState = document.getElementById('lib-empty-state');
+    const libEmptyLoadDemo = document.getElementById('lib-empty-load-demo');
+    const libGrid = document.getElementById('lib-grid');
+    
+    const libStatTotal = document.getElementById('lib-stat-total');
+    const libStatFavs = document.getElementById('lib-stat-favs');
+    const libStatTopCat = document.getElementById('lib-stat-top-cat');
+    
+    // Modal Elements
+    const libModal = document.getElementById('lib-modal');
+    const libModalClose = document.getElementById('lib-modal-close');
+    const libModalImg = document.getElementById('lib-modal-img');
+    const libModalCat = document.getElementById('lib-modal-cat');
+    const libModalFav = document.getElementById('lib-modal-fav');
+    const libModalTitle = document.getElementById('lib-modal-title');
+    const libModalPrompt = document.getElementById('lib-modal-prompt');
+    const libModalTags = document.getElementById('lib-modal-tags');
+    const libModalBtnCopy = document.getElementById('lib-modal-btn-copy');
+    const libModalBtnDownload = document.getElementById('lib-modal-btn-download');
+
+    const categories = [
+      "MrBeast",
+      "Documentary",
+      "Storytelling",
+      "Finance",
+      "AI",
+      "Motivation",
+      "Gaming",
+      "Horror",
+      "History",
+      "Viral Shorts"
+    ];
+    
+    let items = JSON.parse(localStorage.getItem('tt-prompt-library')) || [];
+    let activeCategory = 'All';
+    let searchQuery = '';
+    let favoritesOnly = false;
+    let uploadedImageBase64 = '';
+    let modalActiveItem = null;
+
+    // Helper functions
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Populate Select Options
+    if (libAddCategory) {
+      libAddCategory.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    }
+
+    function renderCategoryFilters() {
+      if (!libCategoryFilters) return;
+      const counts = {};
+      categories.forEach(cat => counts[cat] = 0);
+      items.forEach(item => {
+        if (counts[item.category] !== undefined) {
+          counts[item.category]++;
+        }
+      });
+      
+      const allActive = activeCategory === 'All' ? 'bg-pink-500 text-white shadow-md shadow-pink-500/20' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300';
+      
+      let html = `
+        <button type="button" class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap ${allActive}" data-category="All">
+          All (${items.length})
+        </button>
+      `;
+      
+      categories.forEach(cat => {
+        const isActive = activeCategory === cat;
+        const activeClass = isActive ? 'bg-pink-500 text-white shadow-md shadow-pink-500/20' : 'bg-gray-100 hover:bg-gray-205 text-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300';
+        html += `
+          <button type="button" class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap ${activeClass}" data-category="${cat}">
+            ${cat} (${counts[cat]})
+          </button>
+        `;
+      });
+      
+      libCategoryFilters.innerHTML = html;
+      
+      // Click handler
+      libCategoryFilters.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeCategory = btn.getAttribute('data-category');
+          renderCategoryFilters();
+          renderGrid();
+        });
+      });
+    }
+
+    function renderGrid() {
+      if (!libGrid) return;
+      
+      // Filter items
+      let filtered = items;
+      
+      if (activeCategory !== 'All') {
+        filtered = filtered.filter(item => item.category === activeCategory);
+      }
+      
+      if (favoritesOnly) {
+        filtered = filtered.filter(item => item.favorite);
+      }
+      
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(item => 
+          (item.title && item.title.toLowerCase().includes(q)) || 
+          (item.prompt && item.prompt.toLowerCase().includes(q)) || 
+          (item.tags && item.tags.toLowerCase().includes(q))
+        );
+      }
+      
+      if (items.length === 0) {
+        libEmptyState.classList.remove('hidden');
+        libGrid.classList.add('hidden');
+        updateStats();
+        return;
+      } else {
+        libEmptyState.classList.add('hidden');
+        libGrid.classList.remove('hidden');
+      }
+      
+      if (filtered.length === 0) {
+        libGrid.innerHTML = `
+          <div class="w-full py-12 text-center text-xs text-gray-500 dark:text-gray-400 italic">
+            No matching thumbnail prompts found.
+          </div>
+        `;
+        updateStats();
+        return;
+      }
+      
+      libGrid.innerHTML = filtered.map((item) => {
+        const isFav = item.favorite ? '⭐' : '🤍';
+        const tagsHtml = item.tags ? item.tags.split(',').map(tag => tag.trim()).filter(Boolean).map(tag => `<span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded text-[10px]">#${escapeHtml(tag)}</span>`).join(' ') : '';
+        
+        return `
+          <div class="break-inside-avoid bg-white dark:bg-gray-850 rounded-[20px] shadow-sm border border-gray-150 dark:border-gray-800/80 overflow-hidden group flex flex-col transition hover:shadow-xl hover:-translate-y-0.5 duration-200 cursor-pointer mb-6" data-id="${item.id}">
+            <!-- Image Container -->
+            <div class="relative overflow-hidden aspect-video bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+              <img src="${item.image}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-350 flex items-end p-3">
+                <p class="text-[10px] text-white font-bold tracking-wide">CLICK FOR FULL DETAILS</p>
+              </div>
+              
+              <!-- Favorite floating button -->
+              <button type="button" class="fav-btn absolute top-3 right-3 bg-white/80 dark:bg-gray-900/80 hover:bg-white dark:hover:bg-gray-900 rounded-full w-8 h-8 flex items-center justify-center shadow-md transition transform active:scale-90 text-sm z-10" data-id="${item.id}">
+                ${isFav}
+              </button>
+              
+              <!-- Category Badge -->
+              <span class="absolute bottom-3 left-3 bg-pink-500 text-white font-extrabold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-sm">
+                ${item.category}
+              </span>
+            </div>
+            
+            <!-- Body -->
+            <div class="p-4 flex-grow flex flex-col justify-between">
+              <div class="space-y-1">
+                <h4 class="font-extrabold text-gray-800 dark:text-white text-sm line-clamp-1">${escapeHtml(item.title)}</h4>
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;">
+                  ${escapeHtml(item.prompt)}
+                </p>
+              </div>
+              
+              <!-- Tags Row -->
+              <div class="flex flex-wrap gap-1 mt-2.5">
+                ${tagsHtml}
+              </div>
+              
+              <!-- Footer Action -->
+              <div class="mt-3.5 pt-3.5 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                <button type="button" class="copy-btn w-full bg-gray-50 hover:bg-pink-500 hover:text-white dark:bg-gray-800 dark:hover:bg-pink-500 text-gray-700 dark:text-gray-300 font-bold py-2 rounded-xl text-[11px] transition flex items-center justify-center gap-1.5" data-id="${item.id}">
+                  📋 Copy Prompt
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      // Wire up grid event listeners
+      libGrid.querySelectorAll('[data-id]').forEach(card => {
+        const id = card.getAttribute('data-id');
+        const item = items.find(i => i.id === id);
+        
+        // Card click opens modal
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.copy-btn') || e.target.closest('.fav-btn')) return;
+          openDetailModal(item);
+        });
+      });
+      
+      // Wire up copy button click
+      libGrid.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.getAttribute('data-id');
+          const item = items.find(i => i.id === id);
+          navigator.clipboard.writeText(item.prompt);
+          showToast("Prompt copied to clipboard!");
+        });
+      });
+      
+      // Wire up favorite button click
+      libGrid.querySelectorAll('.fav-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.getAttribute('data-id');
+          toggleFavorite(id);
+        });
+      });
+      
+      updateStats();
+    }
+
+    function toggleFavorite(id) {
+      items = items.map(item => {
+        if (item.id === id) {
+          item.favorite = !item.favorite;
+        }
+        return item;
+      });
+      localStorage.setItem('tt-prompt-library', JSON.stringify(items));
+      renderGrid();
+      if (modalActiveItem && modalActiveItem.id === id) {
+        modalActiveItem.favorite = modalActiveItem.favorite;
+        libModalFav.textContent = modalActiveItem.favorite ? '⭐' : '🤍';
+      }
+    }
+
+    function updateStats() {
+      if (libStatTotal) libStatTotal.textContent = items.length;
+      
+      const favCount = items.filter(item => item.favorite).length;
+      if (libStatFavs) libStatFavs.textContent = favCount;
+      
+      // Find top category
+      const counts = {};
+      items.forEach(item => {
+        counts[item.category] = (counts[item.category] || 0) + 1;
+      });
+      
+      let topCat = 'None';
+      let max = 0;
+      Object.entries(counts).forEach(([cat, val]) => {
+        if (val > max) {
+          max = val;
+          topCat = cat;
+        }
+      });
+      
+      if (libStatTopCat) libStatTopCat.textContent = topCat === 'None' ? 'None' : `${topCat} (${max})`;
+    }
+
+    function openDetailModal(item) {
+      modalActiveItem = item;
+      libModalImg.src = item.image;
+      libModalCat.textContent = item.category;
+      libModalTitle.textContent = item.title;
+      libModalPrompt.textContent = item.prompt;
+      libModalFav.textContent = item.favorite ? '⭐' : '🤍';
+      
+      const tags = item.tags ? item.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+      libModalTags.innerHTML = tags.map(tag => `
+        <button type="button" class="modal-tag bg-gray-100 hover:bg-pink-100 hover:text-pink-650 dark:bg-gray-800 dark:hover:bg-pink-950/40 text-xs text-gray-700 dark:text-gray-300 font-semibold px-2.5 py-1 rounded-lg transition" data-tag="${escapeHtml(tag)}">
+          #${escapeHtml(tag)}
+        </button>
+      `).join('');
+      
+      // Tag click handler inside modal
+      libModalTags.querySelectorAll('.modal-tag').forEach(btn => {
+        btn.addEventListener('click', () => {
+          searchQuery = btn.getAttribute('data-tag');
+          if (libSearch) libSearch.value = searchQuery;
+          closeModal();
+          renderGrid();
+        });
+      });
+      
+      libModal.classList.remove('hidden');
+      setTimeout(() => {
+        libModal.querySelector('.bg-white').classList.remove('scale-95');
+        libModal.querySelector('.bg-white').classList.add('scale-100');
+      }, 50);
+    }
+    
+    function closeModal() {
+      libModal.querySelector('.bg-white').classList.remove('scale-100');
+      libModal.querySelector('.bg-white').classList.add('scale-95');
+      setTimeout(() => {
+        libModal.classList.add('hidden');
+        modalActiveItem = null;
+      }, 150);
+    }
+    
+    if (libModalClose) libModalClose.addEventListener('click', closeModal);
+    libModal.addEventListener('click', (e) => {
+      if (e.target === libModal) closeModal();
+    });
+    
+    if (libModalFav) {
+      libModalFav.addEventListener('click', () => {
+        if (modalActiveItem) {
+          toggleFavorite(modalActiveItem.id);
+        }
+      });
+    }
+    
+    if (libModalBtnCopy) {
+      libModalBtnCopy.addEventListener('click', () => {
+        if (modalActiveItem) {
+          navigator.clipboard.writeText(modalActiveItem.prompt);
+          showToast("Prompt copied to clipboard!");
+        }
+      });
+    }
+    
+    if (libModalBtnDownload) {
+      libModalBtnDownload.addEventListener('click', () => {
+        if (modalActiveItem) {
+          downloadImage(modalActiveItem.image, `${modalActiveItem.title.replace(/\s+/g, '_')}_thumbnail.jpg`);
+        }
+      });
+    }
+
+    // Single Image Upload handling
+    if (libImgDropzone && libAddImageInput) {
+      libImgDropzone.addEventListener('click', () => libAddImageInput.click());
+      libAddImageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleImageFile(file);
+      });
+      
+      libImgDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        libImgDropzone.classList.add('border-pink-500');
+      });
+      libImgDropzone.addEventListener('dragleave', () => {
+        libImgDropzone.classList.remove('border-pink-500');
+      });
+      libImgDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        libImgDropzone.classList.remove('border-pink-500');
+        const file = e.dataTransfer.files[0];
+        if (file) handleImageFile(file);
+      });
+    }
+    
+    function handleImageFile(file) {
+      if (!file.type.startsWith('image/')) {
+        showToast("Only image files are supported!");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        uploadedImageBase64 = reader.result;
+        libImgDropzonePreview.querySelector('img').src = reader.result;
+        libImgDropzoneText.classList.add('hidden');
+        libImgDropzonePreview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    if (libBtnRemoveImage) {
+      libBtnRemoveImage.addEventListener('click', (e) => {
+        e.stopPropagation();
+        uploadedImageBase64 = '';
+        libAddImageInput.value = '';
+        libImgDropzonePreview.classList.add('hidden');
+        libImgDropzoneText.classList.remove('hidden');
+      });
+    }
+
+    if (libSingleForm) {
+      libSingleForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = libAddTitle.value.trim();
+        const category = libAddCategory.value;
+        const tags = libAddTags.value.trim();
+        const promptText = libAddPrompt.value.trim();
+        
+        if (!title || !promptText) {
+          showToast("Title and prompt are required!");
+          return;
+        }
+        
+        if (!uploadedImageBase64) {
+          showToast("Please upload a thumbnail image!");
+          return;
+        }
+        
+        const newItem = {
+          id: Date.now().toString(),
+          title,
+          category,
+          tags,
+          prompt: promptText,
+          image: uploadedImageBase64,
+          favorite: false
+        };
+        
+        items.unshift(newItem);
+        localStorage.setItem('tt-prompt-library', JSON.stringify(items));
+        
+        // Reset Form
+        libSingleForm.reset();
+        uploadedImageBase64 = '';
+        libImgDropzonePreview.classList.add('hidden');
+        libImgDropzoneText.classList.remove('hidden');
+        libAddPanel.classList.add('hidden');
+        
+        renderCategoryFilters();
+        renderGrid();
+        showToast("Prompt saved to library!");
+      });
+    }
+
+    if (libBtnAdd) {
+      libBtnAdd.addEventListener('click', () => {
+        libAddPanel.classList.toggle('hidden');
+        if (!libAddPanel.classList.contains('hidden')) {
+          libAddPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    }
+    
+    if (libBtnCancel) {
+      libBtnCancel.addEventListener('click', () => {
+        libSingleForm.reset();
+        uploadedImageBase64 = '';
+        libImgDropzonePreview.classList.add('hidden');
+        libImgDropzoneText.classList.remove('hidden');
+        libAddPanel.classList.add('hidden');
+      });
+    }
+
+    // Switch Single / Bulk ZIP Upload
+    if (libBtnSwitchBulk) {
+      libBtnSwitchBulk.addEventListener('click', () => {
+        libSingleForm.classList.add('hidden');
+        libBulkPanel.classList.remove('hidden');
+        libBtnSwitchBulk.classList.add('hidden');
+        libBtnSwitchSingle.classList.remove('hidden');
+        libPanelTitle.textContent = "Bulk ZIP Upload Mode";
+      });
+    }
+    
+    if (libBtnSwitchSingle) {
+      libBtnSwitchSingle.addEventListener('click', () => {
+        libSingleForm.classList.remove('hidden');
+        libBulkPanel.classList.add('hidden');
+        libBtnSwitchBulk.classList.remove('hidden');
+        libBtnSwitchSingle.classList.add('hidden');
+        libPanelTitle.textContent = "Add New Thumbnail Prompt";
+      });
+    }
+    
+    if (libBtnCancelBulk) {
+      libBtnCancelBulk.addEventListener('click', () => {
+        libAddPanel.classList.add('hidden');
+        libSingleForm.classList.remove('hidden');
+        libBulkPanel.classList.add('hidden');
+        libBtnSwitchBulk.classList.remove('hidden');
+        libBtnSwitchSingle.classList.add('hidden');
+        libPanelTitle.textContent = "Add New Thumbnail Prompt";
+      });
+    }
+
+    // ZIP Bulk Upload Handler (using JSZip)
+    if (libBulkDropzone && libBulkFileInput) {
+      libBulkDropzone.addEventListener('click', () => libBulkFileInput.click());
+      libBulkFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleZipFile(file);
+      });
+      
+      libBulkDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        libBulkDropzone.classList.add('border-pink-500');
+      });
+      libBulkDropzone.addEventListener('dragleave', () => {
+        libBulkDropzone.classList.remove('border-pink-500');
+      });
+      libBulkDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        libBulkDropzone.classList.remove('border-pink-500');
+        const file = e.dataTransfer.files[0];
+        if (file) handleZipFile(file);
+      });
+    }
+    
+    async function handleZipFile(file) {
+      if (!file.name.endsWith('.zip')) {
+        showToast("Only ZIP files are supported!");
+        return;
+      }
+      
+      libBulkStatus.textContent = "Reading ZIP archive...";
+      libBulkStatus.classList.remove('hidden');
+      
+      try {
+        const zip = await JSZip.loadAsync(file);
+        
+        // Search for prompts.json
+        const promptsJsonFile = zip.file("prompts.json");
+        if (!promptsJsonFile) {
+          throw new Error("Could not find prompts.json in ZIP root.");
+        }
+        
+        libBulkStatus.textContent = "Parsing prompts.json...";
+        const promptsText = await promptsJsonFile.async("string");
+        const promptsData = JSON.parse(promptsText);
+        
+        if (!Array.isArray(promptsData)) {
+          throw new Error("prompts.json must be a JSON Array.");
+        }
+        
+        libBulkStatus.textContent = `Extracting ${promptsData.length} images...`;
+        
+        let importCount = 0;
+        for (const promptItem of promptsData) {
+          const imgFile = zip.file(promptItem.image);
+          if (!imgFile) {
+            console.warn(`Could not find image ${promptItem.image} in ZIP archive. Skipping.`);
+            continue;
+          }
+          
+          // Convert image to base64 DataURL
+          const extension = promptItem.image.split('.').pop().toLowerCase();
+          const mimeType = extension === 'png' ? 'image/png' : 'image/jpeg';
+          const base64Data = await imgFile.async("base64");
+          const dataUrl = `data:${mimeType};base64,${base64Data}`;
+          
+          const newItem = {
+            id: (Date.now() + importCount).toString(),
+            title: promptItem.title || 'Untitled Prompt',
+            category: categories.includes(promptItem.category) ? promptItem.category : 'AI',
+            tags: promptItem.tags || '',
+            prompt: promptItem.prompt || 'No prompt content.',
+            image: dataUrl,
+            favorite: false
+          };
+          
+          items.unshift(newItem);
+          importCount++;
+        }
+        
+        localStorage.setItem('tt-prompt-library', JSON.stringify(items));
+        libBulkStatus.classList.add('hidden');
+        libAddPanel.classList.add('hidden');
+        libSingleForm.classList.remove('hidden');
+        libBulkPanel.classList.add('hidden');
+        libBtnSwitchBulk.classList.remove('hidden');
+        libBtnSwitchSingle.classList.add('hidden');
+        libPanelTitle.textContent = "Add New Thumbnail Prompt";
+        
+        renderCategoryFilters();
+        renderGrid();
+        showToast(`Successfully imported ${importCount} prompts from ZIP!`);
+      } catch (error) {
+        console.error(error);
+        libBulkStatus.textContent = `Error: ${error.message}`;
+        showToast(`Bulk upload failed: ${error.message}`);
+      } finally {
+        libBulkFileInput.value = '';
+      }
+    }
+
+    // Export JSON
+    if (libBtnExport) {
+      libBtnExport.addEventListener('click', () => {
+        if (items.length === 0) {
+          showToast("Library is empty. Nothing to export.");
+          return;
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(items, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "thumbnail-prompt-library-backup.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+        showToast("Library exported successfully!");
+      });
+    }
+    
+    // Import JSON File
+    if (libImportFile) {
+      libImportFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const parsed = JSON.parse(event.target.result);
+            if (!Array.isArray(parsed)) {
+               throw new Error("Import file must contain a JSON Array of prompt items.");
+            }
+            
+            parsed.forEach(item => {
+              if (!item.title || !item.prompt || !item.image) {
+                throw new Error("Invalid structure: Each item must contain title, prompt, and image fields.");
+              }
+              if (!item.id) item.id = Date.now().toString() + Math.random();
+              if (!item.category) item.category = 'AI';
+              if (item.favorite === undefined) item.favorite = false;
+            });
+            
+            items = [...parsed, ...items];
+            const uniqueMap = {};
+            items.forEach(item => uniqueMap[item.id] = item);
+            items = Object.values(uniqueMap);
+            
+            localStorage.setItem('tt-prompt-library', JSON.stringify(items));
+            renderCategoryFilters();
+            renderGrid();
+            showToast("Library backup imported successfully!");
+          } catch (error) {
+            console.error(error);
+            alert(`Import Failed: ${error.message}`);
+          }
+        };
+        reader.readAsText(file);
+        libImportFile.value = '';
+      });
+    }
+
+    // Load Demo Presets
+    function loadDemoLibrary() {
+      const demos = [
+        {
+          id: "demo1",
+          title: "MrBeast Challenge Mystery Box",
+          category: "MrBeast",
+          tags: "challenge, gold, box, glowing",
+          prompt: "High-contrast YouTube thumbnail in MrBeast style, featuring a giant glowing golden treasure chest sitting in the center of a packed futuristic stadium, dramatic pink and blue neon volumetric lights, cinematic product shot, octane render, extremely detailed, 8k",
+          image: "https://loremflickr.com/640/360/stadium,gold,box?random=1",
+          favorite: true
+        },
+        {
+          id: "demo2",
+          title: "The Dark Secrets of Artificial Intelligence",
+          category: "AI",
+          tags: "ai, brain, cyber, neon",
+          prompt: "Atmospheric YouTube thumbnail, a human brain made of neon blue digital circuits floating inside a dark high-tech cyber research laboratory, glowing yellow lights reflecting on cybernetic panels, depth of field, volumetric fog, realistic lighting, 8k",
+          image: "https://loremflickr.com/640/360/brain,neon,cyber?random=2",
+          favorite: false
+        },
+        {
+          id: "demo3",
+          title: "How I Made $10k In 30 Days Passive Income",
+          category: "Finance",
+          tags: "money, chart, finance, green",
+          prompt: "High-CTR YouTube thumbnail, close-up of a person with a shocked expression looking at a massive holographic stock market chart pointing straight up, glowing green light reflecting on their face, dark sleek background, hyperrealistic, octane render, 8k",
+          image: "https://loremflickr.com/640/360/money,chart,finance?random=3",
+          favorite: true
+        },
+        {
+          id: "demo4",
+          title: "The Lost Ancient City of Atlantis Discovered",
+          category: "History",
+          tags: "history, ruins, ocean, ancient",
+          prompt: "Cinematic documentary thumbnail, mysterious underwater ruins of a majestic ancient city, bioluminescent glowing corals, deep blue ocean, golden sun rays cutting through water, high-CTR color grading, detailed underwater photography, 8k",
+          image: "https://loremflickr.com/640/360/underwater,ruins,city?random=4",
+          favorite: false
+        },
+        {
+          id: "demo5",
+          title: "Horror Stories: Do Not Enter The Woods",
+          category: "Horror",
+          tags: "horror, cabin, scary, mist",
+          prompt: "Spooky atmospheric horror thumbnail, a mysterious dilapidated wooden cabin in a dense misty dark pine forest at night, a single dim orange light glowing inside, shadow figure silhouette in the window, cinematic framing, 8k",
+          image: "https://loremflickr.com/640/360/forest,mist,cabin?random=5",
+          favorite: false
+        },
+        {
+          id: "demo6",
+          title: "Motivation: 5 Habits That Will Change Your Life",
+          category: "Motivation",
+          tags: "motivation, sunset, mountain, goal",
+          prompt: "Inspiring YouTube thumbnail, silhouette of a person standing triumphantly on the peak of a high mountain overlooking an epic sea of clouds during a gorgeous warm golden sunrise, cinematic composition, high CTR color balance, 8k",
+          image: "https://loremflickr.com/640/360/mountain,sunrise,epic?random=6",
+          favorite: false
+        }
+      ];
+      
+      items = [...demos, ...items];
+      const uniqueMap = {};
+      items.forEach(item => uniqueMap[item.id] = item);
+      items = Object.values(uniqueMap);
+      
+      localStorage.setItem('tt-prompt-library', JSON.stringify(items));
+      renderCategoryFilters();
+      renderGrid();
+      showToast("Demo preset library loaded!");
+    }
+    
+    if (libBtnDemo) libBtnDemo.addEventListener('click', loadDemoLibrary);
+    if (libEmptyLoadDemo) libEmptyLoadDemo.addEventListener('click', loadDemoLibrary);
+    
+    // Clear All
+    if (libBtnClear) {
+      libBtnClear.addEventListener('click', () => {
+        if (confirm("Are you sure you want to delete all prompts from your local library? This action cannot be undone.")) {
+          items = [];
+          localStorage.removeItem('tt-prompt-library');
+          activeCategory = 'All';
+          favoritesOnly = false;
+          if (libSearch) libSearch.value = '';
+          searchQuery = '';
+          if (libToggleFavs) {
+            libToggleFavs.classList.remove('border-pink-500', 'text-pink-600', 'dark:text-pink-400');
+            libToggleFavs.classList.add('border-gray-200', 'dark:border-gray-700', 'text-gray-700', 'dark:text-gray-300');
+          }
+          renderCategoryFilters();
+          renderGrid();
+          showToast("Library cleared!");
+        }
+      });
+    }
+
+    // Search Input Event
+    if (libSearch) {
+      libSearch.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        renderGrid();
+      });
+    }
+    
+    // Favorites Toggle Event
+    if (libToggleFavs) {
+      libToggleFavs.addEventListener('click', () => {
+        favoritesOnly = !favoritesOnly;
+        if (favoritesOnly) {
+          libToggleFavs.classList.add('border-pink-500', 'text-pink-600', 'dark:text-pink-400');
+          libToggleFavs.classList.remove('border-gray-200', 'dark:border-gray-700', 'text-gray-750', 'dark:text-gray-300');
+        } else {
+          libToggleFavs.classList.remove('border-pink-500', 'text-pink-600', 'dark:text-pink-400');
+          libToggleFavs.classList.add('border-gray-200', 'dark:border-gray-700', 'text-gray-750', 'dark:text-gray-300');
+        }
+        renderGrid();
+      });
+    }
+
+    // Initial Renders
+    renderCategoryFilters();
+    renderGrid();
   }
 
   // Start navigation routing

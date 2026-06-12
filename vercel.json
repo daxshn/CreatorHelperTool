@@ -1,3 +1,27 @@
 {
-  "version": 2
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/*.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/trending",
+      "dest": "api/trending.py"
+    },
+    {
+      "src": "/api/transcript",
+      "dest": "api/transcript.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 }
