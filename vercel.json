@@ -10,11 +10,11 @@
       "dest": "/api/transcript.py"
     },
     {
-      "handle": "filesystem"
+      "src": "/",
+      "dest": "/index.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "handle": "filesystem"
     }
   ]
 }
