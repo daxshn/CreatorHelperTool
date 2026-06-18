@@ -1,0 +1,418 @@
+{
+  "pages": [
+    {
+      "file": "index.html",
+      "url": "https://creatorhelpertool.vercel.app/",
+      "title": "CreatorHelperTools – The Ultimate Creator Toolkit",
+      "description": "Unlock powerful tools for creators: YouTube title, description, hook generators, Instagram Reel writers, AI summarizers, and metadata viewers.",
+      "h1": "",
+      "canonical": "https://creatorhelpertool.vercel.app/"
+    },
+    {
+      "file": "transcript.html",
+      "url": "https://creatorhelpertool.vercel.app/transcript.html",
+      "title": "Transcript Result – CreatorHelperTools",
+      "description": "View, copy, and download the transcript of your YouTube video. Generated instantly by CreatorHelperTools.",
+      "h1": "📄 Transcript Result",
+      "canonical": "https://creatorhelpertool.vercel.app/transcript.html"
+    },
+    {
+      "file": "pages\\about.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/about.html",
+      "title": "About CreatorHelperTools – The Ultimate Creator Toolkit",
+      "description": "Learn about CreatorHelperTools, the free creator productivity platform providing transcript generation, hook generators, title generators, hashtag tools, reel tools, AI creator tools, and content workflow automation.",
+      "h1": "About CreatorHelperTools",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/about.html"
+    },
+    {
+      "file": "pages\\blog\\ai-script-writing.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/ai-script-writing.html",
+      "title": "AI Script Writing Guide: Create YouTube Scripts in Minutes — CreatorHelperTools",
+      "description": "Discover the best secrets about ai script writing guide: create youtube scripts in minutes. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "AI Script Writing Guide: Create YouTube Scripts in Minutes",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/ai-script-writing.html"
+    },
+    {
+      "file": "pages\\blog\\ai-thumbnail-creation.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/ai-thumbnail-creation.html",
+      "title": "How to Design High-CTR Thumbnails with AI — CreatorHelperTools",
+      "description": "Discover the best secrets about how to design high-ctr thumbnails with ai. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "How to Design High-CTR Thumbnails with AI",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/ai-thumbnail-creation.html"
+    },
+    {
+      "file": "pages\\blog\\ai-tools-for-youtubers.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/ai-tools-for-youtubers.html",
+      "title": "Best AI Tools for YouTubers (Free & Paid options) — CreatorHelperTools",
+      "description": "Discover the best secrets about best ai tools for youtubers (free & paid options). Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "Best AI Tools for YouTubers (Free & Paid options)",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/ai-tools-for-youtubers.html"
+    },
+    {
+      "file": "pages\\blog\\best-time-to-post-on-youtube.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/best-time-to-post-on-youtube.html",
+      "title": "Best Time to Post on YouTube (Updated Study) — CreatorHelperTools",
+      "description": "Discover the best secrets about best time to post on youtube (updated study). Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "Best Time to Post on YouTube (Updated Study)",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/best-time-to-post-on-youtube.html"
+    },
+    {
+      "file": "pages\\blog\\best-youtube-niches.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/best-youtube-niches.html",
+      "title": "Best YouTube Niches for 2026 (High CPM & Low Competition) — CreatorHelperTools",
+      "description": "Discover the most profitable YouTube niches with high CPM and low competition. Find the perfect topic for your new channel.",
+      "h1": "The Best YouTube Niches: Profitability & Opportunity Guide",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/best-youtube-niches.html"
+    },
+    {
+      "file": "pages\\blog\\content-repurposing-guide.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/content-repurposing-guide.html",
+      "title": "The Complete Content Repurposing Guide for Creators — CreatorHelperTools",
+      "description": "Discover the best secrets about the complete content repurposing guide for creators. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "The Complete Content Repurposing Guide for Creators",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/content-repurposing-guide.html"
+    },
+    {
+      "file": "pages\\blog\\creator-economy-guide.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/creator-economy-guide.html",
+      "title": "The Creator Economy Guide: Monetization & Trends — CreatorHelperTools",
+      "description": "Discover the best secrets about the creator economy guide: monetization & trends. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "The Creator Economy Guide: Monetization & Trends",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/creator-economy-guide.html"
+    },
+    {
+      "file": "pages\\blog\\creator-productivity-tools.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/creator-productivity-tools.html",
+      "title": "Top Creator Productivity Tools to Streamline Workflow — CreatorHelperTools",
+      "description": "Discover the best secrets about top creator productivity tools to streamline workflow. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "Top Creator Productivity Tools to Streamline Workflow",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/creator-productivity-tools.html"
+    },
+    {
+      "file": "pages\\blog\\faceless-youtube-channel-ideas.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/faceless-youtube-channel-ideas.html",
+      "title": "Faceless YouTube Channel Ideas: Automation & Growth — CreatorHelperTools",
+      "description": "Discover the best secrets about faceless youtube channel ideas: automation & growth. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "Faceless YouTube Channel Ideas: Automation & Growth",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/faceless-youtube-channel-ideas.html"
+    },
+    {
+      "file": "pages\\blog\\free-youtube-transcript-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/free-youtube-transcript-generator.html",
+      "title": "Free YouTube Transcript Generator: Ultimate Guide & Tools — CreatorHelperTools",
+      "description": "Learn how to generate, download, and repurpose YouTube transcripts for free. Boost your video SEO and content workflow with AI transcript tools.",
+      "h1": "The Ultimate Guide to Free YouTube Transcript Generators",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/free-youtube-transcript-generator.html"
+    },
+    {
+      "file": "pages\\blog\\how-to-get-1000-subscribers.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/how-to-get-1000-subscribers.html",
+      "title": "How to Get 1000 Subscribers on YouTube (Step-by-Step) — CreatorHelperTools",
+      "description": "Discover the best secrets about how to get 1000 subscribers on youtube (step-by-step). Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "How to Get 1000 Subscribers on YouTube (Step-by-Step)",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/how-to-get-1000-subscribers.html"
+    },
+    {
+      "file": "pages\\blog\\how-to-grow-with-shorts.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/how-to-grow-with-shorts.html",
+      "title": "How to Grow a Brand Using YouTube Shorts — CreatorHelperTools",
+      "description": "Discover the best secrets about how to grow a brand using youtube shorts. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "How to Grow a Brand Using YouTube Shorts",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/how-to-grow-with-shorts.html"
+    },
+    {
+      "file": "pages\\blog\\index.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/index.html",
+      "title": "Creator Growth Blog — CreatorHelperTools",
+      "description": "Discover professional guides on YouTube SEO, viral hooks, title formulas, and faceless channel automation strategies.",
+      "h1": "Creator Growth Blog",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/index.html"
+    },
+    {
+      "file": "pages\\blog\\instagram-reels-growth.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/instagram-reels-growth.html",
+      "title": "Instagram Reels Growth Strategy: Viral Hooks & Hacks — CreatorHelperTools",
+      "description": "Discover the best secrets about instagram reels growth strategy: viral hooks & hacks. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "Instagram Reels Growth Strategy: Viral Hooks & Hacks",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/instagram-reels-growth.html"
+    },
+    {
+      "file": "pages\\blog\\viral-content-formula.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/viral-content-formula.html",
+      "title": "The Viral Content Formula: Psychology of Shares — CreatorHelperTools",
+      "description": "Discover the best secrets about the viral content formula: psychology of shares. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "The Viral Content Formula: Psychology of Shares",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/viral-content-formula.html"
+    },
+    {
+      "file": "pages\\blog\\viral-hook-examples.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/viral-hook-examples.html",
+      "title": "Viral Hook Examples: 50 Patterns to Boost Retention — CreatorHelperTools",
+      "description": "Discover the best secrets about viral hook examples: 50 patterns to boost retention. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "Viral Hook Examples: 50 Patterns to Boost Retention",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/viral-hook-examples.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-analytics-guide.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-analytics-guide.html",
+      "title": "YouTube Analytics Explained: Metrics that Matter — CreatorHelperTools",
+      "description": "Discover the best secrets about youtube analytics explained: metrics that matter. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "YouTube Analytics Explained: Metrics that Matter",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-analytics-guide.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-automation-guide.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-automation-guide.html",
+      "title": "YouTube Automation Guide: Faceless Channels & Outsourcing — CreatorHelperTools",
+      "description": "Discover the best secrets about youtube automation guide: faceless channels & outsourcing. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "YouTube Automation Guide: Faceless Channels & Outsourcing",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-automation-guide.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-channel-growth-strategy.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-channel-growth-strategy.html",
+      "title": "YouTube Channel Growth Strategy: Zero to 10k Subs — CreatorHelperTools",
+      "description": "Discover the best secrets about youtube channel growth strategy: zero to 10k subs. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "YouTube Channel Growth Strategy: Zero to 10k Subs",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-channel-growth-strategy.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-description-guide.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-description-guide.html",
+      "title": "How to Write YouTube Descriptions for SEO & Conversions — CreatorHelperTools",
+      "description": "Discover the best secrets about how to write youtube descriptions for seo & conversions. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "How to Write YouTube Descriptions for SEO & Conversions",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-description-guide.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-hashtag-guide.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-hashtag-guide.html",
+      "title": "YouTube Hashtag Guide: Find the Best Tags for Views — CreatorHelperTools",
+      "description": "Discover the best secrets about youtube hashtag guide: find the best tags for views. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "YouTube Hashtag Guide: Find the Best Tags for Views",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-hashtag-guide.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-keyword-research.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-keyword-research.html",
+      "title": "YouTube Keyword Research: Tools & Strategies — CreatorHelperTools",
+      "description": "Discover the best secrets about youtube keyword research: tools & strategies. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "YouTube Keyword Research: Tools & Strategies",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-keyword-research.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-seo-guide.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-seo-guide.html",
+      "title": "YouTube SEO Guide: Rank #1 in Video Search (2026) — CreatorHelperTools",
+      "description": "Master YouTube SEO with this complete, updated guide. Learn how to optimize titles, tags, descriptions, transcripts, and thumbnails to get more views.",
+      "h1": "The Complete YouTube SEO Playbook: Ultimate Guide",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-seo-guide.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-shorts-algorithm.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-shorts-algorithm.html",
+      "title": "YouTube Shorts Algorithm: How to Go Viral in 2026 — CreatorHelperTools",
+      "description": "Discover the best secrets about youtube shorts algorithm: how to go viral in 2026. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "YouTube Shorts Algorithm: How to Go Viral in 2026",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-shorts-algorithm.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-shorts-ideas.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-shorts-ideas.html",
+      "title": "YouTube Shorts Ideas: 100 Viral Content Prompts — CreatorHelperTools",
+      "description": "Discover the best secrets about youtube shorts ideas: 100 viral content prompts. Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "YouTube Shorts Ideas: 100 Viral Content Prompts",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-shorts-ideas.html"
+    },
+    {
+      "file": "pages\\blog\\youtube-title-formulas.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/blog/youtube-title-formulas.html",
+      "title": "YouTube Title Formulas That Get Clicks (AI Backed) — CreatorHelperTools",
+      "description": "Discover the best secrets about youtube title formulas that get clicks (ai backed). Boost your performance and scaling results with actionable tips and free utility tools.",
+      "h1": "YouTube Title Formulas That Get Clicks (AI Backed)",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/blog/youtube-title-formulas.html"
+    },
+    {
+      "file": "pages\\contact.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/contact.html",
+      "title": "Contact CreatorHelperTools – Support & Feedback",
+      "description": "Contact CreatorHelperTools for support, feedback, feature requests, or partnership inquiries.",
+      "h1": "Contact Us",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/contact.html"
+    },
+    {
+      "file": "pages\\privacy.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/privacy.html",
+      "title": "Privacy Policy – CreatorHelperTools",
+      "description": "Read CreatorHelperTools's Privacy Policy. We do not collect, store, or sell your personal data.",
+      "h1": "Privacy Policy",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/privacy.html"
+    },
+    {
+      "file": "pages\\terms.html",
+      "url": "https://creatorhelpertool.vercel.app/pages/terms.html",
+      "title": "Terms of Service – CreatorHelperTools",
+      "description": "Read the Terms of Service for CreatorHelperTools. Understand the rules and guidelines for using our free creator platform.",
+      "h1": "Terms of Service",
+      "canonical": "https://creatorhelpertool.vercel.app/pages/terms.html"
+    },
+    {
+      "file": "tools\\ai-content-repurposer.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/ai-content-repurposer.html",
+      "title": "AI Content Repurposer — Video to Blog/Twitter Free | CreatorHelperTools",
+      "description": "Repurpose YouTube videos into blog posts, Twitter threads, and LinkedIn content. Free tool.",
+      "h1": "Free AI Content Repurposer — Video to Blog, Tweets & More",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/ai-content-repurposer.html"
+    },
+    {
+      "file": "tools\\ai-thumbnail-idea-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/ai-thumbnail-idea-generator.html",
+      "title": "AI Thumbnail Idea Generator — YouTube Thumbnails Free | CreatorHelperTools",
+      "description": "Generate creative YouTube thumbnail ideas with AI. Overlay text, color schemes, and composition suggestions. Free tool.",
+      "h1": "Free AI YouTube Thumbnail Idea Generator",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/ai-thumbnail-idea-generator.html"
+    },
+    {
+      "file": "tools\\ai-video-summarizer.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/ai-video-summarizer.html",
+      "title": "AI Video Summarizer — Free YouTube Summary Tool | CreatorHelperTools",
+      "description": "Summarize any YouTube video into key points and TL;DR. AI-powered transcript analysis. Free, no login.",
+      "h1": "Free AI Video Summarizer — YouTube Transcript Summary",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/ai-video-summarizer.html"
+    },
+    {
+      "file": "tools\\browser-ai-image-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/browser-ai-image-generator.html",
+      "title": "Browser AI Image Generator — Create Images Free | CreatorHelperTools",
+      "description": "Generate AI images directly in your browser. No downloads, no API keys. On-device AI generation. Free.",
+      "h1": "Free Browser-Based AI Image Generator",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/browser-ai-image-generator.html"
+    },
+    {
+      "file": "tools\\creator-utilities.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/creator-utilities.html",
+      "title": "Creator Utilities — Speech Timer & Word Counter Free | CreatorHelperTools",
+      "description": "Essential creator utilities: speech timer, word counter, title length checker. Free tools.",
+      "h1": "Free Creator Utilities — Speech Timer, Word Counter & More",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/creator-utilities.html"
+    },
+    {
+      "file": "tools\\instagram-caption-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/instagram-caption-generator.html",
+      "title": "Instagram Caption Generator — AI Powered Free | CreatorHelperTools",
+      "description": "Create engaging Instagram captions with emojis and CTAs. AI-powered generator for posts and Reels. Boost comments and saves. Free tool.",
+      "h1": "Free AI Instagram Caption Generator",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/instagram-caption-generator.html"
+    },
+    {
+      "file": "tools\\instagram-hashtag-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/instagram-hashtag-generator.html",
+      "title": "Instagram Hashtag Generator — Best Reels Tags Free | CreatorHelperTools",
+      "description": "Find the best Instagram hashtags for your Reels and posts. Group-focused tag builder for maximum reach. Free online tool.",
+      "h1": "Free Instagram Hashtag Generator for Reels & Posts",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/instagram-hashtag-generator.html"
+    },
+    {
+      "file": "tools\\instagram-reel-hook-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/instagram-reel-hook-generator.html",
+      "title": "Instagram Reel Hook Generator — Stop the Scroll | CreatorHelperTools",
+      "description": "Generate attention-grabbing hooks for Instagram Reels. 5 creative styles optimized for engagement. Free AI-powered tool.",
+      "h1": "Free Instagram Reel Hook Generator",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/instagram-reel-hook-generator.html"
+    },
+    {
+      "file": "tools\\instagram-reel-script-writer.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/instagram-reel-script-writer.html",
+      "title": "Instagram Reel Script Writer — High-Pacing Free | CreatorHelperTools",
+      "description": "Write high-pacing Instagram Reel scripts with hooks, transitions, and CTAs. Free AI-powered tool.",
+      "h1": "Free Instagram Reel Script Writer",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/instagram-reel-script-writer.html"
+    },
+    {
+      "file": "tools\\thumbnail-prompt-library.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/thumbnail-prompt-library.html",
+      "title": "Thumbnail Prompt Library — High-CTR YouTube Prompts | CreatorHelperTools",
+      "description": "Browse and copy high-CTR YouTube thumbnail prompts for AI generation. Curated library. Free.",
+      "h1": "YouTube Thumbnail Prompt Library — AI Generation Prompts",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/thumbnail-prompt-library.html"
+    },
+    {
+      "file": "tools\\viral-hook-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/viral-hook-generator.html",
+      "title": "Viral Hook Generator — Free YouTube & Reel Hooks | CreatorHelperTools",
+      "description": "Generate scroll-stopping hooks for YouTube videos and Reels. 5 creative styles including curiosity gaps and pattern interrupts. Free AI tool.",
+      "h1": "Free Viral Hook Generator for YouTube & Reels",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/viral-hook-generator.html"
+    },
+    {
+      "file": "tools\\youtube-description-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/youtube-description-generator.html",
+      "title": "YouTube Description Generator — SEO Optimized | CreatorHelperTools",
+      "description": "Create SEO-optimized YouTube descriptions with timestamps, keywords, and CTAs. Boost video discoverability. Free online tool.",
+      "h1": "Free YouTube Description Generator — SEO Optimized",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/youtube-description-generator.html"
+    },
+    {
+      "file": "tools\\youtube-hashtag-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/youtube-hashtag-generator.html",
+      "title": "YouTube Hashtag Generator — Free Tag Finder | CreatorHelperTools",
+      "description": "Generate relevant YouTube hashtags for any video topic. Search-optimized tags to boost discoverability. Free online tool, no login needed.",
+      "h1": "Free YouTube Hashtag Generator Online",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/youtube-hashtag-generator.html"
+    },
+    {
+      "file": "tools\\youtube-metadata-viewer.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/youtube-metadata-viewer.html",
+      "title": "YouTube Metadata Viewer — Tags & Data Free | CreatorHelperTools",
+      "description": "Inspect YouTube video tags, descriptions, titles, thumbnails, and channel data. Free tool.",
+      "h1": "Free YouTube Metadata Viewer",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/youtube-metadata-viewer.html"
+    },
+    {
+      "file": "tools\\youtube-shorts-script-writer.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/youtube-shorts-script-writer.html",
+      "title": "YouTube Shorts Script Writer — 60s Scripts Free | CreatorHelperTools",
+      "description": "Write engaging 60-second YouTube Shorts scripts with visual cues, hooks, and transitions. AI-powered script templates. Free tool.",
+      "h1": "Free YouTube Shorts Script Writer",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/youtube-shorts-script-writer.html"
+    },
+    {
+      "file": "tools\\youtube-title-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/youtube-title-generator.html",
+      "title": "YouTube Title Generator — Free AI Title Ideas | CreatorHelperTools",
+      "description": "Generate high-CTR YouTube titles with AI. Uses proven viral frameworks: FOMO, listicles, comparisons. Boost clicks instantly. Free, no signup.",
+      "h1": "Free YouTube Title Generator — AI Powered",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/youtube-title-generator.html"
+    },
+    {
+      "file": "tools\\youtube-transcript-generator.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/youtube-transcript-generator.html",
+      "title": "YouTube Transcript Generator — Free Online | CreatorHelperTools",
+      "description": "Extract transcripts from any YouTube video instantly. Copy, download, or repurpose subtitles in 60+ languages. 100% free, no login required.",
+      "h1": "Free YouTube Transcript Generator Online",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/youtube-transcript-generator.html"
+    },
+    {
+      "file": "tools\\youtube-url-analyzer.html",
+      "url": "https://creatorhelpertool.vercel.app/tools/youtube-url-analyzer.html",
+      "title": "YouTube URL Analyzer — Extract Video Data Free | CreatorHelperTools",
+      "description": "Analyze YouTube video URLs and extract parameters, video IDs, and metadata. Free online tool.",
+      "h1": "Free YouTube URL Analyzer",
+      "canonical": "https://creatorhelpertool.vercel.app/tools/youtube-url-analyzer.html"
+    }
+  ],
+  "brokenLinks": [],
+  "duplicateTitles": {},
+  "duplicateDescriptions": {},
+  "duplicateH1s": {},
+  "orphanPages": [
+    "transcript.html",
+    "tools\\creator-utilities.html",
+    "tools\\thumbnail-prompt-library.html",
+    "tools\\youtube-metadata-viewer.html",
+    "tools\\youtube-url-analyzer.html"
+  ],
+  "sitemapErrors": [],
+  "jsonLdValidationErrors": [],
+  "canonicalMismatches": []
+}

@@ -80,8 +80,8 @@ const articles = [
       { q: 'Is it legal to transcribe other peoples YouTube videos?', a: 'Yes, transcribing public videos for personal study, research, or citation falls under fair use. However, you should not republish someone else\'s spoken words verbatim as your own content without permission or proper attribution.' }
     ],
     relatedTools: [
-      { name: 'YouTube Transcript Generator', url: '../tools/youtube-transcript-generator.html' },
-      { name: 'AI Video Summarizer', url: '../tools/ai-video-summarizer.html' }
+      { name: 'YouTube Transcript Generator', url: '../../tools/youtube-transcript-generator.html' },
+      { name: 'AI Video Summarizer', url: '../../tools/ai-video-summarizer.html' }
     ]
   },
   {
@@ -121,8 +121,8 @@ const articles = [
       { q: 'How long does it take for YouTube SEO to work?', a: 'Optimized videos can start ranking in search within 24 to 48 hours, but stable long-term rankings usually develop over 2-4 weeks as user data accumulates.' }
     ],
     relatedTools: [
-      { name: 'YouTube Title Generator', url: '../tools/youtube-title-generator.html' },
-      { name: 'YouTube Description Generator', url: '../tools/youtube-description-generator.html' }
+      { name: 'YouTube Title Generator', url: '../../tools/youtube-title-generator.html' },
+      { name: 'YouTube Description Generator', url: '../../tools/youtube-description-generator.html' }
     ]
   },
   {
@@ -156,8 +156,8 @@ const articles = [
       { q: 'Can you change your YouTube niche later?', a: 'Yes, but it is challenging as your existing subscribers may not engage with the new topic, leading to lower CTR and retention metrics.' }
     ],
     relatedTools: [
-      { name: 'AI Thumbnail Idea Generator', url: '../tools/ai-thumbnail-idea-generator.html' },
-      { name: 'Viral Hook Generator', url: '../tools/viral-hook-generator.html' }
+      { name: 'AI Thumbnail Idea Generator', url: '../../tools/ai-thumbnail-idea-generator.html' },
+      { name: 'Viral Hook Generator', url: '../../tools/viral-hook-generator.html' }
     ]
   }
 ];
@@ -240,8 +240,8 @@ remainingTitles.forEach(t => {
       { q: 'Are these methods free?', a: 'Yes! All strategies can be executed using the free tools available directly on CreatorHelperTools.' }
     ],
     relatedTools: [
-      { name: 'YouTube Title Generator', url: '../tools/youtube-title-generator.html' },
-      { name: 'YouTube Hashtag Generator', url: '../tools/youtube-hashtag-generator.html' }
+      { name: 'YouTube Title Generator', url: '../../tools/youtube-title-generator.html' },
+      { name: 'YouTube Hashtag Generator', url: '../../tools/youtube-hashtag-generator.html' }
     ]
   });
 });
