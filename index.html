@@ -8,7 +8,7 @@
   <meta name="description"
     content="Unlock powerful tools for creators: YouTube title, description, hook generators, Instagram Reel writers, AI summarizers, and metadata viewers." />
   <meta name="robots" content="index, follow" />
-  <link class="canonical" href="https://creatorhelpertool.vercel.app/" />
+  <link rel="canonical" href="https://creatorhelpertool.vercel.app/" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
@@ -27,14 +27,9 @@
   <meta name="twitter:image" content="https://creatorhelpertool.vercel.app/images/og-share.png" />
 
   <script src="js/theme.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class'
-    }
-  </script>
+  <link rel="stylesheet" href="css/tailwind.min.css" />
   <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JK1LE3F7N8"></script>
@@ -1733,34 +1728,49 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <a href="index.html" class="logo">📄 Creator<span style="color:#FFB800;">HelperTools</span></a>
-        <p>The ultimate free creator productivity toolkit. No login required.</p>
+        <p>Free AI-powered creator toolkit for YouTube, Instagram & TikTok. Generate titles, hooks, scripts, transcripts, and hashtags. No login required.</p>
       </div>
       <div class="footer-col">
-        <h5>Navigation</h5>
+        <h5>YouTube Tools</h5>
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="pages/about.html">About</a></li>
-          <li><a href="pages/contact.html">Contact</a></li>
+          <li><a href="tools/youtube-transcript-generator.html">Transcript Generator</a></li>
+          <li><a href="tools/youtube-title-generator.html">Title Generator</a></li>
+          <li><a href="tools/youtube-description-generator.html">Description Generator</a></li>
+          <li><a href="tools/youtube-hashtag-generator.html">Hashtag Generator</a></li>
+          <li><a href="tools/viral-hook-generator.html">Viral Hook Generator</a></li>
+          <li><a href="tools/youtube-shorts-script-writer.html">Shorts Script Writer</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h5>Legal</h5>
+        <h5>Instagram Tools</h5>
         <ul>
+          <li><a href="tools/instagram-caption-generator.html">Caption Generator</a></li>
+          <li><a href="tools/instagram-hashtag-generator.html">Hashtag Generator</a></li>
+          <li><a href="tools/instagram-reel-hook-generator.html">Reel Hook Generator</a></li>
+          <li><a href="tools/instagram-reel-script-writer.html">Reel Script Writer</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>AI Tools</h5>
+        <ul>
+          <li><a href="tools/ai-video-summarizer.html">AI Video Summarizer</a></li>
+          <li><a href="tools/ai-content-repurposer.html">Content Repurposer</a></li>
+          <li><a href="tools/ai-thumbnail-idea-generator.html">Thumbnail Idea Gen</a></li>
+          <li><a href="tools/browser-ai-image-generator.html">AI Image Generator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="pages/about.html">About</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
           <li><a href="pages/privacy.html">Privacy Policy</a></li>
           <li><a href="pages/terms.html">Terms of Service</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h5>Tools</h5>
-        <ul>
-          <li><a href="index.html?tool=yt-transcript">Transcript Generator</a></li>
-          <li><a href="index.html?tool=yt-titles">YouTube Title Generator</a></li>
-          <li><a href="index.html?tool=ai-summarizer">AI Video Summarizer</a></li>
-        </ul>
-      </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 CreatorHelperTools. All rights reserved.</span>
+      <span>© 2026 CreatorHelperTools. All rights reserved.</span>
       <span>Not affiliated with YouTube or Google.</span>
     </div>
   </footer>
@@ -1833,8 +1843,8 @@
   <div class="toast" id="toast"></div>
 
   <!-- JS imports -->
-  <script src="js/smartlink.js"></script>
-  <script src="js/tools.js"></script>
+  <script defer src="js/smartlink.js"></script>
+  <script defer src="js/tools.js"></script>
 
 </body>
 

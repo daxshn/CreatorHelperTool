@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /js/
+Disallow: /css/
 
 Sitemap: https://creatorhelpertool.vercel.app/sitemap.xml
